@@ -5,13 +5,13 @@
 	<classpathentry kind="src" path="theme"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-	<classpathentry kind="lib" path="C:/Users/marce_000/git/project/lib/eea2.jar"/>
-	<classpathentry kind="lib" path="C:/Users/marce_000/git/project/lib/jogg-0.0.7.jar"/>
-	<classpathentry kind="lib" path="C:/Users/marce_000/git/project/lib/jorbis-0.0.15.jar"/>
-	<classpathentry kind="lib" path="C:/Users/marce_000/git/project/lib/lwjgl_util_applet.jar"/>
-	<classpathentry kind="lib" path="C:/Users/marce_000/git/project/lib/lzma.jar"/>
-	<classpathentry kind="lib" path="C:/Users/marce_000/git/project/lib/slick.jar"/>
-	<classpathentry kind="lib" path="C:/Users/marce_000/git/project/lib/TWL.jar"/>
-	<classpathentry kind="lib" path="C:/Users/marce_000/git/project/lib/xpp3-1.1.4c.jar"/>
+	<classpathentry kind="lib" path="C:/Users/dw4rf/git/project/lib/eea2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/dw4rf/git/project/lib/jogg-0.0.7.jar"/>
+	<classpathentry kind="lib" path="C:/Users/dw4rf/git/project/lib/jorbis-0.0.15.jar"/>
+	<classpathentry kind="lib" path="C:/Users/dw4rf/git/project/lib/lwjgl_util_applet.jar"/>
+	<classpathentry kind="lib" path="C:/Users/dw4rf/git/project/lib/lzma.jar"/>
+	<classpathentry kind="lib" path="C:/Users/dw4rf/git/project/lib/slick.jar"/>
+	<classpathentry kind="lib" path="C:/Users/dw4rf/git/project/lib/TWL.jar"/>
+	<classpathentry kind="lib" path="C:/Users/dw4rf/git/project/lib/xpp3-1.1.4c.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
