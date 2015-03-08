@@ -71,7 +71,7 @@ public class Gorillas extends TWLStateBasedGame {
 		AppGameContainer app = new AppGameContainer(new Gorillas(false));
 
 		// Set window properties and start it
-		app.setShowFPS(false);
+		app.setShowFPS(true);
 		app.setDisplayMode(FRAME_WIDTH, FRAME_HEIGHT, false);
 		app.setTargetFrameRate(TARGET_FRAME_RATE);
 		app.start();
@@ -85,10 +85,10 @@ public class Gorillas extends TWLStateBasedGame {
 		this.addState(new MainMenuState(MAINMENUSTATE));
 		this.addState(new GameSetupState(GAMESETUPSTATE));
 		this.addState(new GamePlayState(GAMEPLAYSTATE));
-		/*this.addState(new HighscoreState(HIGHSCORESTATE));
-		this.addState(new OptionState(OPTIONSTATE));
+		//this.addState(new HighscoreState(HIGHSCORESTATE));
+		//this.addState(new OptionState(OPTIONSTATE));
 		this.addState(new InstructionState(INSTRUCTIONSTATE));
-		this.addState(new AboutState(ABOUTSTATE));*/
+		this.addState(new AboutState(ABOUTSTATE));
 
 		// Add states to the StateBasedEntityManager
 		StateBasedEntityManager.getInstance().addState(MAINMENUSTATE);
