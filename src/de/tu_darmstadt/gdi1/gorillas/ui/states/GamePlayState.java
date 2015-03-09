@@ -4,6 +4,7 @@ import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.util.Random;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -35,8 +36,8 @@ import eea.engine.event.basicevents.KeyPressedEvent;
 import eea.engine.event.basicevents.LoopEvent;
 import eea.engine.interfaces.IDestructible;
 
-public class GamePlayState extends BasicTWLGameState  {
-	
+public class GamePlayState extends BasicTWLGameState {
+
 	private int stateID;
 	private StateBasedEntityManager entityManager;
 
@@ -45,8 +46,7 @@ public class GamePlayState extends BasicTWLGameState  {
 	private Label yLabel;
 	EditField yInput;
 	private Button dropButton;
-	
-	
+
 	public GamePlayState(int sid) {
 		stateID = sid;
 		entityManager = StateBasedEntityManager.getInstance();
@@ -56,13 +56,15 @@ public class GamePlayState extends BasicTWLGameState  {
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
 
-		//Entität für Hintergrund
+		// Entität für Hintergrund
 		Entity background = new Entity("gamesetup");
-		background.setPosition(new Vector2f(400,300));														//Startposition des Hintergrunds
-		background.addComponent(new ImageRenderComponent(new Image("/assets/dropofwater/background.png")));		//Bild zur Entität hinzufügen
-		entityManager.addEntity(this.stateID,  background);	
-		
-		
+		background.setPosition(new Vector2f(400, 300)); // Startposition des
+														// Hintergrunds
+		background.addComponent(new ImageRenderComponent(new Image(
+				"/assets/dropofwater/background.png"))); // Bild zur Entität
+															// hinzufügen
+		entityManager.addEntity(this.stateID, background);
+
 		// Bei Druecken der ESC-Taste zurueck ins Hauptmenue wechseln
 		Entity escListener = new Entity("ESC_Listener");
 		KeyPressedEvent escPressed = new KeyPressedEvent(Input.KEY_ESCAPE);
@@ -71,69 +73,81 @@ public class GamePlayState extends BasicTWLGameState  {
 		entityManager.addEntity(stateID, escListener);
 		
 		
-		//Hochhaus
-		// erstelle ein Bild der Breite 500 und der Hï¿½he 200
-		BufferedImage image = new BufferedImage(100, 100, BufferedImage.TYPE_INT_ARGB);
-		// mit Graphics2D lï¿½sst sich das Bild bemalen
-		Graphics2D graphic = image.createGraphics();
-		// die folgende Zeile bewirkt, dass sich auch wieder "ausradieren" lï¿½sst
-		graphic.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC));
-		// bemale das vollstï¿½ndige Bild weiï¿½
-		graphic.setColor(new Color(0, 255, 255));
-		graphic.fillRect(0, 0, 100, 100);
-		
-		//Fenster
-		graphic.setColor(new Color(0, 0, 0));
-		for(int i = 5; i < 100; i=i+20){
-			for(int j = 5; j < 100; j=j+20){
-				graphic.fillRect(j, i, 7, 10);
-			}
-		}
-		
-		// radiere in der Mitte wieder ein Rechteck aus
-		/*graphic.setColor(new Color(255, 255, 255, 0));
-		graphic.fillRect(100, 50, 300, 100);*/
-		
-		
-		// erstelle eine DestructibleImageEntity mit dem gerade gemalten Bild
-		// als Image, das durch das Zerstï¿½rungs-Pattern destruction.png zerstï¿½rt
-		// werden kann
-		DestructibleImageEntity obstacle1 = new DestructibleImageEntity(
-				"obstacle", image, "dropofwater/destruction.png", false);
-		//obstacle.setPosition(new Vector2f(game.getContainer().getWidth() / 2, game.getContainer().getHeight() /2));
-		obstacle1.setPosition(new Vector2f(100, game.getContainer().getHeight() - 55));
-		
-		entityManager.addEntity(stateID, obstacle1);
-		
-		DestructibleImageEntity obstacle2 = new DestructibleImageEntity(
-				"obstacle", image, "dropofwater/destruction.png", false);
-		//obstacle.setPosition(new Vector2f(game.getContainer().getWidth() / 2, game.getContainer().getHeight() /2));
-		obstacle2.setPosition(new Vector2f(250, game.getContainer().getHeight() - 55));
-		
-		entityManager.addEntity(stateID, obstacle2);
-		
-		DestructibleImageEntity obstacle3 = new DestructibleImageEntity(
-				"obstacle", image, "dropofwater/destruction.png", false);
-		//obstacle.setPosition(new Vector2f(game.getContainer().getWidth() / 2, game.getContainer().getHeight() /2));
-		obstacle3.setPosition(new Vector2f(400, game.getContainer().getHeight() - 55));
-		
-		entityManager.addEntity(stateID, obstacle3);
-		
-		//...
+		drawHouses(game);
+
+//		// Hochhaus
+//		// erstelle ein Bild der Breite 500 und der Hï¿½he 200
+//		BufferedImage image = new BufferedImage(100, 100,
+//				BufferedImage.TYPE_INT_ARGB);
+//		// mit Graphics2D lï¿½sst sich das Bild bemalen
+//		Graphics2D graphic = image.createGraphics();
+//		// die folgende Zeile bewirkt, dass sich auch wieder "ausradieren"
+//		// lï¿½sst
+//		graphic.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC));
+//		// bemale das vollstï¿½ndige Bild weiï¿½
+//		graphic.setColor(new Color(0, 255, 255));
+//		graphic.fillRect(0, 0, 100, 100);
+//
+//		// Fenster
+//		graphic.setColor(new Color(0, 0, 0));
+//		for (int i = 5; i < 100; i = i + 20) {
+//			for (int j = 5; j < 100; j = j + 20) {
+//				graphic.fillRect(j, i, 7, 10);
+//			}
+//		}
+//
+//		// radiere in der Mitte wieder ein Rechteck aus
+//		/*
+//		 * graphic.setColor(new Color(255, 255, 255, 0)); graphic.fillRect(100,
+//		 * 50, 300, 100);
+//		 */
+//
+//		// erstelle eine DestructibleImageEntity mit dem gerade gemalten Bild
+//		// als Image, das durch das Zerstï¿½rungs-Pattern destruction.png
+//		// zerstï¿½rt
+//		// werden kann
+//		DestructibleImageEntity obstacle1 = new DestructibleImageEntity(
+//				"obstacle", image, "dropofwater/destruction.png", false);
+//		// obstacle.setPosition(new Vector2f(game.getContainer().getWidth() / 2,
+//		// game.getContainer().getHeight() /2));
+//		obstacle1.setPosition(new Vector2f(100,
+//				game.getContainer().getHeight() - 55));
+//
+//		entityManager.addEntity(stateID, obstacle1);
+//
+//		DestructibleImageEntity obstacle2 = new DestructibleImageEntity(
+//				"obstacle", image, "dropofwater/destruction.png", false);
+//		// obstacle.setPosition(new Vector2f(game.getContainer().getWidth() / 2,
+//		// game.getContainer().getHeight() /2));
+//		obstacle2.setPosition(new Vector2f(250,
+//				game.getContainer().getHeight() - 55));
+//
+//		entityManager.addEntity(stateID, obstacle2);
+//
+//		DestructibleImageEntity obstacle3 = new DestructibleImageEntity(
+//				"obstacle", image, "dropofwater/destruction.png", false);
+//		// obstacle.setPosition(new Vector2f(game.getContainer().getWidth() / 2,
+//		// game.getContainer().getHeight() /2));
+//		obstacle3.setPosition(new Vector2f(400,
+//				game.getContainer().getHeight() - 55));
+//
+//		entityManager.addEntity(stateID, obstacle3);
+//
+//		// ...
 	}
 
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g)
 			throws SlickException {
-		
+
 		entityManager.renderEntities(container, game, g);
-		
+
 	}
 
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta)
 			throws SlickException {
-		
+
 		entityManager.updateEntities(container, game, delta);
 	}
 
@@ -141,8 +155,7 @@ public class GamePlayState extends BasicTWLGameState  {
 	public int getID() {
 		return stateID;
 	}
-	
-	
+
 	/**
 	 * In dieser Methode werden in einem BasicTWLGameSate alle GUI-Elemente dem
 	 * GameState mit Hilfe einer RootPane hinzugefï¿½gt
@@ -170,7 +183,8 @@ public class GamePlayState extends BasicTWLGameState  {
 			}
 		});
 
-		// analog zu einer Eingabemï¿½glichkeit fï¿½r x-Werte wird auch eine fï¿½r
+		// analog zu einer Eingabemï¿½glichkeit fï¿½r x-Werte wird auch eine
+		// fï¿½r
 		// y-Werte kreiert
 		yLabel = new Label("y:");
 		yInput = new EditField();
@@ -220,8 +234,10 @@ public class GamePlayState extends BasicTWLGameState  {
 		int yOffset = 50;
 		int gap = 5;
 
-		// alle GUI-Elemente mï¿½ssen eine Grï¿½ï¿½e zugewiesen bekommen. Soll die
-		// Grï¿½ï¿½e automatisch ï¿½ber die Beschriftung des GUI-Elements bestimmt
+		// alle GUI-Elemente mï¿½ssen eine Grï¿½ï¿½e zugewiesen bekommen. Soll
+		// die
+		// Grï¿½ï¿½e automatisch ï¿½ber die Beschriftung des GUI-Elements
+		// bestimmt
 		// werden, so muss adjustSize() aufgerufen werden.
 		xLabel.adjustSize();
 		yLabel.adjustSize();
@@ -231,7 +247,8 @@ public class GamePlayState extends BasicTWLGameState  {
 		yInput.setSize(50, 25);
 		dropButton.setSize(50, 25);
 
-		// Nachdem alle Grï¿½ï¿½en adjustiert wurden, muss allen GUI-Elementen eine
+		// Nachdem alle Grï¿½ï¿½en adjustiert wurden, muss allen GUI-Elementen
+		// eine
 		// Position (linke obere Ecke) zugewiesen werden
 		xLabel.setPosition(xOffset, yOffset);
 		xInput.setPosition(xOffset + xLabel.getWidth() + gap, yOffset);
@@ -245,19 +262,21 @@ public class GamePlayState extends BasicTWLGameState  {
 	}
 
 	/**
-	 * Diese Methode wird aufgerufen, wenn ein Zeichen in ein EditField eingegeben wurde.
+	 * Diese Methode wird aufgerufen, wenn ein Zeichen in ein EditField
+	 * eingegeben wurde.
 	 * 
 	 * @param key
-	 * 			die gedrï¿½ckte Taste
+	 *            die gedrï¿½ckte Taste
 	 * @param editField
-	 * 			das EditField, in das ein Zeichen eingefï¿½gt wurde
+	 *            das EditField, in das ein Zeichen eingefï¿½gt wurde
 	 * @param callback
-	 * 			der CallBack, der dem EditField hinzugefï¿½gt wurde
+	 *            der CallBack, der dem EditField hinzugefï¿½gt wurde
 	 * @param maxValue
-	 * 			die grï¿½ï¿½te Zahl, die in das <code>editField</code> eingegeben werden kann
+	 *            die grï¿½ï¿½te Zahl, die in das <code>editField</code>
+	 *            eingegeben werden kann
 	 */
-	void handleEditFieldInput(int key, EditField editField,
-			Callback callback, int maxValue) {
+	void handleEditFieldInput(int key, EditField editField, Callback callback,
+			int maxValue) {
 
 		if (key == de.matthiasmann.twl.Event.KEY_NONE) {
 			String inputText = editField.getText();
@@ -313,7 +332,8 @@ public class GamePlayState extends BasicTWLGameState  {
 				CollisionEvent collider = (CollisionEvent) event;
 				Entity entity = collider.getCollidedEntity();
 
-				// wenn diese durch ein Pattern zerstï¿½rt werden kann, dann caste
+				// wenn diese durch ein Pattern zerstï¿½rt werden kann, dann
+				// caste
 				// zu IDestructible
 				// ansonsten passiert bei der Kollision nichts
 				IDestructible destructible = null;
@@ -332,6 +352,45 @@ public class GamePlayState extends BasicTWLGameState  {
 		drop.addComponent(collisionEvent);
 
 		entityManager.addEntity(stateID, drop);
+	}
+
+	// Häuser zeichnen
+	public void drawHouses(StateBasedGame g) {
+		// Hochhäuser
+		Random rand = new Random();
+		int a,b;
+		int c = 0;		//Anfangspunkt Häuser
+	
+		// int n = rand.nextInt(50) + 1;
+		for (int e = 0; e < 9; e++) {
+			
+			a = rand.nextInt(50) + 80;
+			b = rand.nextInt(200) + 100;
+			
+			// Hochhäuser
+			BufferedImage image = new BufferedImage(a, b,
+					BufferedImage.TYPE_INT_ARGB);
+			Graphics2D graphic = image.createGraphics();
+			graphic.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC));
+			graphic.setColor(new Color(rand.nextInt(255), rand.nextInt(255), rand.nextInt(255)));
+			graphic.fillRect(0, 0, a, b);
+
+			// Fenster
+			graphic.setColor(new Color(0, 0, 0));
+			for (int i = 5; i < b; i = i + 20) {
+				for (int j = 5; j < a; j = j + 20) {
+					graphic.fillRect(j, i, 7, 10);
+				}
+			}
+
+			DestructibleImageEntity obstacle1 = new DestructibleImageEntity(
+					"obstacle", image, "dropofwater/destruction.png", false);
+			obstacle1.setPosition(new Vector2f(c, 
+					g.getContainer().getHeight() - (b/2)));
+			entityManager.addEntity(stateID, obstacle1);
+			
+			c = c + a;
+		}
 	}
 
 }
