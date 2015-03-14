@@ -13,7 +13,16 @@ public class GameData {
 	private void init() {
 		player1 = "";
 		player2 = "";
+		load();
 		// more?
+	}
+	
+	public void save() {
+		
+	}
+	
+	public void load() {
+		
 	}
 	
 	public String getPlayer1() {//get playername :: player 1

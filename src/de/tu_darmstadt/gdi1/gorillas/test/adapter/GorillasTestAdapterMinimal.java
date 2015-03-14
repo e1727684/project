@@ -7,6 +7,8 @@ import org.newdawn.slick.geom.Vector2f;
 import de.tu_darmstadt.gdi1.gorillas.test.setup.TWLTestAppGameContainer;
 import de.tu_darmstadt.gdi1.gorillas.test.setup.TWLTestStateBasedGame;
 import de.tu_darmstadt.gdi1.gorillas.test.setup.TestGorillas;
+import de.tu_darmstadt.gdi1.gorillas.util.GameData;
+import de.tu_darmstadt.gdi1.gorillas.util.Wurf;
 import eea.engine.entity.StateBasedEntityManager;
 
 public class GorillasTestAdapterMinimal {
@@ -17,6 +19,7 @@ public class GorillasTestAdapterMinimal {
 	// spezielle Variante des AppGameContainer, welche keine UI erzeugt (nur
 	// fuer Tests!)
 	TWLTestAppGameContainer app;
+	GameData data;
 
 	public GorillasTestAdapterMinimal() {
 		super();
@@ -62,7 +65,7 @@ public class GorillasTestAdapterMinimal {
 
 		// Initialisiere das Spiel Tanks im Debug-Modus (ohne UI-Ausgabe)
 		gorillas = new TestGorillas(true);
-
+		data = new GameData();
 		// Initialisiere die statische Klasse Map
 		try {
 			app = new TWLTestAppGameContainer(gorillas, 1000, 600, false);
@@ -110,7 +113,7 @@ public class GorillasTestAdapterMinimal {
 	 * player names).
 	 */
 	public void rememberGameData() {
-		// TODO: Implement
+		data.save();
 	}
 
 	/**
@@ -118,7 +121,7 @@ public class GorillasTestAdapterMinimal {
 	 * should make sure that
 	 */
 	public void restoreGameData() {
-		// TODO: Implement
+		data.load();
 	}
 
 	/**
@@ -131,7 +134,8 @@ public class GorillasTestAdapterMinimal {
 	 *            the name of player 2
 	 */
 	public void setPlayerNames(String player1Name, String player2Name) {
-		// TODO: Implement
+		data.setPlayer1(player1Name);
+		data.setPlayer2(player2Name);
 	}
 
 	/**
@@ -228,9 +232,10 @@ public class GorillasTestAdapterMinimal {
 	 */
 	public Vector2f getNextShotPosition(Vector2f startPosition, int angle,
 			int speed, boolean fromLeftToRight, int deltaTime) {
-
-		// TODO: Implement
-		return null;
+		Wurf wurf = new Wurf(speed);
+		wurf.setAngle(fromLeftToRight?angle:(180-angle));
+		wurf.startPos = startPosition;
+		return wurf.getNextPosition(startPosition, speed, 0, deltaTime);
 	}
 
 	/**
@@ -241,8 +246,7 @@ public class GorillasTestAdapterMinimal {
 	 * @return the time scaling factor for the parabolic flight calculation
 	 */
 	public float getTimeScalingFactor() {
-		// TODO: Implement
-		return -1;
+		return 1/300;
 	}
 
 	/**
