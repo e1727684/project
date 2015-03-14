@@ -402,7 +402,7 @@ public class GamePlayState extends BasicTWLGameState {
 		//loop.addAction(new Wurf(Integer.parseInt(yInput.getText())));
 		Wurf wurf = new Wurf(Integer.parseInt(speedInput.getText()));
 		wurf.setAngle(turn?Integer.parseInt(angleInput.getText()):(180-Integer.parseInt(angleInput.getText())));
-		wurf.startPos = turn?new Vector2f(gorilla1pos.getX()+45,gorilla1pos.getY()-15):new Vector2f(gorilla2pos.getX()-45,gorilla2pos.getY()-15);
+		wurf.startPos = turn?new Vector2f(gorilla1pos.getX()+30,gorilla1pos.getY()-15):new Vector2f(gorilla2pos.getX()-30,gorilla2pos.getY()-15);
 		loop.addAction(wurf);
 		banana.addComponent(loop);
 		Event leavingEvent = new LeavingScreenEvent();

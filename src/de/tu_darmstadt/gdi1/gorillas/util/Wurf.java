@@ -27,11 +27,11 @@ public class Wurf extends Movement implements Action {
 	}
 
 	private double getVx(int angle, float speed) {
-		return Math.cos(angle)*speed;
+		return Math.cos(Math.toRadians(angle))*speed;
 	}
 
 	private double getVy(int angle, float speed) {
-		return Math.sin(angle)*speed;
+		return Math.sin(Math.toRadians(angle))*speed;
 	}
 
 	private double getX(int angle, float speed, int delta) {
