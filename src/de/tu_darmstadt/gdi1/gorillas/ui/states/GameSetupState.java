@@ -155,8 +155,7 @@ public class GameSetupState extends BasicTWLGameState  {
 				// a call of setText on an EditField triggers the callback, so
 				// remove callback before and add it again after the call
 				editField.removeCallback(callback);
-				editField
-						.setText(inputText.substring(0, inputText.length() - 1));
+				editField.setText(inputText.substring(0, inputText.length() - 1));
 				editField.addCallback(callback);
 			}
 		}
