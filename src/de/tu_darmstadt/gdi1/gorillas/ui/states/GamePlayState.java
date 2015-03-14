@@ -27,6 +27,8 @@ import eea.engine.action.basicactions.ChangeStateAction;
 import eea.engine.action.basicactions.DestroyEntityAction;
 import eea.engine.action.basicactions.MoveDownAction;
 import eea.engine.action.basicactions.MoveRightAction;
+import eea.engine.action.basicactions.RotateLeftAction;
+import eea.engine.action.basicactions.RotateRightAction;
 import eea.engine.component.Component;
 import eea.engine.component.render.ImageRenderComponent;
 import eea.engine.entity.DestructibleImageEntity;
@@ -403,6 +405,7 @@ public class GamePlayState extends BasicTWLGameState {
 		wurf.setAngle(turn?Integer.parseInt(angleInput.getText()):(180-Integer.parseInt(angleInput.getText())));
 		wurf.startPos = turn?new Vector2f(gorilla1pos.getX()+30,gorilla1pos.getY()-15):new Vector2f(gorilla2pos.getX()-30,gorilla2pos.getY()-15);
 		loop.addAction(wurf);
+		loop.addAction(turn?new RotateRightAction(0.5F):new RotateLeftAction(0.5F));
 		banana.addComponent(loop);
 		Event leavingEvent = new LeavingScreenEvent();
 		leavingEvent.addAction(new DestroyEntityAction());
