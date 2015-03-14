@@ -8,6 +8,7 @@ import org.newdawn.slick.SlickException;
 
 import de.matthiasmann.twl.slick.TWLStateBasedGame;
 import de.tu_darmstadt.gdi1.gorillas.ui.states.*;
+import de.tu_darmstadt.gdi1.gorillas.util.GameData;
 import eea.engine.entity.StateBasedEntityManager;
 
 /**
@@ -33,7 +34,7 @@ public class Gorillas extends TWLStateBasedGame {
 	public static final int TARGET_FRAME_RATE = 120;
 
 	public static boolean debug = false;
-
+	public static GameData data;
 	public Gorillas(boolean debug) {
 		super("Gorillas");
 		setDebug(debug);
@@ -66,7 +67,7 @@ public class Gorillas extends TWLStateBasedGame {
 		System.err.println(System.getProperty("os.name") + ": "
 				+ System.getProperty("org.lwjgl.librarypath"));
 		// @formatter:on
-
+		data = new GameData();
 		// Insert this StateBasedGame into an AppContainer (a window)
 		AppGameContainer app = new AppGameContainer(new Gorillas(false));
 
@@ -85,8 +86,8 @@ public class Gorillas extends TWLStateBasedGame {
 		this.addState(new MainMenuState(MAINMENUSTATE));
 		this.addState(new GameSetupState(GAMESETUPSTATE));
 		this.addState(new GamePlayState(GAMEPLAYSTATE));
-		//this.addState(new HighscoreState(HIGHSCORESTATE));
-		//this.addState(new OptionState(OPTIONSTATE));
+		this.addState(new HighscoreState(HIGHSCORESTATE));
+		this.addState(new OptionState(OPTIONSTATE));
 		this.addState(new InstructionState(INSTRUCTIONSTATE));
 		this.addState(new AboutState(ABOUTSTATE));
 

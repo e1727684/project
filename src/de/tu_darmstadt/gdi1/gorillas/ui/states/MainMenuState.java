@@ -40,7 +40,7 @@ public class MainMenuState extends BasicTWLGameState {
 		//Entität für Hintergrund
 		Entity background = new Entity("menu");
 		background.setPosition(new Vector2f(400,300));														//Startposition des Hintergrunds
-		background.addComponent(new ImageRenderComponent(new Image("/assets/dropofwater/menu.png")));		//Bild zur Entität hinzufügen
+		background.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/background.png")));		//Bild zur Entität hinzufügen
 		entityManager.addEntity(this.stateID,  background);														//Hintergrund-Entität an StateBasedEntityManager übergeben
 		
 		/* Neues Spiel starten-Entitaet */

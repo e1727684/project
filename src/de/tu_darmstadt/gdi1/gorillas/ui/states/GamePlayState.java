@@ -68,7 +68,7 @@ public class GamePlayState extends BasicTWLGameState {
         // Bei Druecken der ESC-Taste zurueck ins Hauptmenue wechseln
         Entity escListener = new Entity("ESC_Listener");
         KeyPressedEvent escPressed = new KeyPressedEvent(Input.KEY_ESCAPE);
-        escPressed.addAction(new ChangeStateAction(Gorillas.MAINMENUSTATE));
+        escPressed.addAction(new ChangeStateAction(Gorillas.MAINMENUSTATE));//TODO: PauseState
         escListener.addComponent(escPressed);
         entityManager.addEntity(stateID, escListener);
 
@@ -210,7 +210,7 @@ public class GamePlayState extends BasicTWLGameState {
 		RootPane rp = super.createRootPane();
 
 		// erstelle ein Label mit der Aufschrift "x:"
-		xLabel = new Label("x:");
+		xLabel = new Label("angle:");
 		// erstelle ein EditField. Es dient der Eingabe von Text
 		xInput = new EditField();
 		// mit der Methode addCallBack l�sst sich dem EditField ein CallBack
@@ -222,23 +222,23 @@ public class GamePlayState extends BasicTWLGameState {
 				// handleEditFieldInput verarbeitet (siehe weiter unten in
 				// dieser Klasse, was diese tut, und was es mit ihren Parametern
 				// auf sich hat)
-				handleEditFieldInput(key, xInput, this, 1000);
+				handleEditFieldInput(key, xInput, this, 360);
 			}
 		});
 
 		// analog zu einer Eingabem�glichkeit f�r x-Werte wird auch eine
 		// f�r
 		// y-Werte kreiert
-		yLabel = new Label("y:");
+		yLabel = new Label("speed:");
 		yInput = new EditField();
 		yInput.addCallback(new Callback() {
 			public void callback(int key) {
-				handleEditFieldInput(key, yInput, this, 500);
+				handleEditFieldInput(key, yInput, this, 200);
 			}
 		});
 
 		// zuletzt wird noch ein Button hinzugef�gt
-		dropButton = new Button("drop");
+		dropButton = new Button("throw");
 		// �hnlich wie einem EditField kann auch einem Button ein CallBack
 		// hinzugef�gt werden
 		// Hier ist es jedoch von Typ Runnable, da keine Parameter (z. B. welche
@@ -248,7 +248,11 @@ public class GamePlayState extends BasicTWLGameState {
 			public void run() {
 				// ein Klick auf den Button wird in unserem Fall in der
 				// folgenden Methode verarbeitet
-				inputFinished();
+				try {
+					inputFinished();
+				} catch (NumberFormatException e) {
+					System.out.println("Oy Vey! Please enter numbers!");
+				}
 			}
 		});
 

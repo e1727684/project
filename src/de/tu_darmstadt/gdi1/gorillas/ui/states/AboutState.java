@@ -42,7 +42,7 @@ public class AboutState extends BasicTWLGameState {
 		//Entität für Hintergrund
 		Entity background = new Entity("gamesetup");
 		background.setPosition(new Vector2f(400,300));														//Startposition des Hintergrunds
-		background.addComponent(new ImageRenderComponent(new Image("/assets/dropofwater/background.png")));		//Bild zur Entität hinzufügen
+		background.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/background.png")));		//Bild zur Entität hinzufügen
 		entityManager.addEntity(this.stateID,  background);	
 		
 		// Bei Druecken der ESC-Taste zurueck ins Hauptmenue wechseln
