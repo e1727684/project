@@ -57,83 +57,126 @@ public class GamePlayState extends BasicTWLGameState {
 			throws SlickException {
 
 		// Entität für Hintergrund
-		Entity background = new Entity("gamesetup");
-		background.setPosition(new Vector2f(400, 300)); // Startposition des
-														// Hintergrunds
-		background.addComponent(new ImageRenderComponent(new Image(
-				"/assets/dropofwater/background.png"))); // Bild zur Entität
-															// hinzufügen
-		entityManager.addEntity(this.stateID, background);
+        Entity background = new Entity("gamesetup");
+        background.setPosition(new Vector2f(400, 300)); // Startposition des
+                                                                                                        // Hintergrunds
+        background.addComponent(new ImageRenderComponent(new Image(
+                        "/assets/gorillas/background.png"))); // Bild zur Entität
+                                                                                                                // hinzufügen
+        entityManager.addEntity(this.stateID, background);
 
-		// Bei Druecken der ESC-Taste zurueck ins Hauptmenue wechseln
-		Entity escListener = new Entity("ESC_Listener");
-		KeyPressedEvent escPressed = new KeyPressedEvent(Input.KEY_ESCAPE);
-		escPressed.addAction(new ChangeStateAction(Gorillas.MAINMENUSTATE));
-		escListener.addComponent(escPressed);
-		entityManager.addEntity(stateID, escListener);
-		
-		
-		drawHouses(game);
+        // Bei Druecken der ESC-Taste zurueck ins Hauptmenue wechseln
+        Entity escListener = new Entity("ESC_Listener");
+        KeyPressedEvent escPressed = new KeyPressedEvent(Input.KEY_ESCAPE);
+        escPressed.addAction(new ChangeStateAction(Gorillas.MAINMENUSTATE));
+        escListener.addComponent(escPressed);
+        entityManager.addEntity(stateID, escListener);
 
-//		// Hochhaus
-//		// erstelle ein Bild der Breite 500 und der Hï¿½he 200
-//		BufferedImage image = new BufferedImage(100, 100,
-//				BufferedImage.TYPE_INT_ARGB);
-//		// mit Graphics2D lï¿½sst sich das Bild bemalen
-//		Graphics2D graphic = image.createGraphics();
-//		// die folgende Zeile bewirkt, dass sich auch wieder "ausradieren"
-//		// lï¿½sst
-//		graphic.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC));
-//		// bemale das vollstï¿½ndige Bild weiï¿½
-//		graphic.setColor(new Color(0, 255, 255));
-//		graphic.fillRect(0, 0, 100, 100);
-//
-//		// Fenster
-//		graphic.setColor(new Color(0, 0, 0));
-//		for (int i = 5; i < 100; i = i + 20) {
-//			for (int j = 5; j < 100; j = j + 20) {
-//				graphic.fillRect(j, i, 7, 10);
-//			}
-//		}
-//
-//		// radiere in der Mitte wieder ein Rechteck aus
-//		/*
-//		 * graphic.setColor(new Color(255, 255, 255, 0)); graphic.fillRect(100,
-//		 * 50, 300, 100);
-//		 */
-//
-//		// erstelle eine DestructibleImageEntity mit dem gerade gemalten Bild
-//		// als Image, das durch das Zerstï¿½rungs-Pattern destruction.png
-//		// zerstï¿½rt
-//		// werden kann
-//		DestructibleImageEntity obstacle1 = new DestructibleImageEntity(
-//				"obstacle", image, "dropofwater/destruction.png", false);
-//		// obstacle.setPosition(new Vector2f(game.getContainer().getWidth() / 2,
-//		// game.getContainer().getHeight() /2));
-//		obstacle1.setPosition(new Vector2f(100,
-//				game.getContainer().getHeight() - 55));
-//
-//		entityManager.addEntity(stateID, obstacle1);
-//
-//		DestructibleImageEntity obstacle2 = new DestructibleImageEntity(
-//				"obstacle", image, "dropofwater/destruction.png", false);
-//		// obstacle.setPosition(new Vector2f(game.getContainer().getWidth() / 2,
-//		// game.getContainer().getHeight() /2));
-//		obstacle2.setPosition(new Vector2f(250,
-//				game.getContainer().getHeight() - 55));
-//
-//		entityManager.addEntity(stateID, obstacle2);
-//
-//		DestructibleImageEntity obstacle3 = new DestructibleImageEntity(
-//				"obstacle", image, "dropofwater/destruction.png", false);
-//		// obstacle.setPosition(new Vector2f(game.getContainer().getWidth() / 2,
-//		// game.getContainer().getHeight() /2));
-//		obstacle3.setPosition(new Vector2f(400,
-//				game.getContainer().getHeight() - 55));
-//
-//		entityManager.addEntity(stateID, obstacle3);
-//
-//		// ...
+        // Hochhäuser
+        // -------------------------------------------------------------------------------
+        Random rand = new Random();
+        int houseWidth = 100;
+        int startPointHouses = 0; // Anfangspunkt Häuser
+        int[] houseHeights = new int[8];
+        int housesIndex = 0;
+
+        for (int e = 0; e < 8; e++) {
+
+                houseHeights[housesIndex] = rand.nextInt(380) + 120;
+               
+                // Häuser
+                BufferedImage image = new BufferedImage(houseWidth,
+                                houseHeights[housesIndex], BufferedImage.TYPE_INT_ARGB);
+                Graphics2D graphic = image.createGraphics();
+                graphic.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC));
+                graphic.setColor(new Color(rand.nextInt(255), rand.nextInt(255),
+                                rand.nextInt(255)));
+                graphic.fillRect(0, 0, houseWidth, houseHeights[housesIndex]);
+
+                // Fenster
+                graphic.setColor(new Color(0, 0, 0));
+                for (int i = 5; i < houseHeights[housesIndex]; i = i + 20) {
+                        for (int j = 5; j < houseWidth; j = j + 20) {
+                                graphic.fillRect(j, i, 7, 10);
+                        }
+                }
+
+                if (startPointHouses == 0)
+                        startPointHouses = houseWidth / 2;
+                else
+                        startPointHouses = startPointHouses + houseWidth;
+
+                DestructibleImageEntity house = new DestructibleImageEntity(
+                                "obstacle", image, "dropofwater/destruction.png", false);
+                house.setPosition(new Vector2f(startPointHouses, game
+                                .getContainer().getHeight()
+                                - (houseHeights[housesIndex] / 2)));
+                entityManager.addEntity(stateID, house);
+               
+                housesIndex++;
+        }
+
+        // add Gorillas
+        // -------------------------------------------------------------------------------
+        float gorillaPosX = 0;
+        float gorillaPosY = 0;
+
+        Entity gorilla1 = new Entity("gorilla1");
+        gorilla1.addComponent(new ImageRenderComponent(new Image(
+                        "/assets/gorillas/gorillas/gorilla.png")));
+       
+        switch (rand.nextInt(3)) {
+        case 0:
+                gorillaPosX = 50;
+                gorillaPosY = game.getContainer().getHeight() - (houseHeights[0] + (gorilla1.getSize().y/2));
+                break;
+        case 1:
+                gorillaPosX = 150;
+                gorillaPosY = game.getContainer().getHeight() - (houseHeights[1] + (gorilla1.getSize().y/2));
+                break;
+        case 2:
+                gorillaPosX = 250;
+                gorillaPosY = game.getContainer().getHeight() - (houseHeights[2] + (gorilla1.getSize().y/2));
+                break;
+        }
+
+        gorilla1.setPosition(new Vector2f(gorillaPosX, gorillaPosY)); // Startposition
+        entityManager.addEntity(this.stateID, gorilla1);
+
+        //Gorilla2
+        Entity gorilla2 = new Entity("gorilla2");
+        gorilla2.addComponent(new ImageRenderComponent(new Image(
+                        "/assets/gorillas/gorillas/gorilla.png")));
+       
+        switch (rand.nextInt(3)) {
+        case 0:
+                gorillaPosX = game.getContainer().getWidth() - 50;
+                gorillaPosY = game.getContainer().getHeight() - (houseHeights[7] + (gorilla2.getSize().y/2));
+                break;
+        case 1:
+                gorillaPosX = game.getContainer().getWidth() - 150;
+                gorillaPosY = game.getContainer().getHeight() - (houseHeights[6] + (gorilla2.getSize().y/2));
+                break;
+        case 2:
+                gorillaPosX = game.getContainer().getWidth() - 250;
+                gorillaPosY = game.getContainer().getHeight() - (houseHeights[5] + (gorilla2.getSize().y/2));
+                break;
+        }
+
+        gorilla2.setPosition(new Vector2f(gorillaPosX, gorillaPosY)); // Startposition
+        entityManager.addEntity(this.stateID, gorilla2);
+
+       
+        // Entität für Sonne
+        // -------------------------------------------------------------------------------
+        Entity sun_smiling = new Entity("sun_smiling");
+        sun_smiling.setPosition(new Vector2f(
+                        (game.getContainer().getWidth() / 2), 30)); // Startposition des
+        // Hintergrunds
+        sun_smiling.addComponent(new ImageRenderComponent(new Image(
+                        "/assets/gorillas/sun/sun_smiling.png"))); // Bild zur Entität
+                                                                                                                // hinzufügen
+        entityManager.addEntity(this.stateID, sun_smiling);
 	}
 
 	@Override
