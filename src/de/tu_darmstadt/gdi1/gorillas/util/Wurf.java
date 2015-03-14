@@ -19,8 +19,8 @@ public class Wurf extends Movement implements Action {
 		// retrieve the current position (x, y)
 		Vector2f pos = position;
 		// update the x+y position by the displacement
-		pos.x = (float) (startPos.x + getX(angle, speed, timer/10)/10);
-		pos.y = (float) (startPos.y - getY(angle, speed, timer/10)/10);
+		pos.x = (float) (startPos.x + getX(angle, speed, timer/10)/20);
+		pos.y = (float) (startPos.y - getY(angle, speed, timer/10)/20);
 		timer+=delta;
 		// return the new position
 		return pos;
@@ -39,7 +39,7 @@ public class Wurf extends Movement implements Action {
 	}
 
 	private double getY(int angle, float speed, int delta) {
-		return getVy(angle,speed) * delta + (0.5 * (-3) * delta * delta);
+		return getVy(angle,speed) * delta + (0.5 * (-5) * delta * delta);
 	}
 	
 	public int getAngle() {

@@ -130,7 +130,7 @@ public class GamePlayState extends BasicTWLGameState {
         Entity gorilla2 = new Entity("gorilla2");
         gorilla1.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/gorillas/gorilla.png")));
         gorilla2.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/gorillas/gorilla.png")));
-        randomizeGorillas(game.getContainer().getHeight(), houseHeights, gorilla1, gorilla2); //creates the random positions for BOTH gorillas!
+        randomizeGorillas(game.getContainer().getHeight(), game.getContainer().getWidth(), houseHeights, gorilla1, gorilla2); //creates the random positions for BOTH gorillas!
         gorilla1.setPosition(gorilla1pos); 
         gorilla2.setPosition(gorilla2pos); 
         entityManager.addEntity(this.stateID, gorilla1);
@@ -148,42 +148,44 @@ public class GamePlayState extends BasicTWLGameState {
         entityManager.addEntity(this.stateID, sun_smiling);
 	}
 	
-	private void randomizeGorillas(int height, int[] houseHeights, Entity gorilla1, Entity gorilla2) {
-        float gorillaPosX = 0;
-        float gorillaPosY = 0;
+	private void randomizeGorillas(int height, int width, int[] houseHeights, Entity gorilla1, Entity gorilla2) {
+        float gorilla1PosX = 0;
+        float gorilla1PosY = 0;
         Random rand = new Random();
         switch (rand.nextInt(3)) {
         case 0:
-                gorillaPosX = 50;
-                gorillaPosY = height - (houseHeights[0] + (gorilla1.getSize().y/2));
+                gorilla1PosX = 50;
+                gorilla1PosY = height - (houseHeights[0] + (gorilla1.getSize().y/2));
                 break;
         case 1:
-                gorillaPosX = 150;
-                gorillaPosY = height - (houseHeights[1] + (gorilla1.getSize().y/2));
+                gorilla1PosX = 150;
+                gorilla1PosY = height - (houseHeights[1] + (gorilla1.getSize().y/2));
                 break;
         case 2:
-                gorillaPosX = 250;
-                gorillaPosY = height - (houseHeights[2] + (gorilla1.getSize().y/2));
+                gorilla1PosX = 250;
+                gorilla1PosY = height - (houseHeights[2] + (gorilla1.getSize().y/2));
                 break;
         }
-        gorilla1pos = new Vector2f(gorillaPosX, gorillaPosY); // Startposition
-        
+        gorilla1pos = new Vector2f(gorilla1PosX, gorilla1PosY); // Startposition
+
+        float gorilla2PosX = 0;
+        float gorilla2PosY = 0;
         switch (rand.nextInt(3)) {
         case 0:
-                gorillaPosX = height - 50;
-                gorillaPosY = height - (houseHeights[7] + (gorilla2.getSize().y/2));
+                gorilla2PosX = width - 50;
+                gorilla2PosY = height - (houseHeights[7] + (gorilla2.getSize().y/2));
                 break;
         case 1:
-                gorillaPosX = height - 150;
-                gorillaPosY = height - (houseHeights[6] + (gorilla2.getSize().y/2));
+                gorilla2PosX = width - 150;
+                gorilla2PosY = height - (houseHeights[6] + (gorilla2.getSize().y/2));
                 break;
         case 2:
-                gorillaPosX = height - 250;
-                gorillaPosY = height - (houseHeights[5] + (gorilla2.getSize().y/2));
+                gorilla2PosX = width - 250;
+                gorilla2PosY = height - (houseHeights[5] + (gorilla2.getSize().y/2));
                 break;
         }
 
-        gorilla2pos = new Vector2f(gorillaPosX, gorillaPosY); // Startposition
+        gorilla2pos = new Vector2f(gorilla2PosX, gorilla2PosY); // Startposition
 	}
 	
 	@Override
@@ -400,7 +402,7 @@ public class GamePlayState extends BasicTWLGameState {
 		//loop.addAction(new Wurf(Integer.parseInt(yInput.getText())));
 		Wurf wurf = new Wurf(Integer.parseInt(speedInput.getText()));
 		wurf.setAngle(turn?Integer.parseInt(angleInput.getText()):(180-Integer.parseInt(angleInput.getText())));
-		wurf.startPos = turn?new Vector2f(gorilla1pos.getX()+15,gorilla1pos.getY()):new Vector2f(gorilla2pos.getX()-15,gorilla2pos.getY());
+		wurf.startPos = turn?new Vector2f(gorilla1pos.getX()+45,gorilla1pos.getY()-15):new Vector2f(gorilla2pos.getX()-45,gorilla2pos.getY()-15);
 		loop.addAction(wurf);
 		banana.addComponent(loop);
 		Event leavingEvent = new LeavingScreenEvent();
