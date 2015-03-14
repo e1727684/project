@@ -35,6 +35,7 @@ import eea.engine.entity.StateBasedEntityManager;
 import eea.engine.event.Event;
 import eea.engine.event.basicevents.CollisionEvent;
 import eea.engine.event.basicevents.KeyPressedEvent;
+import eea.engine.event.basicevents.LeavingScreenEvent;
 import eea.engine.event.basicevents.LoopEvent;
 import eea.engine.interfaces.IDestructible;
 
@@ -43,15 +44,15 @@ public class GamePlayState extends BasicTWLGameState {
 	private int stateID;
 	private StateBasedEntityManager entityManager;
 
-	private Label xLabel;
-	EditField xInput;
-	private Label yLabel;
-	EditField yInput;
+	private Label angleLabel;
+	EditField angleInput;
+	private Label speedLabel;
+	EditField speedInput;
 	private Button dropButton;
 	private Label nameLabel;
 	private boolean turn;
-	private Vector2f gorilla1;
-	private Vector2f gorilla2;
+	private Vector2f gorilla1pos;
+	private Vector2f gorilla2pos;
 
 	public GamePlayState(int sid) {
 		stateID = sid;
@@ -114,7 +115,7 @@ public class GamePlayState extends BasicTWLGameState {
                         startPointHouses = startPointHouses + houseWidth;
 
                 DestructibleImageEntity house = new DestructibleImageEntity(
-                                "obstacle", image, "dropofwater/destruction.png", false);
+                                "obstacle", image, "gorillas/destruction.png", false);
                 house.setPosition(new Vector2f(startPointHouses, game
                                 .getContainer().getHeight()
                                 - (houseHeights[housesIndex] / 2)));
@@ -125,55 +126,15 @@ public class GamePlayState extends BasicTWLGameState {
 
         // add Gorillas
         // -------------------------------------------------------------------------------
-        float gorillaPosX = 0;
-        float gorillaPosY = 0;
-
         Entity gorilla1 = new Entity("gorilla1");
-        gorilla1.addComponent(new ImageRenderComponent(new Image(
-                        "/assets/gorillas/gorillas/gorilla.png")));
-       
-        switch (rand.nextInt(3)) {
-        case 0:
-                gorillaPosX = 50;
-                gorillaPosY = game.getContainer().getHeight() - (houseHeights[0] + (gorilla1.getSize().y/2));
-                break;
-        case 1:
-                gorillaPosX = 150;
-                gorillaPosY = game.getContainer().getHeight() - (houseHeights[1] + (gorilla1.getSize().y/2));
-                break;
-        case 2:
-                gorillaPosX = 250;
-                gorillaPosY = game.getContainer().getHeight() - (houseHeights[2] + (gorilla1.getSize().y/2));
-                break;
-        }
-        this.gorilla1 = new Vector2f(gorillaPosX, gorillaPosY); // Startposition
-        gorilla1.setPosition(this.gorilla1); 
-        entityManager.addEntity(this.stateID, gorilla1);
-
-        //Gorilla2
         Entity gorilla2 = new Entity("gorilla2");
-        gorilla2.addComponent(new ImageRenderComponent(new Image(
-                        "/assets/gorillas/gorillas/gorilla.png")));
-       
-        switch (rand.nextInt(3)) {
-        case 0:
-                gorillaPosX = game.getContainer().getWidth() - 50;
-                gorillaPosY = game.getContainer().getHeight() - (houseHeights[7] + (gorilla2.getSize().y/2));
-                break;
-        case 1:
-                gorillaPosX = game.getContainer().getWidth() - 150;
-                gorillaPosY = game.getContainer().getHeight() - (houseHeights[6] + (gorilla2.getSize().y/2));
-                break;
-        case 2:
-                gorillaPosX = game.getContainer().getWidth() - 250;
-                gorillaPosY = game.getContainer().getHeight() - (houseHeights[5] + (gorilla2.getSize().y/2));
-                break;
-        }
-
-        this.gorilla2 = new Vector2f(gorillaPosX, gorillaPosY); // Startposition
-        gorilla2.setPosition(this.gorilla2); 
+        gorilla1.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/gorillas/gorilla.png")));
+        gorilla2.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/gorillas/gorilla.png")));
+        randomizeGorillas(game.getContainer().getHeight(), houseHeights, gorilla1, gorilla2); //creates the random positions for BOTH gorillas!
+        gorilla1.setPosition(gorilla1pos); 
+        gorilla2.setPosition(gorilla2pos); 
+        entityManager.addEntity(this.stateID, gorilla1);
         entityManager.addEntity(this.stateID, gorilla2);
-
        
         // Entität für Sonne
         // -------------------------------------------------------------------------------
@@ -186,31 +147,72 @@ public class GamePlayState extends BasicTWLGameState {
                                                                                                                 // hinzufügen
         entityManager.addEntity(this.stateID, sun_smiling);
 	}
+	
+	private void randomizeGorillas(int height, int[] houseHeights, Entity gorilla1, Entity gorilla2) {
+        float gorillaPosX = 0;
+        float gorillaPosY = 0;
+        Random rand = new Random();
+        switch (rand.nextInt(3)) {
+        case 0:
+                gorillaPosX = 50;
+                gorillaPosY = height - (houseHeights[0] + (gorilla1.getSize().y/2));
+                break;
+        case 1:
+                gorillaPosX = 150;
+                gorillaPosY = height - (houseHeights[1] + (gorilla1.getSize().y/2));
+                break;
+        case 2:
+                gorillaPosX = 250;
+                gorillaPosY = height - (houseHeights[2] + (gorilla1.getSize().y/2));
+                break;
+        }
+        gorilla1pos = new Vector2f(gorillaPosX, gorillaPosY); // Startposition
+        
+        switch (rand.nextInt(3)) {
+        case 0:
+                gorillaPosX = height - 50;
+                gorillaPosY = height - (houseHeights[7] + (gorilla2.getSize().y/2));
+                break;
+        case 1:
+                gorillaPosX = height - 150;
+                gorillaPosY = height - (houseHeights[6] + (gorilla2.getSize().y/2));
+                break;
+        case 2:
+                gorillaPosX = height - 250;
+                gorillaPosY = height - (houseHeights[5] + (gorilla2.getSize().y/2));
+                break;
+        }
 
-	@Override
-	public void render(GameContainer container, StateBasedGame game, Graphics g)
-			throws SlickException {
-
-		entityManager.renderEntities(container, game, g);
-
+        gorilla2pos = new Vector2f(gorillaPosX, gorillaPosY); // Startposition
 	}
+	
+	@Override
+    public void render(GameContainer container, StateBasedGame game, Graphics g)
+                    throws SlickException {
+
+            entityManager.renderEntities(container, game, g);
+           
+            //Name werden am oberen Rand angezeigt
+            g.drawString(Gorillas.data.getPlayer1(), 20, 10);
+            g.drawString(Gorillas.data.getPlayer2(), 730, 10);
+    }
 
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta)
 			throws SlickException {
 		if (entityManager.hasEntity(stateID, "banana")) {
 			nameLabel.setVisible(false);
-			xLabel.setVisible(false);
-			xInput.setVisible(false);
-			yLabel.setVisible(false);
-			yInput.setVisible(false);
+			angleLabel.setVisible(false);
+			angleInput.setVisible(false);
+			speedLabel.setVisible(false);
+			speedInput.setVisible(false);
 			dropButton.setVisible(false);
 		} else {
 			nameLabel.setVisible(true);
-			xLabel.setVisible(true);
-			xInput.setVisible(true);
-			yLabel.setVisible(true);
-			yInput.setVisible(true);
+			angleLabel.setVisible(true);
+			angleInput.setVisible(true);
+			speedLabel.setVisible(true);
+			speedInput.setVisible(true);
 			dropButton.setVisible(true);
 		}
 		if (turn)
@@ -235,30 +237,30 @@ public class GamePlayState extends BasicTWLGameState {
 		RootPane rp = super.createRootPane();
 		nameLabel = new Label("");
 		// erstelle ein Label mit der Aufschrift "x:"
-		xLabel = new Label("angle:");
+		angleLabel = new Label("angle:");
 		// erstelle ein EditField. Es dient der Eingabe von Text
-		xInput = new EditField();
+		angleInput = new EditField();
 		// mit der Methode addCallBack lï¿½sst sich dem EditField ein CallBack
 		// hinzufï¿½gen, in dessen Methode callback(int key) bestimmt wird, was
 		// geschehen soll, wenn ein Zeichen eingegeben wird
-		xInput.addCallback(new Callback() {
+		angleInput.addCallback(new Callback() {
 			public void callback(int key) {
 				// in unserem Fall wird der Input in der Methode
 				// handleEditFieldInput verarbeitet (siehe weiter unten in
 				// dieser Klasse, was diese tut, und was es mit ihren Parametern
 				// auf sich hat)
-				handleEditFieldInput(key, xInput, this, 360);
+				handleEditFieldInput(key, angleInput, this, 360);
 			}
 		});
 
 		// analog zu einer Eingabemï¿½glichkeit fï¿½r x-Werte wird auch eine
 		// fï¿½r
 		// y-Werte kreiert
-		yLabel = new Label("speed:");
-		yInput = new EditField();
-		yInput.addCallback(new Callback() {
+		speedLabel = new Label("speed:");
+		speedInput = new EditField();
+		speedInput.addCallback(new Callback() {
 			public void callback(int key) {
-				handleEditFieldInput(key, yInput, this, 200);
+				handleEditFieldInput(key, speedInput, this, 200);
 			}
 		});
 
@@ -283,11 +285,11 @@ public class GamePlayState extends BasicTWLGameState {
 		// am Schluss der Methode mï¿½ssen alle GUI-Elemente der Rootpane
 		// hinzugefï¿½gt werden
 		rp.add(nameLabel);
-		rp.add(xLabel);
-		rp.add(xInput);
+		rp.add(angleLabel);
+		rp.add(angleInput);
 
-		rp.add(yLabel);
-		rp.add(yInput);
+		rp.add(speedLabel);
+		rp.add(speedInput);
 
 		rp.add(dropButton);
 		// ... und die fertige Rootpane zurï¿½ckgegeben werden
@@ -311,27 +313,27 @@ public class GamePlayState extends BasicTWLGameState {
 		// bestimmt
 		// werden, so muss adjustSize() aufgerufen werden.
 		nameLabel.adjustSize();
-		xLabel.adjustSize();
-		yLabel.adjustSize();
+		angleLabel.adjustSize();
+		speedLabel.adjustSize();
 
 		// Ansonsten wird die Grï¿½ï¿½e manuell mit setSize() gesetzt
-		xInput.setSize(50, 25);
-		yInput.setSize(50, 25);
+		angleInput.setSize(50, 25);
+		speedInput.setSize(50, 25);
 		dropButton.setSize(50, 25);
 
 		// Nachdem alle Grï¿½ï¿½en adjustiert wurden, muss allen GUI-Elementen
 		// eine
 		// Position (linke obere Ecke) zugewiesen werden
 		nameLabel.setPosition(xOffset, yOffset);
-		xLabel.setPosition(xOffset, yOffset + xLabel.getHeight() + gap);
-		xInput.setPosition(xOffset + xLabel.getWidth() + gap, yOffset + xLabel.getHeight() + gap);
+		angleLabel.setPosition(xOffset, yOffset + angleLabel.getHeight() + gap);
+		angleInput.setPosition(xOffset + angleLabel.getWidth() + gap, yOffset + angleLabel.getHeight() + gap);
 
-		yLabel.setPosition(xOffset, yOffset + xLabel.getHeight() + gap + xLabel.getHeight() + gap);
-		yInput.setPosition(xOffset + yLabel.getWidth() + gap,
-				yOffset + xLabel.getHeight() + gap + xLabel.getHeight() + gap);
+		speedLabel.setPosition(xOffset, yOffset + angleLabel.getHeight() + gap + angleLabel.getHeight() + gap);
+		speedInput.setPosition(xOffset + speedLabel.getWidth() + gap,
+				yOffset + angleLabel.getHeight() + gap + angleLabel.getHeight() + gap);
 
-		dropButton.setPosition(xOffset + yLabel.getWidth() + gap, yOffset
-				+ xLabel.getHeight() + gap + yLabel.getHeight() + gap + xLabel.getHeight() + gap);
+		dropButton.setPosition(xOffset + speedLabel.getWidth() + gap, yOffset
+				+ angleLabel.getHeight() + gap + speedLabel.getHeight() + gap + angleLabel.getHeight() + gap);
 	}
 
 	/**
@@ -376,14 +378,14 @@ public class GamePlayState extends BasicTWLGameState {
 	 */
 	void inputFinished() {
 
-		// Wassertropfen wird erzeugt
+		// Banane wird erzeugt
 		Entity banana = new Entity("banana");
 		//Entity gorilla1 = entityManager.getEntity(stateID, "gorilla1");
 		//System.out.println(gorilla1.getID() + "  " + gorilla1.getPosition());
 		if (turn)
-			banana.setPosition(new Vector2f(gorilla1.getX()+20,gorilla1.getY()));
+			banana.setPosition(new Vector2f(gorilla1pos.getX()+15,gorilla1pos.getY()));
 		else 
-			banana.setPosition(new Vector2f(gorilla2.getX()+20,gorilla2.getY()));
+			banana.setPosition(new Vector2f(gorilla2pos.getX()-15,gorilla2pos.getY()));
 		try {
 			// Bild laden und zuweisen
 			banana.addComponent(new ImageRenderComponent(new Image(
@@ -393,11 +395,17 @@ public class GamePlayState extends BasicTWLGameState {
 			e.printStackTrace();
 		}
 
-		// Wassertropfen faellt nach unten
+		// Banane wird verworfen
 		LoopEvent loop = new LoopEvent();
-		loop.addAction(new Wurf(Integer.parseInt(yInput.getText())));
+		//loop.addAction(new Wurf(Integer.parseInt(yInput.getText())));
+		Wurf wurf = new Wurf(Integer.parseInt(speedInput.getText()));
+		wurf.setAngle(turn?Integer.parseInt(angleInput.getText()):(180-Integer.parseInt(angleInput.getText())));
+		wurf.startPos = turn?new Vector2f(gorilla1pos.getX()+15,gorilla1pos.getY()):new Vector2f(gorilla2pos.getX()-15,gorilla2pos.getY());
+		loop.addAction(wurf);
 		banana.addComponent(loop);
-
+		Event leavingEvent = new LeavingScreenEvent();
+		leavingEvent.addAction(new DestroyEntityAction());
+		banana.addComponent(leavingEvent);
 		Event collisionEvent = new CollisionEvent();
 		collisionEvent.addAction(new Action() {
 			@Override
@@ -408,7 +416,7 @@ public class GamePlayState extends BasicTWLGameState {
 				CollisionEvent collider = (CollisionEvent) event;
 				Entity entity = collider.getCollidedEntity();
 
-				// wenn diese durch ein Pattern zerstï¿½rt werden kann, dann
+				// wenn diese durch ein Pattern zerstört werden kann, dann
 				// caste
 				// zu IDestructible
 				// ansonsten passiert bei der Kollision nichts
@@ -444,8 +452,7 @@ public class GamePlayState extends BasicTWLGameState {
 			b = rand.nextInt(200) + 100;
 			
 			// Hochhäuser
-			BufferedImage image = new BufferedImage(a, b,
-					BufferedImage.TYPE_INT_ARGB);
+			BufferedImage image = new BufferedImage(a, b, BufferedImage.TYPE_INT_ARGB);
 			Graphics2D graphic = image.createGraphics();
 			graphic.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC));
 			graphic.setColor(new Color(rand.nextInt(255), rand.nextInt(255), rand.nextInt(255)));

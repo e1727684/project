@@ -6,25 +6,47 @@ import eea.engine.action.Action;
 import eea.engine.action.basicactions.Movement;
 
 public class Wurf extends Movement implements Action {
-
-	private int angle, speed;
-	  
-	public Wurf (float speed) {
-	    super(speed/25);
+	public int angle;
+	public Vector2f startPos;
+	public int timer;
+	public Wurf(float speed) {
+		super(speed);
 	}
 
-	  @Override
-	  public Vector2f getNextPosition(Vector2f position, float speed,
-	      float rotation, int delta) {
-	    // retrieve the current position (x, y)
-	    Vector2f pos = new Vector2f(position);
-	    
-	    // update the y position by the displacement
-	    pos.x += speed * delta;
-	    pos.y += speed * delta;
-	    
-	    // return the new position
-	    return pos;
-	  }
+	@Override
+	public Vector2f getNextPosition(Vector2f position, float speed,
+			float rotation, int delta) {
+		// retrieve the current position (x, y)
+		Vector2f pos = position;
+		// update the x+y position by the displacement
+		pos.x = (float) (startPos.x + getX(angle, speed, timer/10)/10);
+		pos.y = (float) (startPos.y - getY(angle, speed, timer/10)/10);
+		timer+=delta;
+		// return the new position
+		return pos;
+	}
 
+	private double getVx(int angle, float speed) {
+		return Math.cos(angle)*speed;
+	}
+
+	private double getVy(int angle, float speed) {
+		return Math.sin(angle)*speed;
+	}
+
+	private double getX(int angle, float speed, int delta) {
+		return getVx(angle,speed) * delta;
+	}
+
+	private double getY(int angle, float speed, int delta) {
+		return getVy(angle,speed) * delta + (0.5 * (-3) * delta * delta);
+	}
+	
+	public int getAngle() {
+		return angle;
+	}
+
+	public void setAngle(int angle) {
+		this.angle = angle;
+	}
 }
