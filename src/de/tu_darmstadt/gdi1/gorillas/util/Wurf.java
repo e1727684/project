@@ -9,6 +9,7 @@ public class Wurf extends Movement implements Action {
 	public int angle;
 	public Vector2f startPos;
 	public int timer;
+	public int gravity = 3;
 	public Wurf(float speed) {
 		super(speed);
 	}
@@ -39,7 +40,7 @@ public class Wurf extends Movement implements Action {
 	}
 
 	private double getY(int angle, float speed, int delta) {
-		return getVy(angle,speed) * delta + (0.5 * (-3) * delta * delta);
+		return getVy(angle,speed) * delta + (0.5 * (-gravity) * delta * delta);
 	}
 	
 	public int getAngle() {
