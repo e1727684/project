@@ -127,13 +127,18 @@ public class GamePlayState extends BasicTWLGameState {
 
         // add Gorillas
         // -------------------------------------------------------------------------------
+        // two players := two gorillas
         Entity gorilla1 = new Entity("gorilla1");
         Entity gorilla2 = new Entity("gorilla2");
+        // two gorillas := two components := two images
         gorilla1.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/gorillas/gorilla.png")));
         gorilla2.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/gorillas/gorilla.png")));
-        randomizeGorillas(game.getContainer().getHeight(), game.getContainer().getWidth(), houseHeights, gorilla1, gorilla2); //creates the random positions for BOTH gorillas!
+        // creates the random positions for BOTH gorillas! therefore only has to be called ONCE
+        randomizeGorillas(game.getContainer().getHeight(), game.getContainer().getWidth(), houseHeights, gorilla1, gorilla2); 
+        // give the gorillas their positions
         gorilla1.setPosition(gorilla1pos); 
         gorilla2.setPosition(gorilla2pos); 
+        // and add them to the entity manager!
         entityManager.addEntity(this.stateID, gorilla1);
         entityManager.addEntity(this.stateID, gorilla2);
        
@@ -150,28 +155,30 @@ public class GamePlayState extends BasicTWLGameState {
 	}
 	
 	private void randomizeGorillas(int height, int width, int[] houseHeights, Entity gorilla1, Entity gorilla2) {
+		// positions for gorilla 1
         float gorilla1PosX = 0;
         float gorilla1PosY = 0;
-        Random rand = new Random();
-        switch (rand.nextInt(3)) {
-        case 0:
+        Random rand = new Random(); // such random
+        switch (rand.nextInt(3)) {  // very random
+        case 0: // either
                 gorilla1PosX = 50;
                 gorilla1PosY = height - (houseHeights[0] + (gorilla1.getSize().y/2));
                 break;
-        case 1:
+        case 1: // or
                 gorilla1PosX = 150;
                 gorilla1PosY = height - (houseHeights[1] + (gorilla1.getSize().y/2));
                 break;
-        case 2:
+        case 2: // or
                 gorilla1PosX = 250;
                 gorilla1PosY = height - (houseHeights[2] + (gorilla1.getSize().y/2));
                 break;
         }
+        // who knows? BLACK MAGIC!
         gorilla1pos = new Vector2f(gorilla1PosX, gorilla1PosY); // Startposition
-
+        // positions for gorilla 2
         float gorilla2PosX = 0;
         float gorilla2PosY = 0;
-        switch (rand.nextInt(3)) {
+        switch (rand.nextInt(3)) { // much random
         case 0:
                 gorilla2PosX = width - 50;
                 gorilla2PosY = height - (houseHeights[7] + (gorilla2.getSize().y/2));
@@ -185,7 +192,7 @@ public class GamePlayState extends BasicTWLGameState {
                 gorilla2PosY = height - (houseHeights[5] + (gorilla2.getSize().y/2));
                 break;
         }
-
+        // still black magic BUT we have our gorilla positions!
         gorilla2pos = new Vector2f(gorilla2PosX, gorilla2PosY); // Startposition
 	}
 	
@@ -203,7 +210,7 @@ public class GamePlayState extends BasicTWLGameState {
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta)
 			throws SlickException {
-		if (entityManager.hasEntity(stateID, "banana")) {
+		if (entityManager.hasEntity(stateID, "banana")) { // switch the input label to invisible while the banana is flying AND ROTATING
 			nameLabel.setVisible(false);
 			angleLabel.setVisible(false);
 			angleInput.setVisible(false);
@@ -218,7 +225,7 @@ public class GamePlayState extends BasicTWLGameState {
 			speedInput.setVisible(true);
 			dropButton.setVisible(true);
 		}
-		if (turn)
+		if (turn) // display names so the players know whose turn it is!
 			nameLabel.setText("Player 1: "+Gorillas.data.getPlayer1());
 		else 
 			nameLabel.setText("Player 2: "+Gorillas.data.getPlayer2());
@@ -333,10 +340,10 @@ public class GamePlayState extends BasicTWLGameState {
 
 		speedLabel.setPosition(xOffset, yOffset + angleLabel.getHeight() + gap + angleLabel.getHeight() + gap);
 		speedInput.setPosition(xOffset + speedLabel.getWidth() + gap,
-				yOffset + angleLabel.getHeight() + gap + angleLabel.getHeight() + gap);
+				yOffset + 2*angleLabel.getHeight() + 2*gap);
 
 		dropButton.setPosition(xOffset + speedLabel.getWidth() + gap, yOffset
-				+ angleLabel.getHeight() + gap + speedLabel.getHeight() + gap + angleLabel.getHeight() + gap);
+				+ 2*angleLabel.getHeight() + 3*gap + speedLabel.getHeight());
 	}
 
 	/**
