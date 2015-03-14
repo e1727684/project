@@ -50,7 +50,8 @@ public class GamePlayState extends BasicTWLGameState {
 	private Button dropButton;
 	private Label nameLabel;
 	private boolean turn;
-	Entity gorilla1, gorilla2;
+	private Vector2f gorilla1;
+	private Vector2f gorilla2;
 
 	public GamePlayState(int sid) {
 		stateID = sid;
@@ -127,7 +128,7 @@ public class GamePlayState extends BasicTWLGameState {
         float gorillaPosX = 0;
         float gorillaPosY = 0;
 
-        gorilla1 = new Entity("gorilla1");
+        Entity gorilla1 = new Entity("gorilla1");
         gorilla1.addComponent(new ImageRenderComponent(new Image(
                         "/assets/gorillas/gorillas/gorilla.png")));
        
@@ -145,12 +146,12 @@ public class GamePlayState extends BasicTWLGameState {
                 gorillaPosY = game.getContainer().getHeight() - (houseHeights[2] + (gorilla1.getSize().y/2));
                 break;
         }
-
-        gorilla1.setPosition(new Vector2f(gorillaPosX, gorillaPosY)); // Startposition
+        this.gorilla1 = new Vector2f(gorillaPosX, gorillaPosY); // Startposition
+        gorilla1.setPosition(this.gorilla1); 
         entityManager.addEntity(this.stateID, gorilla1);
 
         //Gorilla2
-        gorilla2 = new Entity("gorilla2");
+        Entity gorilla2 = new Entity("gorilla2");
         gorilla2.addComponent(new ImageRenderComponent(new Image(
                         "/assets/gorillas/gorillas/gorilla.png")));
        
@@ -169,7 +170,8 @@ public class GamePlayState extends BasicTWLGameState {
                 break;
         }
 
-        gorilla2.setPosition(new Vector2f(gorillaPosX, gorillaPosY)); // Startposition
+        this.gorilla2 = new Vector2f(gorillaPosX, gorillaPosY); // Startposition
+        gorilla2.setPosition(this.gorilla2); 
         entityManager.addEntity(this.stateID, gorilla2);
 
        
@@ -197,12 +199,14 @@ public class GamePlayState extends BasicTWLGameState {
 	public void update(GameContainer container, StateBasedGame game, int delta)
 			throws SlickException {
 		if (entityManager.hasEntity(stateID, "banana")) {
+			nameLabel.setVisible(false);
 			xLabel.setVisible(false);
 			xInput.setVisible(false);
 			yLabel.setVisible(false);
 			yInput.setVisible(false);
 			dropButton.setVisible(false);
 		} else {
+			nameLabel.setVisible(true);
 			xLabel.setVisible(true);
 			xInput.setVisible(true);
 			yLabel.setVisible(true);
@@ -376,8 +380,10 @@ public class GamePlayState extends BasicTWLGameState {
 		Entity banana = new Entity("banana");
 		//Entity gorilla1 = entityManager.getEntity(stateID, "gorilla1");
 		//System.out.println(gorilla1.getID() + "  " + gorilla1.getPosition());
-		banana.setPosition(new Vector2f(gorilla1.getPosition().getX()+20,gorilla1.getPosition().getY()));
-
+		if (turn)
+			banana.setPosition(new Vector2f(gorilla1.getX()+20,gorilla1.getY()));
+		else 
+			banana.setPosition(new Vector2f(gorilla2.getX()+20,gorilla2.getY()));
 		try {
 			// Bild laden und zuweisen
 			banana.addComponent(new ImageRenderComponent(new Image(
