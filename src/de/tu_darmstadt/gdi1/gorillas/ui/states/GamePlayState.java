@@ -400,16 +400,28 @@ public class GamePlayState extends BasicTWLGameState {
 
 		// Banane wird verworfen
 		LoopEvent loop = new LoopEvent();
-		//loop.addAction(new Wurf(Integer.parseInt(yInput.getText())));
+		// neuer wurf
 		Wurf wurf = new Wurf(Integer.parseInt(speedInput.getText()));
+		// winkel wird gesetzt
 		wurf.setAngle(turn?Integer.parseInt(angleInput.getText()):(180-Integer.parseInt(angleInput.getText())));
+		// x0 und y0 für newtonsche gleichung..
 		wurf.startPos = turn?new Vector2f(gorilla1pos.getX()+30,gorilla1pos.getY()-15):new Vector2f(gorilla2pos.getX()-30,gorilla2pos.getY()-15);
+		// solange geworfen bis.... kollision // out of bounce
 		loop.addAction(wurf);
+		// banana now rotate; infinite!
 		loop.addAction(turn?new RotateRightAction(0.5F):new RotateLeftAction(0.5F));
+		// adde loopzeugs zu banana
 		banana.addComponent(loop);
+		
+		// out of bounce event (banane fliegt aus dem fenster)
+		// <---
 		Event leavingEvent = new LeavingScreenEvent();
 		leavingEvent.addAction(new DestroyEntityAction());
 		banana.addComponent(leavingEvent);
+		// --->
+		
+		// collision event (banane trifft auf etwas auf)
+		// <---
 		Event collisionEvent = new CollisionEvent();
 		collisionEvent.addAction(new Action() {
 			@Override
@@ -438,7 +450,12 @@ public class GamePlayState extends BasicTWLGameState {
 		});
 		collisionEvent.addAction(new DestroyEntityAction());
 		banana.addComponent(collisionEvent);
+		// --->
+		
+		// turn wechselt von spieler 1 auf 2 oder umgekehrt
 		turn = !turn;
+		
+		// banane darf endlich fliegen und rotieren!!!
 		entityManager.addEntity(stateID, banana);
 	}
 
