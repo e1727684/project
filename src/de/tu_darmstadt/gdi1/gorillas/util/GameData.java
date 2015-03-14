@@ -1,5 +1,7 @@
 package de.tu_darmstadt.gdi1.gorillas.util;
 
+import org.newdawn.slick.geom.Vector2f;
+
 public class GameData {
 	private String player1;
 	private String player2;

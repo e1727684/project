@@ -75,7 +75,7 @@ public class GamePlayState extends BasicTWLGameState {
         // Bei Druecken der ESC-Taste zurueck ins Hauptmenue wechseln
         Entity escListener = new Entity("ESC_Listener");
         KeyPressedEvent escPressed = new KeyPressedEvent(Input.KEY_ESCAPE);
-        escPressed.addAction(new ChangeStateAction(Gorillas.MAINMENUSTATE));//TODO: PauseState
+        escPressed.addAction(new ChangeStateAction(Gorillas.MAINMENUSTATE));
         escListener.addComponent(escPressed);
         entityManager.addEntity(stateID, escListener);
 
