@@ -18,7 +18,7 @@ public class MyCollisionEvent extends Event {
    * Creates a new collision event.
    */
   public MyCollisionEvent() {
-    super("CollisionEvent");
+    super("MyCollisionEvent");
   }
 
   /**

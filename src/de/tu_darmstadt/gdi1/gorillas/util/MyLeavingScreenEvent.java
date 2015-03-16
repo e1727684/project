@@ -19,7 +19,7 @@ public class MyLeavingScreenEvent extends Event {
    * creates a new LeavingScreen event instance
    */
   public MyLeavingScreenEvent() {
-    super("LeavingScreenEvent");
+    super("MyLeavingScreenEvent");
   }
 
   /**
