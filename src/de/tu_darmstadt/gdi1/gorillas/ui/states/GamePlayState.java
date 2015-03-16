@@ -410,7 +410,7 @@ public class GamePlayState extends BasicTWLGameState {
 		// neuer wurf
 		Wurf wurf = new Wurf(Integer.parseInt(speedInput.getText()));
 		// winkel wird gesetzt
-		wurf.setAngle(turn?Integer.parseInt(angleInput.getText()):(180-Integer.parseInt(angleInput.getText())));
+		wurf.angle = turn?Integer.parseInt(angleInput.getText()):(180-Integer.parseInt(angleInput.getText()));
 		// x0 und y0 für newtonsche gleichung..
 		wurf.startPos = turn?new Vector2f(gorilla1pos.getX()+45,gorilla1pos.getY()-25):new Vector2f(gorilla2pos.getX()-45,gorilla2pos.getY()-25);
 		// solange geworfen bis.... kollision // out of bounce
