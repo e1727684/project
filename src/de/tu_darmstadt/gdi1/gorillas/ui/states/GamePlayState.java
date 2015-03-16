@@ -63,6 +63,9 @@ public class GamePlayState extends BasicTWLGameState {
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
 		
+		//Pause-Status wird zurückgesetzt
+		Gorillas.data.setPaused(false);
+		
 		// Benötigte Entitäten
         // <---
         Entity escListener = new Entity("ESC_Listener");
