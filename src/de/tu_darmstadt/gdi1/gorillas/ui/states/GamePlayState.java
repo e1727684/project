@@ -22,6 +22,7 @@ import de.matthiasmann.twl.EditField.Callback;
 import de.matthiasmann.twl.slick.BasicTWLGameState;
 import de.matthiasmann.twl.slick.RootPane;
 import de.tu_darmstadt.gdi1.gorillas.main.Gorillas;
+import de.tu_darmstadt.gdi1.gorillas.util.OwnLeavingScreenEvent;
 import de.tu_darmstadt.gdi1.gorillas.util.Wurf;
 import eea.engine.action.Action;
 import eea.engine.action.basicactions.ChangeStateAction;
@@ -224,7 +225,7 @@ public class GamePlayState extends BasicTWLGameState {
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta)
 			throws SlickException {
-		if (entityManager.hasEntity(stateID, "banana")) // switch the input label to invisible while the banana is flying AND ROTATING
+		if (entityManager.hasEntity(stateID, "banana") || !Gorillas.data.getPlayerWon().equals("")) // switch the input label to invisible while the banana is flying AND ROTATING
 			switchInputLabel(false);
 		else 
 			switchInputLabel(true);
@@ -232,6 +233,18 @@ public class GamePlayState extends BasicTWLGameState {
 			nameLabel.setText(wurfAnzahl + ". Wurf! Player 1: "+Gorillas.data.getPlayer1());
 		else 
 			nameLabel.setText(wurfAnzahl + ". Wurf! Player 2: "+Gorillas.data.getPlayer2());
+		if (!Gorillas.data.getPlayerWon().equals("")) {
+			entityManager.getEntity(stateID, Gorillas.data.getPlayerWon().equals("player1")?"gorilla2":"gorilla1").setVisible(false);
+			Entity boom = new Entity("Boom");
+			boom.setPosition(entityManager.getEntity(stateID, Gorillas.data.getPlayerWon().equals("player1")?"gorilla2":"gorilla1").getPosition());
+			boom.addComponent(new ImageRenderComponent(new Image("assets/gorillas/explosions/explosion_1.png")));
+			entityManager.addEntity(stateID, boom);
+			// TODO: implement some form of wait here.... Maybe update(..)-counter then jump?
+			for (int i=0; i < 133337; i++) { // much "wait" 120 fps -> ~3s
+				entityManager.updateEntities(container, game, delta);
+			}
+			game.enterState(Gorillas.CONGRATULATIONSTATE);
+		}
 		entityManager.updateEntities(container, game, delta);
 	}
 
@@ -434,7 +447,7 @@ public class GamePlayState extends BasicTWLGameState {
 		
 		// out of bounce event (banane fliegt aus dem fenster)
 		// <---
-		Event leavingEvent = new LeavingScreenEvent();
+		Event leavingEvent = new OwnLeavingScreenEvent();
 		leavingEvent.addAction(new DestroyEntityAction());
 		banana.addComponent(leavingEvent);
 		// --->
@@ -463,8 +476,6 @@ public class GamePlayState extends BasicTWLGameState {
 						Gorillas.data.setPlayerWon("player2");
 					else if (entity.getID() == "gorilla2")
 						Gorillas.data.setPlayerWon("player1");
-					if (!Gorillas.data.getPlayerWon().equals(""))
-						sb.enterState(Gorillas.CONGRATULATIONSTATE);
 					return;
 				}
 
@@ -485,7 +496,6 @@ public class GamePlayState extends BasicTWLGameState {
 		
 		// banane darf endlich fliegen und rotieren!!!
 		entityManager.addEntity(stateID, banana);
-		System.out.println(playerWon);
 	}
 
 	// Häuser zeichnen
@@ -517,7 +527,7 @@ public class GamePlayState extends BasicTWLGameState {
 			}
 
 			DestructibleImageEntity obstacle1 = new DestructibleImageEntity(
-					"obstacle", image, "dropofwater/destruction.png", false);
+					"obstacle", image, "gorillas/destruction.png", false);
 			obstacle1.setPosition(new Vector2f(c, 
 					g.getContainer().getHeight() - (b/2)));
 			entityManager.addEntity(stateID, obstacle1);
