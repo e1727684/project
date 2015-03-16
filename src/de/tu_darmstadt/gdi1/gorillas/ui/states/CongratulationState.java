@@ -97,7 +97,7 @@ public class CongratulationState extends BasicTWLGameState {
 		RootPane rp = super.createRootPane();
 		
 		/*Intruktion-Label*/
-    	instruction_Label = new Label("Herzlichen Glückwunsch " + Gorillas.data.getPlayerWon() + "!");
+    	instruction_Label = new Label("Herzlichen Glückwunsch " + (Gorillas.data.getPlayerWon().equals("player1")?Gorillas.data.getPlayer1():Gorillas.data.getPlayer2()) + "!");
     	instruction_Label.setPosition(250, 100);
     	rp.add(instruction_Label);
     	return rp;
