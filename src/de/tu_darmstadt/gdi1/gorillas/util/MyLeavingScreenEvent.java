@@ -19,7 +19,7 @@ public class MyLeavingScreenEvent extends Event {
    * creates a new LeavingScreen event instance
    */
   public MyLeavingScreenEvent() {
-    super("LeavingScreenEvent");
+    super("MyLeavingScreenEvent");
   }
 
   /**
@@ -49,7 +49,7 @@ public class MyLeavingScreenEvent extends Event {
 
     // if x or y is negative, fire the event (above/to the left of the screen
     // area)
-    if (pos.y < 0) {
+    if (pos.x < 0) {
       return true;
     }
 
