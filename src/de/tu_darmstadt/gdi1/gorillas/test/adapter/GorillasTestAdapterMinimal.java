@@ -5,6 +5,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Vector2f;
 
 import de.matthiasmann.twl.EditField;
+import de.tu_darmstadt.gdi1.gorillas.main.Gorillas;
 import de.tu_darmstadt.gdi1.gorillas.test.setup.TWLTestAppGameContainer;
 import de.tu_darmstadt.gdi1.gorillas.test.setup.TWLTestStateBasedGame;
 import de.tu_darmstadt.gdi1.gorillas.test.setup.TestGorillas;
@@ -83,7 +84,7 @@ public class GorillasTestAdapterMinimal {
 		System.err.println(System.getProperty("os.name") + ": "
 				+ System.getProperty("org.lwjgl.librarypath"));
 		// @formatter:on
-		data = new GameData();
+		if (Gorillas.data == null) Gorillas.data = new GameData(); // eh.... ok. we testing i guess? 
 
 		// Initialisiere das Spiel Tanks im Debug-Modus (ohne UI-Ausgabe)
 		gorillas = new TestGorillas(true);
@@ -398,7 +399,8 @@ public class GorillasTestAdapterMinimal {
 	 * ermoeglichen, das Spiel neu zu starten)
 	 */
 	public void handleKeyPressN() {
+		//Zum testen vom Test: 
+			getStateBasedGame().enterState(TestGorillas.GAMESETUPSTATE);
 		handleKeyPressed(0, Input.KEY_N);
-		// Zum testen vom Test: getStateBasedGame().enterState(TestGorillas.GAMESETUPSTATE);
 	}
 }

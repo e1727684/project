@@ -1,6 +1,7 @@
 package de.tu_darmstadt.gdi1.gorillas.ui.states;
 
 import de.tu_darmstadt.gdi1.gorillas.main.Gorillas;
+import de.tu_darmstadt.gdi1.gorillas.util.GameData;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -35,6 +36,7 @@ public class MainMenuState extends BasicTWLGameState {
 	public MainMenuState(int sid) {
 		stateID = sid;
 		entityManager = StateBasedEntityManager.getInstance();
+		if (Gorillas.data == null) Gorillas.data = new GameData(); // eh.... ok. we testing i guess? 
 	}
 
 	@Override
@@ -147,7 +149,7 @@ public class MainMenuState extends BasicTWLGameState {
 				entityManager.addEntity(stateID, nListener);
 		    	
 
-		    	if (Gorillas.data != null && !Gorillas.data.getPaused()) Gorillas.data.setPlayerWon("");
+		    	if (!Gorillas.data.getPaused()) Gorillas.data.setPlayerWon("");
 	}
 
 	@Override

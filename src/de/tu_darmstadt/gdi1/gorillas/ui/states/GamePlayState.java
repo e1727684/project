@@ -26,6 +26,7 @@ import de.matthiasmann.twl.Label;
 import de.matthiasmann.twl.slick.BasicTWLGameState;
 import de.matthiasmann.twl.slick.RootPane;
 import de.tu_darmstadt.gdi1.gorillas.main.Gorillas;
+import de.tu_darmstadt.gdi1.gorillas.util.GameData;
 import de.tu_darmstadt.gdi1.gorillas.util.Jubel;
 import de.tu_darmstadt.gdi1.gorillas.util.MyCollisionEvent;
 import de.tu_darmstadt.gdi1.gorillas.util.MyLeavingScreenEvent;
@@ -65,6 +66,7 @@ public class GamePlayState extends BasicTWLGameState {
 	public GamePlayState(int sid) {
 		stateID = sid;
 		entityManager = StateBasedEntityManager.getInstance();
+		if (Gorillas.data == null) Gorillas.data = new GameData(); // eh.... ok. we testing i guess? 
 	}
 
 	@Override
@@ -274,7 +276,8 @@ public class GamePlayState extends BasicTWLGameState {
 	private void switchInputLabel(boolean visible) {
 		if (visible)
 			try {
-				entityManager.getEntity(2, "sun_smiling").addComponent(new ImageRenderComponent(new Image("/assets/gorillas/sun/sun_smiling.png")));
+				if (!Gorillas.data.test)
+					entityManager.getEntity(2, "sun_smiling").addComponent(new ImageRenderComponent(new Image("/assets/gorillas/sun/sun_smiling.png")));
 			} catch (SlickException e) { // shouldn't....
 			}
 		nameLabel.setVisible(visible);
