@@ -52,7 +52,7 @@ public class MyCollisionEvent extends Event {
 		// if there is such an entity, store a reference and indicate the
 		// willingness
 		// to perform the action(s)
-		if (entity != null && !em.getEntity(2, "background").equals(entity)) {
+		if (entity != null && !em.getEntity(2, "background").equals(entity) && !em.getEntity(2, "sun_smiling").equals(entity)) {
 			collidedEntity = entity;
 			return true;
 		}
