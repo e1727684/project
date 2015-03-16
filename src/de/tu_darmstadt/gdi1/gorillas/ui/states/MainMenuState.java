@@ -36,104 +36,74 @@ public class MainMenuState extends BasicTWLGameState {
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
-		
-		//Entität für Hintergrund
-		Entity background = new Entity("menu");
-		background.setPosition(new Vector2f(400,300));														//Startposition des Hintergrunds
-		background.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/background.png")));		//Bild zur Entität hinzufügen
-		entityManager.addEntity(this.stateID,  background);														//Hintergrund-Entität an StateBasedEntityManager übergeben
-		
-		/* Neues Spiel starten-Entitaet */
-		//-------------------------------------------------------
-    	String new_Game = "Neues Spiel starten";
-    	Entity new_Game_Entity = new Entity(new_Game);
-    	
-    	// Setze Position und Bildkomponente
-    	new_Game_Entity.setPosition(new Vector2f(218, 90));
-    	new_Game_Entity.setScale(0.28f);
-    	new_Game_Entity.addComponent(new ImageRenderComponent(new Image("assets/dropofwater/entry.png")));
-    	
-    	// Erstelle das Ausloese-Event und die zugehoerige Action
-    	ANDEvent mainEvents_n = new ANDEvent(new MouseEnteredEvent(), new MouseClickedEvent());
-    	Action new_Game_Action = new ChangeStateInitAction(Gorillas.GAMESETUPSTATE);
-    	mainEvents_n.addAction(new_Game_Action);
-    	new_Game_Entity.addComponent(mainEvents_n);
-    	
-    	// Fuege die Entity zum StateBasedEntityManager hinzu
-    	entityManager.addEntity(this.stateID, new_Game_Entity);
-    	
-    	/* Beenden-Entitaet */
-    	//-------------------------------------------------------
-    	Entity instructions_Entity = new Entity("Beenden");
-    	
-    	// Setze Position und Bildkomponente
-    	instructions_Entity.setPosition(new Vector2f(218, 190));
-    	instructions_Entity.setScale(0.28f);
-    	instructions_Entity.addComponent(new ImageRenderComponent(new Image("assets/dropofwater/entry.png")));
-    	
-    	// Erstelle das Ausloese-Event und die zugehoerige Action
-    	ANDEvent mainEvents_i = new ANDEvent(new MouseEnteredEvent(), new MouseClickedEvent());
-    	Action instructions_Action = new ChangeStateAction(Gorillas.INSTRUCTIONSTATE);
-    	mainEvents_i.addAction(instructions_Action);
-    	instructions_Entity.addComponent(mainEvents_i);
-    	
-    	// Fuege die Entity zum StateBasedEntityManager hinzu
-    	entityManager.addEntity(this.stateID, instructions_Entity);
-    	   	
-    	/* About-Entität*/
-    	//-------------------------------------------------------
-    	Entity about_Entity = new Entity("About");
-    	
-    	// Setze Position und Bildkomponente
-    	about_Entity.setPosition(new Vector2f(218, 290));
-    	about_Entity.setScale(0.28f);
-    	about_Entity.addComponent(new ImageRenderComponent(new Image("assets/dropofwater/entry.png")));
-    	
-    	// Erstelle das Ausloese-Event und die zugehoerige Action
-    	ANDEvent mainEvents_a = new ANDEvent(new MouseEnteredEvent(), new MouseClickedEvent());
-    	Action about_Action = new ChangeStateAction(Gorillas.ABOUTSTATE);
-    	mainEvents_a.addAction(about_Action);
-    	about_Entity.addComponent(mainEvents_a);
-    	
-    	// Fuege die Entity zum StateBasedEntityManager hinzu
-    	entityManager.addEntity(this.stateID, about_Entity);
-    	    	
-    	/* Highscore-Entitaet */
-    	//-------------------------------------------------------
-    	Entity highscore_Entity = new Entity("Beenden");
-    	
-    	// Setze Position und Bildkomponente
-    	highscore_Entity.setPosition(new Vector2f(218, 390));
-    	highscore_Entity.setScale(0.28f);
-    	highscore_Entity.addComponent(new ImageRenderComponent(new Image("assets/dropofwater/entry.png")));
-    	
-    	// Erstelle das Ausloese-Event und die zugehoerige Action
-    	ANDEvent mainEvents_h = new ANDEvent(new MouseEnteredEvent(), new MouseClickedEvent());
-    	Action highscore_Action = new QuitAction();
-    	mainEvents_h.addAction(highscore_Action);
-    	highscore_Entity.addComponent(mainEvents_h);
-    	
-    	// Fuege die Entity zum StateBasedEntityManager hinzu
-    	entityManager.addEntity(this.stateID, highscore_Entity);
-    	
-    	
-    	/* Beenden-Entitaet */
-    	//-------------------------------------------------------
-    	Entity quit_Entity = new Entity("Beenden");
-    	
-    	// Setze Position und Bildkomponente
-    	quit_Entity.setPosition(new Vector2f(218, 490));
-    	quit_Entity.setScale(0.28f);
-    	quit_Entity.addComponent(new ImageRenderComponent(new Image("assets/dropofwater/entry.png")));
-    	
-    	// Erstelle das Ausloese-Event und die zugehoerige Action
-    	ANDEvent mainEvents_q = new ANDEvent(new MouseEnteredEvent(), new MouseClickedEvent());
-    	Action quit_Action = new QuitAction();
-    	mainEvents_q.addAction(quit_Action);
-    	quit_Entity.addComponent(mainEvents_q);
-    	
-    	// Fuege die Entity zum StateBasedEntityManager hinzu
-    	entityManager.addEntity(this.stateID, quit_Entity);
+				
+				Entity background = new Entity("background");// Entität für Hintergrund
+		    	Entity instructions_Entity = new Entity("Beenden");// Beenden-Entitaet
+		    	Entity new_Game_Entity = new Entity("Neues Spiel starten");// Neues Spiel starten-Entitaet
+		    	Entity about_Entity = new Entity("About");// About-Entität
+		    	Entity highscore_Entity = new Entity("Beenden");// Highscore-Entitaet
+		    	Entity quit_Entity = new Entity("Beenden");// Beenden-Entitaet
+				
+		    	// Setze Positionen
+				// <---
+				background.setPosition(new Vector2f(400,300));		
+		    	new_Game_Entity.setPosition(new Vector2f(218, 90));
+		    	instructions_Entity.setPosition(new Vector2f(218, 190));
+		    	about_Entity.setPosition(new Vector2f(218, 290));
+		    	highscore_Entity.setPosition(new Vector2f(218, 390));
+		    	quit_Entity.setPosition(new Vector2f(218, 490));
+				// --->
+				
+		    	// Setze Skalierungen
+				// <---
+		    	new_Game_Entity.setScale(0.28f);
+		    	instructions_Entity.setScale(0.28f);
+		    	about_Entity.setScale(0.28f);
+		    	highscore_Entity.setScale(0.28f);
+		    	quit_Entity.setScale(0.28f);
+				// --->
+				
+		    	// Füge Bilder hinzu
+				// <---
+				background.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/background.png")));
+		    	new_Game_Entity.addComponent(new ImageRenderComponent(new Image("assets/dropofwater/entry.png")));
+		    	instructions_Entity.addComponent(new ImageRenderComponent(new Image("assets/dropofwater/entry.png")));
+		    	about_Entity.addComponent(new ImageRenderComponent(new Image("assets/dropofwater/entry.png")));
+		    	highscore_Entity.addComponent(new ImageRenderComponent(new Image("assets/dropofwater/entry.png")));
+		    	quit_Entity.addComponent(new ImageRenderComponent(new Image("assets/dropofwater/entry.png")));
+				// --->
+		    	
+		    	// Erstelle die Events und addiere die zugehörigen Aktionen hinzu
+				// <---
+		    	ANDEvent mainEvents_n = new ANDEvent(new MouseEnteredEvent(), new MouseClickedEvent());
+		    	ANDEvent mainEvents_i = new ANDEvent(new MouseEnteredEvent(), new MouseClickedEvent());
+		    	ANDEvent mainEvents_a = new ANDEvent(new MouseEnteredEvent(), new MouseClickedEvent());
+		    	ANDEvent mainEvents_h = new ANDEvent(new MouseEnteredEvent(), new MouseClickedEvent());
+		    	ANDEvent mainEvents_q = new ANDEvent(new MouseEnteredEvent(), new MouseClickedEvent());
+		    	Action new_Game_Action = new ChangeStateInitAction(Gorillas.GAMESETUPSTATE);
+		    	Action instructions_Action = new ChangeStateAction(Gorillas.INSTRUCTIONSTATE);
+		    	Action about_Action = new ChangeStateAction(Gorillas.ABOUTSTATE);
+		    	Action highscore_Action = new ChangeStateAction(Gorillas.HIGHSCORESTATE);
+		    	Action quit_Action = new QuitAction();
+		    	mainEvents_n.addAction(new_Game_Action);
+		    	mainEvents_i.addAction(instructions_Action);
+		    	mainEvents_a.addAction(about_Action);
+		    	mainEvents_h.addAction(highscore_Action);
+		    	mainEvents_q.addAction(quit_Action);
+		    	new_Game_Entity.addComponent(mainEvents_n);
+		    	instructions_Entity.addComponent(mainEvents_i);
+		    	about_Entity.addComponent(mainEvents_a);
+		    	highscore_Entity.addComponent(mainEvents_h);
+		    	quit_Entity.addComponent(mainEvents_q);
+				// --->
+		    	
+		    	// Fuege die Entities zum StateBasedEntityManager hinzu
+		    	entityManager.addEntity(this.stateID, quit_Entity);
+		    	entityManager.addEntity(this.stateID, highscore_Entity);
+		    	entityManager.addEntity(this.stateID, about_Entity);
+		    	entityManager.addEntity(this.stateID, instructions_Entity);
+		    	entityManager.addEntity(this.stateID, new_Game_Entity);
+				entityManager.addEntity(this.stateID, background);
 	}
 
 	@Override
