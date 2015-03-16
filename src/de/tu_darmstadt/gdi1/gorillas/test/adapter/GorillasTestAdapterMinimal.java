@@ -111,7 +111,7 @@ public class GorillasTestAdapterMinimal {
 	 * player names).
 	 */
 	public void rememberGameData() {
-		gorillas.data.save();
+		//gorillas.data.save();
 	}
 
 	/**
@@ -119,7 +119,7 @@ public class GorillasTestAdapterMinimal {
 	 * should make sure that
 	 */
 	public void restoreGameData() {
-		gorillas.data.load();
+		//gorillas.data.load();
 	}
 
 	/**
@@ -143,7 +143,11 @@ public class GorillasTestAdapterMinimal {
 	 * GamePlayState. Otherwise it should stay in the GameSetupState.
 	 */
 	public void startGameButtonPressed() {
-		// TODO: Implement
+		if (gorillas.getCurrentStateID() == 1) {
+			if (getEmptyError().equals("") && getEqualError().equals("") && getPlayer1Error().equals("") && getPlayer1Error().equals("")) {
+				//gorillas.getState(1).something();
+			}
+		}
 	}
 
 	/**
@@ -257,8 +261,7 @@ public class GorillasTestAdapterMinimal {
 	 *         left empty and the start game button is pressed
 	 */
 	public String getEmptyError() {
-		// TODO: Implement
-		return null;
+		return gorillas.data.getPlayer1().isEmpty()?gorillas.data.getPlayer2().isEmpty()?"":"Player 2 empty!":"Player 1 empty!";
 	}
 
 	/**
@@ -271,7 +274,7 @@ public class GorillasTestAdapterMinimal {
 	 */
 	public String getEqualError() {
 		// TODO: Implement
-		return null;
+		return gorillas.data.getPlayer1().equals(gorillas.data.getPlayer2())?"":"Spielernamen dürfen nicht gleich sein!";
 	}
 
 	/**
@@ -282,8 +285,7 @@ public class GorillasTestAdapterMinimal {
 	 *         GameSetupState
 	 */
 	public String getPlayer1Error() {
-		// TODO: Implement
-		return null;
+		return gorillas.getCurrentStateID()==1?"":null;
 	}
 
 	/**
@@ -294,8 +296,7 @@ public class GorillasTestAdapterMinimal {
 	 *         GameSetupState
 	 */
 	public String getPlayer2Error() {
-		// TODO: Implement
-		return null;
+		return gorillas.getCurrentStateID()==1?"":null;
 	}
 
 	/**
