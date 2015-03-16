@@ -55,7 +55,7 @@ public class HighscoreState extends BasicTWLGameState {
     	// Setze Position und Bildkomponente
     	zurück_Entity.setPosition(new Vector2f(400, 450));
     	zurück_Entity.setScale(0.18f);
-    	zurück_Entity.addComponent(new ImageRenderComponent(new Image("assets/dropofwater/entry.png")));
+    	zurück_Entity.addComponent(new ImageRenderComponent(new Image("assets/gorillas/button.png")));
     	
     	// Erstelle das Ausloese-Event und die zugehoerige Action
     	ANDEvent mainEvents_z = new ANDEvent(new MouseEnteredEvent(), new MouseClickedEvent());

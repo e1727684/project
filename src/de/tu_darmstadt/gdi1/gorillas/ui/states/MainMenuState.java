@@ -74,11 +74,11 @@ public class MainMenuState extends BasicTWLGameState {
 				// <---
 				background.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/background.png")));
 				
-		    	new_Game_Entity.addComponent(new ImageRenderComponent(new Image("assets/dropofwater/entry.png")));
-		    	instructions_Entity.addComponent(new ImageRenderComponent(new Image("assets/dropofwater/entry.png")));
-		    	about_Entity.addComponent(new ImageRenderComponent(new Image("assets/dropofwater/entry.png")));
-		    	highscore_Entity.addComponent(new ImageRenderComponent(new Image("assets/dropofwater/entry.png")));
-		    	quit_Entity.addComponent(new ImageRenderComponent(new Image("assets/dropofwater/entry.png")));
+		    	new_Game_Entity.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/button.png")));
+		    	instructions_Entity.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/button.png")));
+		    	about_Entity.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/button.png")));
+		    	highscore_Entity.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/button.png")));
+		    	quit_Entity.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/button.png")));
 				// --->
 		    	
 		    	// Erstelle die Events und füge die zugehörigen Aktionen hinzu
