@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -53,6 +54,7 @@ public class GamePlayState extends BasicTWLGameState {
 	private boolean turn;
 	private Vector2f gorilla1pos;
 	private Vector2f gorilla2pos;
+	public AtomicInteger wurfAnzahl;
 
 	public GamePlayState(int sid) {
 		stateID = sid;
@@ -63,8 +65,9 @@ public class GamePlayState extends BasicTWLGameState {
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
 		
-		//Pause-Status wird zurückgesetzt
+		// (Rück-)setzen aller Daten
 		Gorillas.data.setPaused(false);
+		wurfAnzahl = new AtomicInteger(1);
 		
 		// Benötigte Entitäten
         // <---
@@ -224,9 +227,9 @@ public class GamePlayState extends BasicTWLGameState {
 		else 
 			switchInputLabel(true);
 		if (turn) // display names so the players know whose turn it is!
-			nameLabel.setText("Player 1: "+Gorillas.data.getPlayer1());
+			nameLabel.setText(wurfAnzahl + ". Wurf! Player 1: "+Gorillas.data.getPlayer1());
 		else 
-			nameLabel.setText("Player 2: "+Gorillas.data.getPlayer2());
+			nameLabel.setText(wurfAnzahl + ". Wurf! Player 2: "+Gorillas.data.getPlayer2());
 		entityManager.updateEntities(container, game, delta);
 	}
 
@@ -468,6 +471,9 @@ public class GamePlayState extends BasicTWLGameState {
 		
 		// turn wechselt von spieler 1 auf 2 oder umgekehrt
 		turn = !turn;
+		
+		// wurf anzahl +1!
+		if (turn)wurfAnzahl.incrementAndGet();
 		
 		// banane darf endlich fliegen und rotieren!!!
 		entityManager.addEntity(stateID, banana);
