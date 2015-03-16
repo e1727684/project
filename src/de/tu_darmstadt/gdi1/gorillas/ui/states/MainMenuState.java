@@ -37,13 +37,11 @@ public class MainMenuState extends BasicTWLGameState {
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
 				float scale = 0.28f;
-				int offsety = 100;
-				int starty = 90;
-				ImageRenderComponent buttonImage = new ImageRenderComponent(new Image("assets/dropofwater/entry.png"));
+				int offset = 90;
 				
 				Entity background = new Entity("background");// Entität für Hintergrund
-		    	Entity instructions_Entity = new Entity("Einstellungen");// Beenden-Entitaet
 		    	Entity new_Game_Entity = new Entity("Neues Spiel starten");// Neues Spiel starten-Entitaet
+		    	Entity instructions_Entity = new Entity("Instructions");// Beenden-Entitaet
 		    	Entity about_Entity = new Entity("About");// About-Entität
 		    	Entity highscore_Entity = new Entity("Highscore");// Highscore-Entitaet
 		    	Entity quit_Entity = new Entity("Beenden");// Beenden-Entitaet
@@ -51,11 +49,12 @@ public class MainMenuState extends BasicTWLGameState {
 		    	// Setze Positionen
 				// <---
 				background.setPosition(new Vector2f(400,300));		
-		    	new_Game_Entity.setPosition(new Vector2f(218, starty));
-		    	instructions_Entity.setPosition(new Vector2f(218, starty+offsety));
-		    	about_Entity.setPosition(new Vector2f(218, starty+offsety*2));
-		    	highscore_Entity.setPosition(new Vector2f(218, starty+offsety*3));
-		    	quit_Entity.setPosition(new Vector2f(218, starty+offsety*4));
+
+		    	new_Game_Entity.setPosition(new Vector2f(218, offset));
+		    	instructions_Entity.setPosition(new Vector2f(218, offset+distance));
+		    	about_Entity.setPosition(new Vector2f(218, offset+distance*2));
+		    	highscore_Entity.setPosition(new Vector2f(218, offset+distance*3));
+		    	quit_Entity.setPosition(new Vector2f(218, offset+distance*4));
 				// --->
 				
 		    	// Setze Skalierungen
@@ -70,11 +69,12 @@ public class MainMenuState extends BasicTWLGameState {
 		    	// Füge Bilder hinzu
 				// <---
 				background.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/background.png")));
-		    	new_Game_Entity.addComponent(buttonImage);
-		    	instructions_Entity.addComponent(buttonImage);
-		    	about_Entity.addComponent(buttonImage);
-		    	highscore_Entity.addComponent(buttonImage);
-		    	quit_Entity.addComponent(buttonImage);
+				
+		    	new_Game_Entity.addComponent(new ImageRenderComponent(new Image("assets/dropofwater/entry.png")));
+		    	instructions_Entity.addComponent(new ImageRenderComponent(new Image("assets/dropofwater/entry.png")));
+		    	about_Entity.addComponent(new ImageRenderComponent(new Image("assets/dropofwater/entry.png")));
+		    	highscore_Entity.addComponent(new ImageRenderComponent(new Image("assets/dropofwater/entry.png")));
+		    	quit_Entity.addComponent(new ImageRenderComponent(new Image("assets/dropofwater/entry.png")));
 				// --->
 		    	
 		    	// Erstelle die Events und füge die zugehörigen Aktionen hinzu
@@ -102,12 +102,12 @@ public class MainMenuState extends BasicTWLGameState {
 				// --->
 		    	
 		    	// Fuege die Entities zum StateBasedEntityManager hinzu
-		    	entityManager.addEntity(this.stateID, quit_Entity);
-		    	entityManager.addEntity(this.stateID, highscore_Entity);
-		    	entityManager.addEntity(this.stateID, about_Entity);
-		    	entityManager.addEntity(this.stateID, instructions_Entity);
-		    	entityManager.addEntity(this.stateID, new_Game_Entity);
 				entityManager.addEntity(this.stateID, background);
+		    	entityManager.addEntity(this.stateID, new_Game_Entity);
+		    	entityManager.addEntity(this.stateID, instructions_Entity);
+		    	entityManager.addEntity(this.stateID, about_Entity);
+		    	entityManager.addEntity(this.stateID, highscore_Entity);
+		    	entityManager.addEntity(this.stateID, quit_Entity);
 	}
 
 	@Override
