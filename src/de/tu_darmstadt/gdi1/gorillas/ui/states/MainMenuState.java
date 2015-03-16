@@ -161,7 +161,7 @@ public class MainMenuState extends BasicTWLGameState {
 		entityManager.renderEntities(container, game, g);
 		
 		int counter = 0;
-		g.drawString("Neues Spiel", 110, start_Position+counter*distance); counter++;
+		g.drawString("Neues Spiel starten", 110, start_Position+counter*distance); counter++;
 		g.drawString("Instructions", 110, start_Position+counter*distance); counter++;
 		g.drawString("About", 110, start_Position+counter*distance); counter++;
 		g.drawString("Highscore", 110, start_Position+counter*distance); counter++;
