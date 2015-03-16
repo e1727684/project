@@ -51,9 +51,9 @@ public class GamePlayState extends BasicTWLGameState {
 	private StateBasedEntityManager entityManager;
 
 	private Label angleLabel;
-	EditField angleInput;
+	public EditField angleInput;
 	private Label speedLabel;
-	EditField speedInput;
+	public EditField speedInput;
 	private Button dropButton;
 	private Label nameLabel;
 	private boolean turn;
@@ -275,9 +275,7 @@ public class GamePlayState extends BasicTWLGameState {
 		if (visible)
 			try {
 				entityManager.getEntity(2, "sun_smiling").addComponent(new ImageRenderComponent(new Image("/assets/gorillas/sun/sun_smiling.png")));
-			} catch (SlickException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			} catch (SlickException e) { // shouldn't....
 			}
 		nameLabel.setVisible(visible);
 		angleLabel.setVisible(visible);

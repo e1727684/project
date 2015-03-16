@@ -4,9 +4,18 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Vector2f;
 
+import de.tu_darmstadt.gdi1.gorillas.main.Gorillas;
 import de.tu_darmstadt.gdi1.gorillas.test.setup.TWLTestAppGameContainer;
 import de.tu_darmstadt.gdi1.gorillas.test.setup.TWLTestStateBasedGame;
 import de.tu_darmstadt.gdi1.gorillas.test.setup.TestGorillas;
+import de.tu_darmstadt.gdi1.gorillas.ui.states.AboutState;
+import de.tu_darmstadt.gdi1.gorillas.ui.states.CongratulationState;
+import de.tu_darmstadt.gdi1.gorillas.ui.states.GamePlayState;
+import de.tu_darmstadt.gdi1.gorillas.ui.states.GameSetupState;
+import de.tu_darmstadt.gdi1.gorillas.ui.states.HighscoreState;
+import de.tu_darmstadt.gdi1.gorillas.ui.states.InstructionState;
+import de.tu_darmstadt.gdi1.gorillas.ui.states.MainMenuState;
+import de.tu_darmstadt.gdi1.gorillas.ui.states.OptionState;
 import de.tu_darmstadt.gdi1.gorillas.util.GameData;
 import de.tu_darmstadt.gdi1.gorillas.util.Wurf;
 import eea.engine.entity.StateBasedEntityManager;
@@ -15,6 +24,17 @@ public class GorillasTestAdapterMinimal {
 
 	// erbt von TWLTestStateBasedGame (nur fuer Tests!)
 	TestGorillas gorillas;
+	
+	// werden gebraucht:
+	public GameData data;
+	public static final int MAINMENUSTATE = 0;
+	public static final int GAMESETUPSTATE = 1;
+	public static final int GAMEPLAYSTATE = 2;
+	public static final int HIGHSCORESTATE = 3;
+	public static final int OPTIONSTATE = 4;
+	public static final int INSTRUCTIONSTATE = 5;
+	public static final int ABOUTSTATE = 6;
+	public static final int CONGRATULATIONSTATE = 7;
 
 	// spezielle Variante des AppGameContainer, welche keine UI erzeugt (nur
 	// fuer Tests!)
@@ -61,6 +81,7 @@ public class GorillasTestAdapterMinimal {
 		System.err.println(System.getProperty("os.name") + ": "
 				+ System.getProperty("org.lwjgl.librarypath"));
 		// @formatter:on
+		data = new GameData();
 
 		// Initialisiere das Spiel Tanks im Debug-Modus (ohne UI-Ausgabe)
 		gorillas = new TestGorillas(true);
@@ -73,6 +94,26 @@ public class GorillasTestAdapterMinimal {
 			e.printStackTrace();
 		}
 
+
+		// Add states to the StateBasedGame
+		gorillas.addState(new MainMenuState(MAINMENUSTATE));
+		gorillas.addState(new GameSetupState(GAMESETUPSTATE));
+		gorillas.addState(new GamePlayState(GAMEPLAYSTATE));
+		gorillas.addState(new HighscoreState(HIGHSCORESTATE));
+		gorillas.addState(new OptionState(OPTIONSTATE));
+		gorillas.addState(new InstructionState(INSTRUCTIONSTATE));
+		gorillas.addState(new AboutState(ABOUTSTATE));
+		gorillas.addState(new CongratulationState(CONGRATULATIONSTATE));
+
+		// Add states to the StateBasedEntityManager
+		StateBasedEntityManager.getInstance().addState(MAINMENUSTATE);
+		StateBasedEntityManager.getInstance().addState(GAMESETUPSTATE);
+		StateBasedEntityManager.getInstance().addState(GAMEPLAYSTATE);
+		StateBasedEntityManager.getInstance().addState(HIGHSCORESTATE);
+		StateBasedEntityManager.getInstance().addState(OPTIONSTATE);
+		StateBasedEntityManager.getInstance().addState(INSTRUCTIONSTATE);
+		StateBasedEntityManager.getInstance().addState(ABOUTSTATE);
+		StateBasedEntityManager.getInstance().addState(CONGRATULATIONSTATE);
 	}
 
 	/**
@@ -132,8 +173,8 @@ public class GorillasTestAdapterMinimal {
 	 *            the name of player 2
 	 */
 	public void setPlayerNames(String player1Name, String player2Name) {
-		gorillas.data.setPlayer1(player1Name);
-		gorillas.data.setPlayer2(player2Name);
+		data.setPlayer1(player1Name);
+		data.setPlayer2(player2Name);
 	}
 
 	/**
@@ -145,7 +186,7 @@ public class GorillasTestAdapterMinimal {
 	public void startGameButtonPressed() {
 		if (gorillas.getCurrentStateID() == 1) {
 			if (getEmptyError().equals("") && getEqualError().equals("") && getPlayer1Error().equals("") && getPlayer1Error().equals("")) {
-				//gorillas.getState(1).something();
+				 gorillas.enterState(Gorillas.GAMEPLAYSTATE);
 			}
 		}
 	}
@@ -261,7 +302,7 @@ public class GorillasTestAdapterMinimal {
 	 *         left empty and the start game button is pressed
 	 */
 	public String getEmptyError() {
-		return gorillas.data.getPlayer1().isEmpty()?gorillas.data.getPlayer2().isEmpty()?"":"Player 2 empty!":"Player 1 empty!";
+		return data.getPlayer1().isEmpty()?data.getPlayer2().isEmpty()?"":"Bitte Name eingeben!":"Bitte Name eingeben!";
 	}
 
 	/**
@@ -273,8 +314,7 @@ public class GorillasTestAdapterMinimal {
 	 * 
 	 */
 	public String getEqualError() {
-		// TODO: Implement
-		return gorillas.data.getPlayer1().equals(gorillas.data.getPlayer2())?"":"Spielernamen dürfen nicht gleich sein!";
+		return data.getPlayer1().equals(data.getPlayer2())?"":"Spielernamen dürfen nicht gleich sein!";
 	}
 
 	/**
