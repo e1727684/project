@@ -1,8 +1,10 @@
 package de.tu_darmstadt.gdi1.gorillas.ui.states;
 
 import de.tu_darmstadt.gdi1.gorillas.main.Gorillas;
+
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
@@ -12,12 +14,14 @@ import de.matthiasmann.twl.slick.BasicTWLGameState;
 import eea.engine.entity.Entity;
 import eea.engine.entity.StateBasedEntityManager;
 import eea.engine.event.ANDEvent;
+import eea.engine.event.basicevents.KeyPressedEvent;
 import eea.engine.event.basicevents.MouseClickedEvent;
 import eea.engine.event.basicevents.MouseEnteredEvent;
 import eea.engine.action.Action;
 import eea.engine.action.basicactions.ChangeStateAction;
 import eea.engine.action.basicactions.ChangeStateInitAction;
 import eea.engine.action.basicactions.QuitAction;
+import eea.engine.component.Component;
 import eea.engine.component.render.ImageRenderComponent;
 
 public class MainMenuState extends BasicTWLGameState {
@@ -108,6 +112,31 @@ public class MainMenuState extends BasicTWLGameState {
 		    	entityManager.addEntity(this.stateID, about_Entity);
 		    	entityManager.addEntity(this.stateID, highscore_Entity);
 		    	entityManager.addEntity(this.stateID, quit_Entity);
+		    	
+		    	
+		    	// Bei Druecken der ESC-Taste zurueck ins Spiel wechseln
+				// -------------------------------------------------------
+				Entity escListener = new Entity("ESC_Listener");
+				KeyPressedEvent escPressed = new KeyPressedEvent(Input.KEY_ESCAPE);
+				escPressed.addAction(new Action() {
+					@Override
+					public void update(GameContainer gc, StateBasedGame sb, int delta,
+							Component event) {
+						if (Gorillas.data.getPaused()) {
+							// State wird gewechselt
+							sb.enterState(Gorillas.GAMEPLAYSTATE);
+
+							if (gc.isPaused())
+								gc.resume();
+							
+							Gorillas.data.setPaused(false);
+						}
+					}
+				});
+				escListener.addComponent(escPressed);
+				entityManager.addEntity(stateID, escListener);
+		    	
+		    
 	}
 
 	@Override

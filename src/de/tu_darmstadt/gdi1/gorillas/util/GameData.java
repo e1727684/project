@@ -5,6 +5,7 @@ import org.newdawn.slick.geom.Vector2f;
 public class GameData {
 	private String player1;
 	private String player2;
+	private boolean isPaused;	//de-/aktiviert ESC-Taste im MainMenu
 	
 	public GameData() {//ONE call in Gorillas, then getter&setters!
 		init();
@@ -13,6 +14,7 @@ public class GameData {
 	private void init() {
 		player1 = "";
 		player2 = "";
+		isPaused = false;
 		load();
 		// more?
 	}
@@ -39,5 +41,13 @@ public class GameData {
 
 	public void setPlayer2(String player2) {//set playername :: player 2
 		this.player2 = player2;
+	}
+	
+	public boolean getPaused(){//
+		return isPaused;
+	}
+	
+	public void setPaused(boolean paused){
+		isPaused = paused;
 	}
 }

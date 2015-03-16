@@ -65,10 +65,17 @@ public class GamePlayState extends BasicTWLGameState {
 
         entityManager.addEntity(this.stateID, entityManager.getEntity(0, "background"));
 
-        // Bei Druecken der ESC-Taste zurueck ins Hauptmenue wechseln
+     // Bei Druecken der ESC-Taste zurueck ins Hauptmenue wechseln
         Entity escListener = new Entity("ESC_Listener");
         KeyPressedEvent escPressed = new KeyPressedEvent(Input.KEY_ESCAPE);
         escPressed.addAction(new ChangeStateAction(Gorillas.MAINMENUSTATE));
+        escPressed.addAction(new Action(){
+			@Override
+			public void update(GameContainer gc, StateBasedGame sb, int delta,
+					Component event) {
+				Gorillas.data.setPaused(true);			
+			}
+        });
         escListener.addComponent(escPressed);
         entityManager.addEntity(stateID, escListener);
 
