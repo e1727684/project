@@ -54,7 +54,8 @@ public class GamePlayState extends BasicTWLGameState {
 	private boolean turn;
 	private Vector2f gorilla1pos;
 	private Vector2f gorilla2pos;
-	public AtomicInteger wurfAnzahl;
+	private AtomicInteger wurfAnzahl;
+	private String playerWon;
 
 	public GamePlayState(int sid) {
 		stateID = sid;
@@ -68,6 +69,7 @@ public class GamePlayState extends BasicTWLGameState {
 		// (Rück-)setzen aller Daten
 		Gorillas.data.setPaused(false);
 		wurfAnzahl = new AtomicInteger(1);
+		playerWon = "";
 		
 		// Benötigte Entitäten
         // <---
@@ -457,7 +459,12 @@ public class GamePlayState extends BasicTWLGameState {
 				if (entity instanceof IDestructible) {
 					destructible = (IDestructible) entity;
 				} else {
-					return;
+					if (entity.getID() == "gorilla1")
+						playerWon = "player2";
+					else if (entity.getID() == "gorilla2")
+						playerWon = "player1";
+					else 
+						return;
 				}
 
 				// zerstï¿½re die Entitï¿½t (dabei wird das der Entitï¿½t
@@ -465,6 +472,7 @@ public class GamePlayState extends BasicTWLGameState {
 				destructible.impactAt(event.getOwnerEntity().getPosition());
 			}
 		});
+		collisionEvent.addAction(new DestroyEntityAction());
 		banana.addComponent(collisionEvent);
 		// --->
 		
@@ -476,6 +484,7 @@ public class GamePlayState extends BasicTWLGameState {
 		
 		// banane darf endlich fliegen und rotieren!!!
 		entityManager.addEntity(stateID, banana);
+		System.out.println(playerWon);
 	}
 
 	// Häuser zeichnen
