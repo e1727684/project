@@ -485,7 +485,7 @@ public class GamePlayState extends BasicTWLGameState {
 		// collision event (banane trifft auf etwas auf)
 		// <---
 		MyCollisionEvent collisionEvent = new MyCollisionEvent();
-		collisionEvent.setEm(entityManager);
+		collisionEvent.setEm(entityManager); // übergeben um collision mit background zu vermeiden und auf sonne zu prüfen!
 		collisionEvent.addAction(new Action() {
 			@Override
 			public void update(GameContainer gc, StateBasedGame sb, int delta,
@@ -496,9 +496,9 @@ public class GamePlayState extends BasicTWLGameState {
 				Entity entity = collider.getCollidedEntity();
 
 				// wenn diese durch ein Pattern zerstört werden kann, dann
-				// caste
-				// zu IDestructible
-				// ansonsten passiert bei der Kollision nichts
+				// caste zu IDestructible
+				// ansonsten schaue ob ein gorilla getroffen ist, dann spielende
+				// sonst passiert bei der Kollision nichts
 				IDestructible destructible = null;
 				if (entity instanceof IDestructible) {
 					destructible = (IDestructible) entity;
