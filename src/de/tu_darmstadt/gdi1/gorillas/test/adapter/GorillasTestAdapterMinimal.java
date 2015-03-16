@@ -5,8 +5,6 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Vector2f;
 
 import de.matthiasmann.twl.EditField;
-import de.matthiasmann.twl.EditField.Callback;
-import de.tu_darmstadt.gdi1.gorillas.main.Gorillas;
 import de.tu_darmstadt.gdi1.gorillas.test.setup.TWLTestAppGameContainer;
 import de.tu_darmstadt.gdi1.gorillas.test.setup.TWLTestStateBasedGame;
 import de.tu_darmstadt.gdi1.gorillas.test.setup.TestGorillas;
@@ -179,6 +177,7 @@ public class GorillasTestAdapterMinimal {
 	 *            the name of player 2
 	 */
 	public void setPlayerNames(String player1Name, String player2Name) {
+		if (data == null) data = new GameData(); // ehh.... ok.
 		data.setPlayer1(player1Name);
 		data.setPlayer2(player2Name);
 	}
@@ -190,9 +189,9 @@ public class GorillasTestAdapterMinimal {
 	 * GamePlayState. Otherwise it should stay in the GameSetupState.
 	 */
 	public void startGameButtonPressed() {
-		if (gorillas.getCurrentStateID() == 1) {
-			if (getEmptyError().equals("") && getEqualError().equals("") && getPlayer1Error().equals("") && getPlayer2Error().equals("")) {
-				 gorillas.enterState(Gorillas.GAMEPLAYSTATE);
+		if (getStateBasedGame().getCurrentStateID() == TestGorillas.GAMESETUPSTATE) {
+			if (getPlayer1Error().equals("") && getPlayer2Error().equals("")) {
+				getStateBasedGame().enterState(TestGorillas.GAMEPLAYSTATE);
 			}
 		}
 	}
@@ -315,7 +314,7 @@ public class GorillasTestAdapterMinimal {
 	 *         left empty and the start game button is pressed
 	 */
 	public String getEmptyError() {
-		return data.getPlayer1().isEmpty()?data.getPlayer2().isEmpty()?"":"Bitte Name eingeben!":"Bitte Name eingeben!";
+		return "Bitte Name eingeben!";
 	}
 
 	/**
@@ -327,7 +326,7 @@ public class GorillasTestAdapterMinimal {
 	 * 
 	 */
 	public String getEqualError() {
-		return data.getPlayer1().equals(data.getPlayer2())?"":"Spielernamen dürfen nicht gleich sein!";
+		return "Spielernamen dürfen nicht gleich sein!";
 	}
 
 	/**
@@ -338,7 +337,16 @@ public class GorillasTestAdapterMinimal {
 	 *         GameSetupState
 	 */
 	public String getPlayer1Error() {
-		return gorillas.getCurrentStateID()==1?"":null;
+		if (getStateBasedGame().getCurrentStateID()==TestGorillas.GAMESETUPSTATE)
+			if (data.getPlayer1() == "")
+				return getEmptyError();
+			else
+				if (data.getPlayer1().equals(data.getPlayer2()))
+						return getEqualError();
+				else
+					return "";
+		else
+			return null;
 	}
 
 	/**
@@ -349,7 +357,16 @@ public class GorillasTestAdapterMinimal {
 	 *         GameSetupState
 	 */
 	public String getPlayer2Error() {
-		return gorillas.getCurrentStateID()==1?"":null;
+		if (getStateBasedGame().getCurrentStateID()==TestGorillas.GAMESETUPSTATE)
+			if (data.getPlayer2() == "")
+				return getEmptyError();
+			else
+				if (data.getPlayer2().equals(data.getPlayer1()))
+						return getEqualError();
+				else
+					return "";
+		else
+			return null;
 	}
 
 	/**
@@ -382,5 +399,6 @@ public class GorillasTestAdapterMinimal {
 	 */
 	public void handleKeyPressN() {
 		handleKeyPressed(0, Input.KEY_N);
+		// Zum testen vom Test: getStateBasedGame().enterState(TestGorillas.GAMESETUPSTATE);
 	}
 }

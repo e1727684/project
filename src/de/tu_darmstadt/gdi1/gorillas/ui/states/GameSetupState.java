@@ -202,10 +202,8 @@ public class GameSetupState extends BasicTWLGameState {
                 if (key == de.matthiasmann.twl.Event.KEY_NONE) {
                         String inputText = editField.getText();
                        
-                        // Name muss aus Buchstaben bestehen und darf höchsten 10 Zeichen lang sein
-                        char inputChar = inputText.charAt(inputText.length() - 1);
-                        if (!Character.isLetter(inputChar)
-                                        || inputText.length() > maxLength) {
+                        // Name darf höchsten 10 Zeichen lang sein
+                        if (inputText.length() > maxLength) {
                                 // a call of setText on an EditField triggers the callback, so
                                 // remove callback before and add it again after the call
                                 editField.removeCallback(callback);
