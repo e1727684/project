@@ -62,11 +62,35 @@ public class GamePlayState extends BasicTWLGameState {
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
-
-        entityManager.addEntity(this.stateID, entityManager.getEntity(0, "background"));
-
-     // Bei Druecken der ESC-Taste zurueck ins Hauptmenue wechseln
+		
+		// Benötigte Entitäten
+        // <--
         Entity escListener = new Entity("ESC_Listener");
+        Entity gorilla1 = new Entity("gorilla1");
+        Entity gorilla2 = new Entity("gorilla2");
+        Entity sun_smiling = new Entity("sun_smiling");
+
+		// Zeug, das wir brauchen bevor wir die Gorillas setzten!
+        // <---
+        int[] houseHeights = randomizeHouses(game.getContainer().getHeight());
+        randomizeGorillaPositions(game.getContainer().getHeight(), game.getContainer().getWidth(), houseHeights, gorilla1, gorilla2); 
+        // --->
+        // Setzen der Positionen der Gorillas und der Soone
+        // <---
+        gorilla1.setPosition(gorilla1pos); 
+        gorilla2.setPosition(gorilla2pos); 
+        sun_smiling.setPosition(new Vector2f((game.getContainer().getWidth() / 2), 30));
+        // --->
+        
+        // Füge Bilder hinzu
+        // <---
+        sun_smiling.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/sun/sun_smiling.png")));
+        gorilla1.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/gorillas/gorilla.png")));
+        gorilla2.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/gorillas/gorilla.png")));
+        // --->
+        
+        // Events und Actions (Hier: Nur ESC -> MainMenu)
+        // <--
         KeyPressedEvent escPressed = new KeyPressedEvent(Input.KEY_ESCAPE);
         escPressed.addAction(new ChangeStateAction(Gorillas.MAINMENUSTATE));
         escPressed.addAction(new Action(){
@@ -77,83 +101,22 @@ public class GamePlayState extends BasicTWLGameState {
 			}
         });
         escListener.addComponent(escPressed);
-        entityManager.addEntity(stateID, escListener);
-
-        // Hochhäuser
-        // -------------------------------------------------------------------------------
-        turn = true;
-        Random rand = new Random();
-        int houseWidth = 100;
-        int startPointHouses = 0; // Anfangspunkt Häuser
-        int[] houseHeights = new int[8];
-        int housesIndex = 0;
-
-        for (int e = 0; e < 8; e++) {
-
-                houseHeights[housesIndex] = rand.nextInt(380) + 120;
-               
-                // Häuser
-                BufferedImage image = new BufferedImage(houseWidth,
-                                houseHeights[housesIndex], BufferedImage.TYPE_INT_ARGB);
-                Graphics2D graphic = image.createGraphics();
-                graphic.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC));
-                graphic.setColor(new Color(rand.nextInt(255), rand.nextInt(255),
-                                rand.nextInt(255)));
-                graphic.fillRect(0, 0, houseWidth, houseHeights[housesIndex]);
-
-                // Fenster
-                graphic.setColor(new Color(0, 0, 0));
-                for (int i = 5; i < houseHeights[housesIndex]; i = i + 20) {
-                        for (int j = 5; j < houseWidth; j = j + 20) {
-                                graphic.fillRect(j, i, 7, 10);
-                        }
-                }
-
-                if (startPointHouses == 0)
-                        startPointHouses = houseWidth / 2;
-                else
-                        startPointHouses = startPointHouses + houseWidth;
-
-                DestructibleImageEntity house = new DestructibleImageEntity(
-                                "obstacle", image, "gorillas/destruction.png", false);
-                house.setPosition(new Vector2f(startPointHouses, game
-                                .getContainer().getHeight()
-                                - (houseHeights[housesIndex] / 2)));
-                entityManager.addEntity(stateID, house);
-               
-                housesIndex++;
-        }
-
-        // add Gorillas
-        // -------------------------------------------------------------------------------
-        // two players := two gorillas
-        Entity gorilla1 = new Entity("gorilla1");
-        Entity gorilla2 = new Entity("gorilla2");
-        // two gorillas := two components := two images
-        gorilla1.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/gorillas/gorilla.png")));
-        gorilla2.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/gorillas/gorilla.png")));
-        // creates the random positions for BOTH gorillas! therefore only has to be called ONCE
-        randomizeGorillas(game.getContainer().getHeight(), game.getContainer().getWidth(), houseHeights, gorilla1, gorilla2); 
-        // give the gorillas their positions
-        gorilla1.setPosition(gorilla1pos); 
-        gorilla2.setPosition(gorilla2pos); 
-        // and add them to the entity manager!
+        // --->
+        
+        // Entities dem StateBasedEntityManager übergeben
+        // <---
         entityManager.addEntity(this.stateID, gorilla1);
         entityManager.addEntity(this.stateID, gorilla2);
-       
-        // Entität für Sonne
-        // -------------------------------------------------------------------------------
-        Entity sun_smiling = new Entity("sun_smiling");
-        sun_smiling.setPosition(new Vector2f(
-                        (game.getContainer().getWidth() / 2), 30)); // Startposition des
-        // Hintergrunds
-        sun_smiling.addComponent(new ImageRenderComponent(new Image(
-                        "/assets/gorillas/sun/sun_smiling.png"))); // Bild zur Entität
-                                                                                                                // hinzufügen
+        entityManager.addEntity(stateID, escListener);
+        entityManager.addEntity(this.stateID, entityManager.getEntity(0, "background"));
         entityManager.addEntity(this.stateID, sun_smiling);
+        // --->
+        
+        //Links fängt an
+        turn = true;
 	}
 	
-	private void randomizeGorillas(int height, int width, int[] houseHeights, Entity gorilla1, Entity gorilla2) {
+	private void randomizeGorillaPositions(int height, int width, int[] houseHeights, Entity gorilla1, Entity gorilla2) {
 		// positions for gorilla 1
         float gorilla1PosX = 0;
         float gorilla1PosY = 0;
@@ -194,7 +157,49 @@ public class GamePlayState extends BasicTWLGameState {
         // still black magic BUT we have our gorilla positions!
         gorilla2pos = new Vector2f(gorilla2PosX, gorilla2PosY); // Startposition
 	}
-	
+	private int[] randomizeHouses(int heigth) {
+        int[] houseHeights = new int[8];
+        int houseWidth = 100;
+        int startPointHouses = 0; // Anfangspunkt Häuser
+        int housesIndex = 0;
+        Random rand = new Random(); // such random
+        for (int e = 0; e < 8; e++) {
+
+                houseHeights[housesIndex] = rand.nextInt(380) + 120;
+               
+                // Häuser
+                BufferedImage image = new BufferedImage(houseWidth,
+                                houseHeights[housesIndex], BufferedImage.TYPE_INT_ARGB);
+                Graphics2D graphic = image.createGraphics();
+                graphic.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC));
+                graphic.setColor(new Color(rand.nextInt(255), rand.nextInt(255),
+                                rand.nextInt(255)));
+                graphic.fillRect(0, 0, houseWidth, houseHeights[housesIndex]);
+
+                // Fenster
+                graphic.setColor(new Color(0, 0, 0));
+                for (int i = 5; i < houseHeights[housesIndex]; i = i + 20) {
+                        for (int j = 5; j < houseWidth; j = j + 20) {
+                                graphic.fillRect(j, i, 7, 10);
+                        }
+                }
+
+                if (startPointHouses == 0)
+                        startPointHouses = houseWidth / 2;
+                else
+                        startPointHouses = startPointHouses + houseWidth;
+
+                DestructibleImageEntity house = new DestructibleImageEntity(
+                                "obstacle", image, "gorillas/destruction.png", false);
+                house.setPosition(new Vector2f(startPointHouses, heigth
+                                - (houseHeights[housesIndex] / 2)));
+                entityManager.addEntity(stateID, house);
+               
+                housesIndex++;
+        }
+        return houseHeights;
+	}
+
 	@Override
     public void render(GameContainer container, StateBasedGame game, Graphics g)
                     throws SlickException {
