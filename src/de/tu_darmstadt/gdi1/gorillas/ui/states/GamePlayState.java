@@ -3,9 +3,13 @@ package de.tu_darmstadt.gdi1.gorillas.ui.states;
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import javax.swing.Timer;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -22,7 +26,7 @@ import de.matthiasmann.twl.EditField.Callback;
 import de.matthiasmann.twl.slick.BasicTWLGameState;
 import de.matthiasmann.twl.slick.RootPane;
 import de.tu_darmstadt.gdi1.gorillas.main.Gorillas;
-import de.tu_darmstadt.gdi1.gorillas.util.OwnLeavingScreenEvent;
+import de.tu_darmstadt.gdi1.gorillas.util.MyLeavingScreenEvent;
 import de.tu_darmstadt.gdi1.gorillas.util.Wurf;
 import eea.engine.action.Action;
 import eea.engine.action.basicactions.ChangeStateAction;
@@ -56,7 +60,7 @@ public class GamePlayState extends BasicTWLGameState {
 	private Vector2f gorilla1pos;
 	private Vector2f gorilla2pos;
 	private AtomicInteger wurfAnzahl;
-	private String playerWon;
+	private boolean goCongratulate;
 
 	public GamePlayState(int sid) {
 		stateID = sid;
@@ -70,7 +74,7 @@ public class GamePlayState extends BasicTWLGameState {
 		// (Rück-)setzen aller Daten
 		Gorillas.data.setPaused(false);
 		wurfAnzahl = new AtomicInteger(1);
-		playerWon = "";
+		goCongratulate = false;
 		
 		// Benötigte Entitäten
         // <---
@@ -233,17 +237,24 @@ public class GamePlayState extends BasicTWLGameState {
 			nameLabel.setText(wurfAnzahl + ". Wurf! Player 1: "+Gorillas.data.getPlayer1());
 		else 
 			nameLabel.setText(wurfAnzahl + ". Wurf! Player 2: "+Gorillas.data.getPlayer2());
+		if (goCongratulate) {
+			entityManager.removeEntity(stateID, entityManager.getEntity(stateID, "boom"));
+			game.enterState(Gorillas.CONGRATULATIONSTATE);
+		}
 		if (!Gorillas.data.getPlayerWon().equals("")) {
 			entityManager.getEntity(stateID, Gorillas.data.getPlayerWon().equals("player1")?"gorilla2":"gorilla1").setVisible(false);
-			Entity boom = new Entity("Boom");
+			Entity boom = new Entity("boom");
 			boom.setPosition(entityManager.getEntity(stateID, Gorillas.data.getPlayerWon().equals("player1")?"gorilla2":"gorilla1").getPosition());
 			boom.addComponent(new ImageRenderComponent(new Image("assets/gorillas/explosions/explosion_1.png")));
+			// TODO Timer!
+			Timer timer = new Timer(3000, new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					goCongratulate = true;
+				}});
+			timer.setRepeats(false);
+			timer.start();
 			entityManager.addEntity(stateID, boom);
-			// TODO: implement some form of wait here.... Maybe update(..)-counter then jump?
-			for (int i=0; i < 133337; i++) { // much "wait" 120 fps -> ~3s
-				entityManager.updateEntities(container, game, delta);
-			}
-			game.enterState(Gorillas.CONGRATULATIONSTATE);
 		}
 		entityManager.updateEntities(container, game, delta);
 	}
@@ -447,7 +458,7 @@ public class GamePlayState extends BasicTWLGameState {
 		
 		// out of bounce event (banane fliegt aus dem fenster)
 		// <---
-		Event leavingEvent = new OwnLeavingScreenEvent();
+		Event leavingEvent = new MyLeavingScreenEvent();
 		leavingEvent.addAction(new DestroyEntityAction());
 		banana.addComponent(leavingEvent);
 		// --->
