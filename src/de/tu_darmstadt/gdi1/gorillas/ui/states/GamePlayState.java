@@ -460,11 +460,12 @@ public class GamePlayState extends BasicTWLGameState {
 					destructible = (IDestructible) entity;
 				} else {
 					if (entity.getID() == "gorilla1")
-						playerWon = "player2";
+						Gorillas.data.setPlayerWon("player2");
 					else if (entity.getID() == "gorilla2")
-						playerWon = "player1";
-					else 
-						return;
+						Gorillas.data.setPlayerWon("player1");
+					if (!Gorillas.data.getPlayerWon().equals(""))
+						sb.enterState(Gorillas.CONGRATULATIONSTATE);
+					return;
 				}
 
 				// zerst�re die Entit�t (dabei wird das der Entit�t

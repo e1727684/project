@@ -27,6 +27,7 @@ public class Gorillas extends TWLStateBasedGame {
 	public static final int OPTIONSTATE = 4;
 	public static final int INSTRUCTIONSTATE = 5;
 	public static final int ABOUTSTATE = 6;
+	public static final int CONGRATULATIONSTATE = 7;
 	
 	public static final int FRAME_WIDTH = 800;
 	public static final int FRAME_HEIGHT = 600;
@@ -90,6 +91,7 @@ public class Gorillas extends TWLStateBasedGame {
 		this.addState(new OptionState(OPTIONSTATE));
 		this.addState(new InstructionState(INSTRUCTIONSTATE));
 		this.addState(new AboutState(ABOUTSTATE));
+		this.addState(new CongratulationState(CONGRATULATIONSTATE));
 
 		// Add states to the StateBasedEntityManager
 		StateBasedEntityManager.getInstance().addState(MAINMENUSTATE);
@@ -99,6 +101,7 @@ public class Gorillas extends TWLStateBasedGame {
 		StateBasedEntityManager.getInstance().addState(OPTIONSTATE);
 		StateBasedEntityManager.getInstance().addState(INSTRUCTIONSTATE);
 		StateBasedEntityManager.getInstance().addState(ABOUTSTATE);
+		StateBasedEntityManager.getInstance().addState(CONGRATULATIONSTATE);
 	}
 
 	@Override

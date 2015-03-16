@@ -6,6 +6,7 @@ public class GameData {
 	private String player1;
 	private String player2;
 	private boolean isPaused;	//de-/aktiviert ESC-Taste im MainMenu
+	private String playerWon;
 	
 	public GameData() {//ONE call in Gorillas, then getter&setters!
 		init();
@@ -15,10 +16,11 @@ public class GameData {
 		player1 = "";
 		player2 = "";
 		isPaused = false;
+		playerWon = "";
 		load();
 		// more?
 	}
-	
+
 	public void save() {
 		
 	}
@@ -49,5 +51,13 @@ public class GameData {
 	
 	public void setPaused(boolean paused){
 		isPaused = paused;
+	}
+	
+	public String getPlayerWon() {
+		return playerWon;
+	}
+
+	public void setPlayerWon(String playerWon) {
+		this.playerWon = playerWon;
 	}
 }
