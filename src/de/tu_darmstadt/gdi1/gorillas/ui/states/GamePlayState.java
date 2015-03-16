@@ -272,6 +272,13 @@ public class GamePlayState extends BasicTWLGameState {
 	}
 
 	private void switchInputLabel(boolean visible) {
+		if (visible)
+			try {
+				entityManager.getEntity(2, "sun_smiling").addComponent(new ImageRenderComponent(new Image("/assets/gorillas/sun/sun_smiling.png")));
+			} catch (SlickException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		nameLabel.setVisible(visible);
 		angleLabel.setVisible(visible);
 		angleInput.setVisible(visible);

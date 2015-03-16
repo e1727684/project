@@ -1,8 +1,11 @@
 package de.tu_darmstadt.gdi1.gorillas.util;
 
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
+import eea.engine.component.render.ImageRenderComponent;
 import eea.engine.entity.Entity;
 import eea.engine.entity.StateBasedEntityManager;
 import eea.engine.event.Event;
@@ -52,9 +55,16 @@ public class MyCollisionEvent extends Event {
 		// if there is such an entity, store a reference and indicate the
 		// willingness
 		// to perform the action(s)
-		if (entity != null && !em.getEntity(2, "background").equals(entity) && !em.getEntity(2, "sun_smiling").equals(entity)) {
-			collidedEntity = entity;
-			return true;
+		if (entity != null && !em.getEntity(2, "background").equals(entity)) {
+			if (em.getEntity(2, "sun_smiling").equals(entity)) {
+				try {
+					em.getEntity(2, "sun_smiling").addComponent(new ImageRenderComponent(new Image("/assets/gorillas/sun/sun_astonished.png")));
+				} catch (SlickException e) {
+				}
+			} else {
+				collidedEntity = entity;
+				return true;
+			}
 		}
 
 		// else, nothing is to be done
