@@ -93,7 +93,7 @@ public class GamePlayState extends BasicTWLGameState {
         
 		// Zeug, das wir brauchen bevor wir die Gorillas und die Häuser setzten!
         // <---
-        entityManager.addEntity(this.stateID, entityManager.getEntity(0, "background"));
+        //entityManager.addEntity(this.stateID, entityManager.getEntity(0, "background"));
         int[] houseHeights = randomizeHouses(game.getContainer().getHeight());
         randomizeGorillaPositions(game.getContainer().getHeight(), game.getContainer().getWidth(), houseHeights, gorilla1, gorilla2); 
         // --->
@@ -460,7 +460,7 @@ public class GamePlayState extends BasicTWLGameState {
 		// winkel wird gesetzt
 		wurf.angle = turn?Integer.parseInt(angleInput.getText()):(180-Integer.parseInt(angleInput.getText()));
 		// x0 und y0 für newtonsche gleichung..
-		wurf.startPos = turn?new Vector2f(gorilla1pos.getX()+25,gorilla1pos.getY()-25):new Vector2f(gorilla2pos.getX()-25,gorilla2pos.getY()-25);
+		wurf.startPos = turn?new Vector2f(gorilla1pos.getX()+35,gorilla1pos.getY()-25):new Vector2f(gorilla2pos.getX()-35,gorilla2pos.getY()-25);
 		// solange geworfen bis.... kollision // out of bounce
 		loop.addAction(wurf);
 		// banana now rotate; infinite!
