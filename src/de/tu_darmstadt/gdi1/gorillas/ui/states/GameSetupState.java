@@ -54,7 +54,7 @@ public class GameSetupState extends BasicTWLGameState {
                 // Startposition des Hintergrunds
                 background.setPosition(new Vector2f(400, 300));
                 // Bild zur Entität hinzufügen
-                background.addComponent(new ImageRenderComponent(new Image("/assets/dropofwater/background.png")));
+                background.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/background.png")));
                 entityManager.addEntity(this.stateID, background);
  
         }

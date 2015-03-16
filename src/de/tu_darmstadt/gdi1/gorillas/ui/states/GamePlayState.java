@@ -25,8 +25,6 @@ import de.tu_darmstadt.gdi1.gorillas.util.Wurf;
 import eea.engine.action.Action;
 import eea.engine.action.basicactions.ChangeStateAction;
 import eea.engine.action.basicactions.DestroyEntityAction;
-import eea.engine.action.basicactions.MoveDownAction;
-import eea.engine.action.basicactions.MoveRightAction;
 import eea.engine.action.basicactions.RotateLeftAction;
 import eea.engine.action.basicactions.RotateRightAction;
 import eea.engine.component.Component;
@@ -66,7 +64,7 @@ public class GamePlayState extends BasicTWLGameState {
 			throws SlickException {
 
 		// Entität für Hintergrund
-        Entity background = new Entity("gamesetup");
+        Entity background = new Entity("gameplay");
         background.setPosition(new Vector2f(400, 300)); // Startposition des
                                                                                                         // Hintergrunds
         background.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/background.png"))); // Bild zur Entität
