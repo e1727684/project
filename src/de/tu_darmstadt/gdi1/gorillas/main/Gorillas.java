@@ -69,6 +69,7 @@ public class Gorillas extends TWLStateBasedGame {
 				+ System.getProperty("org.lwjgl.librarypath"));
 		// @formatter:on
 		data = new GameData();
+		data.test = false;
 		// Insert this StateBasedGame into an AppContainer (a window)
 		AppGameContainer app = new AppGameContainer(new Gorillas(false));
 

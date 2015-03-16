@@ -72,6 +72,7 @@ public class MainMenuState extends BasicTWLGameState {
 				
 		    	// Füge Bilder hinzu
 				// <---
+		    	if (!Gorillas.data.test) { // really.... 
 				background.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/background.png")));
 				
 		    	new_Game_Entity.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/button.png")));
@@ -79,6 +80,7 @@ public class MainMenuState extends BasicTWLGameState {
 		    	about_Entity.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/button.png")));
 		    	highscore_Entity.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/button.png")));
 		    	quit_Entity.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/button.png")));
+		    	}
 				// --->
 		    	
 		    	// Erstelle die Events und füge die zugehörigen Aktionen hinzu
