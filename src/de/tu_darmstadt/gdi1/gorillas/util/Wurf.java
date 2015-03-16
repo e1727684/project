@@ -9,7 +9,7 @@ public class Wurf extends Movement implements Action {
 	public int angle;
 	public Vector2f startPos;
 	public float timer;
-	public float gravity = -9.81F;
+	public float gravity = -10F;
 	public float deltat = 100;
 	public Wurf(float speed) {
 		super(speed);

@@ -6,6 +6,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 
 import de.tu_darmstadt.gdi1.gorillas.ui.states.MainMenuState;
+import de.tu_darmstadt.gdi1.gorillas.util.GameData;
 import eea.engine.entity.StateBasedEntityManager;
 
 /**
@@ -27,12 +28,14 @@ public class TestGorillas extends TWLTestStateBasedGame {
 	public static final int HIGHSCORESTATE = 3;
 	public static final int OPTIONSTATE = 4;
 	public static final int INSTRUCTIONSSTATE = 5;
+	public GameData data;
 
 	public static boolean debug = false;
 
 	public TestGorillas(boolean debug) {
 		super("Gorillas");
 		setDebug(debug);
+		data = new GameData();
 	}
 
 	public static void setDebug(boolean debuging) {

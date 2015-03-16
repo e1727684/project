@@ -19,7 +19,6 @@ public class GorillasTestAdapterMinimal {
 	// spezielle Variante des AppGameContainer, welche keine UI erzeugt (nur
 	// fuer Tests!)
 	TWLTestAppGameContainer app;
-	GameData data;
 
 	public GorillasTestAdapterMinimal() {
 		super();
@@ -65,7 +64,6 @@ public class GorillasTestAdapterMinimal {
 
 		// Initialisiere das Spiel Tanks im Debug-Modus (ohne UI-Ausgabe)
 		gorillas = new TestGorillas(true);
-		data = new GameData();
 		// Initialisiere die statische Klasse Map
 		try {
 			app = new TWLTestAppGameContainer(gorillas, 1000, 600, false);
@@ -113,7 +111,7 @@ public class GorillasTestAdapterMinimal {
 	 * player names).
 	 */
 	public void rememberGameData() {
-		data.save();
+		gorillas.data.save();
 	}
 
 	/**
@@ -121,7 +119,7 @@ public class GorillasTestAdapterMinimal {
 	 * should make sure that
 	 */
 	public void restoreGameData() {
-		data.load();
+		gorillas.data.load();
 	}
 
 	/**
@@ -134,8 +132,8 @@ public class GorillasTestAdapterMinimal {
 	 *            the name of player 2
 	 */
 	public void setPlayerNames(String player1Name, String player2Name) {
-		data.setPlayer1(player1Name);
-		data.setPlayer2(player2Name);
+		gorillas.data.setPlayer1(player1Name);
+		gorillas.data.setPlayer2(player2Name);
 	}
 
 	/**
@@ -235,7 +233,8 @@ public class GorillasTestAdapterMinimal {
 		Wurf wurf = new Wurf(speed);
 		wurf.angle = fromLeftToRight?angle:(180-angle);
 		wurf.startPos = startPosition;
-		return wurf.getNextPosition(startPosition, speed, 0, deltaTime);
+		wurf.timer = deltaTime;
+		return wurf.getNextPosition(startPosition, speed, 0, 0);
 	}
 
 	/**
