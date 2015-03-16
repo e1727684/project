@@ -26,11 +26,13 @@ import de.matthiasmann.twl.EditField.Callback;
 import de.matthiasmann.twl.slick.BasicTWLGameState;
 import de.matthiasmann.twl.slick.RootPane;
 import de.tu_darmstadt.gdi1.gorillas.main.Gorillas;
+import de.tu_darmstadt.gdi1.gorillas.util.Jubel;
 import de.tu_darmstadt.gdi1.gorillas.util.MyLeavingScreenEvent;
 import de.tu_darmstadt.gdi1.gorillas.util.Wurf;
 import eea.engine.action.Action;
 import eea.engine.action.basicactions.ChangeStateAction;
 import eea.engine.action.basicactions.DestroyEntityAction;
+import eea.engine.action.basicactions.MoveRightAction;
 import eea.engine.action.basicactions.RotateLeftAction;
 import eea.engine.action.basicactions.RotateRightAction;
 import eea.engine.component.Component;
@@ -237,16 +239,29 @@ public class GamePlayState extends BasicTWLGameState {
 		else 
 			nameLabel.setText(wurfAnzahl + ". Wurf! Player 2: "+Gorillas.data.getPlayer2());
 		if (goCongratulate) {
-			entityManager.getEntity(stateID, "boom").setVisible(false);
-			entityManager.removeEntity(stateID, entityManager.getEntity(stateID, "boom"));
 			game.enterState(Gorillas.CONGRATULATIONSTATE);
 		}
 		if (!Gorillas.data.getPlayerWon().equals("")) {
-			entityManager.getEntity(stateID, Gorillas.data.getPlayerWon().equals("player1")?"gorilla2":"gorilla1").setVisible(false);
+			entityManager.getEntity(stateID, "gorilla1").setVisible(false);
+			entityManager.getEntity(stateID, "gorilla2").setVisible(false);
+			
+			Entity jubel = new Entity("jubel");
 			Entity boom = new Entity("boom");
+			
 			boom.setPosition(entityManager.getEntity(stateID, Gorillas.data.getPlayerWon().equals("player1")?"gorilla2":"gorilla1").getPosition());
+			jubel.setPosition(entityManager.getEntity(stateID, Gorillas.data.getPlayerWon().equals("player1")?"gorilla1":"gorilla2").getPosition());
+			
 			boom.addComponent(new ImageRenderComponent(new Image("assets/gorillas/explosions/explosion_1.png")));
-			// TODO Timer!
+			jubel.addComponent(new ImageRenderComponent(new Image(Gorillas.data.getPlayerWon().equals("player1")?"assets/gorillas/gorillas/gorilla_left_up.png":"assets/gorillas/gorillas/gorilla_right_up.png")));
+
+			LoopEvent loop = new LoopEvent();
+			loop.addAction(new Jubel(3.5F));
+			//loop.addAction(turn?new RotateRightAction(0.5F):new RotateLeftAction(0.5F));
+			jubel.addComponent(loop);
+			
+			entityManager.addEntity(stateID, boom);
+			entityManager.addEntity(stateID, jubel);
+			
 			Timer timer = new Timer(3000, new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
@@ -254,7 +269,6 @@ public class GamePlayState extends BasicTWLGameState {
 				}});
 			timer.setRepeats(false);
 			timer.start();
-			entityManager.addEntity(stateID, boom);
 		}
 		entityManager.updateEntities(container, game, delta);
 	}
@@ -508,43 +522,4 @@ public class GamePlayState extends BasicTWLGameState {
 		// banane darf endlich fliegen und rotieren!!!
 		entityManager.addEntity(stateID, banana);
 	}
-
-	// Häuser zeichnen
-	public void drawHouses(StateBasedGame g) {
-		// Hochhäuser
-		Random rand = new Random();
-		int a,b;
-		int c = 0;		//Anfangspunkt Häuser
-	
-		// int n = rand.nextInt(50) + 1;
-		for (int e = 0; e < 9; e++) {
-			
-			a = rand.nextInt(50) + 80;
-			b = rand.nextInt(200) + 100;
-			
-			// Hochhäuser
-			BufferedImage image = new BufferedImage(a, b, BufferedImage.TYPE_INT_ARGB);
-			Graphics2D graphic = image.createGraphics();
-			graphic.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC));
-			graphic.setColor(new Color(rand.nextInt(255), rand.nextInt(255), rand.nextInt(255)));
-			graphic.fillRect(0, 0, a, b);
-
-			// Fenster
-			graphic.setColor(new Color(0, 0, 0));
-			for (int i = 5; i < b; i = i + 20) {
-				for (int j = 5; j < a; j = j + 20) {
-					graphic.fillRect(j, i, 7, 10);
-				}
-			}
-
-			DestructibleImageEntity obstacle1 = new DestructibleImageEntity(
-					"obstacle", image, "gorillas/destruction.png", false);
-			obstacle1.setPosition(new Vector2f(c, 
-					g.getContainer().getHeight() - (b/2)));
-			entityManager.addEntity(stateID, obstacle1);
-			
-			c = c + a;
-		}
-	}
-
 }
