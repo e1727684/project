@@ -27,6 +27,7 @@ import de.matthiasmann.twl.slick.BasicTWLGameState;
 import de.matthiasmann.twl.slick.RootPane;
 import de.tu_darmstadt.gdi1.gorillas.main.Gorillas;
 import de.tu_darmstadt.gdi1.gorillas.util.Jubel;
+import de.tu_darmstadt.gdi1.gorillas.util.MyCollisionEvent;
 import de.tu_darmstadt.gdi1.gorillas.util.MyLeavingScreenEvent;
 import de.tu_darmstadt.gdi1.gorillas.util.Wurf;
 import eea.engine.action.Action;
@@ -256,7 +257,6 @@ public class GamePlayState extends BasicTWLGameState {
 
 			LoopEvent loop = new LoopEvent();
 			loop.addAction(new Jubel(3.5F));
-			//loop.addAction(turn?new RotateRightAction(0.5F):new RotateLeftAction(0.5F));
 			jubel.addComponent(loop);
 			
 			entityManager.addEntity(stateID, boom);
@@ -462,14 +462,14 @@ public class GamePlayState extends BasicTWLGameState {
 		// winkel wird gesetzt
 		wurf.angle = turn?Integer.parseInt(angleInput.getText()):(180-Integer.parseInt(angleInput.getText()));
 		// x0 und y0 für newtonsche gleichung..
-		wurf.startPos = turn?new Vector2f(gorilla1pos.getX()+45,gorilla1pos.getY()-25):new Vector2f(gorilla2pos.getX()-45,gorilla2pos.getY()-25);
+		wurf.startPos = turn?new Vector2f(gorilla1pos.getX()+25,gorilla1pos.getY()-25):new Vector2f(gorilla2pos.getX()-25,gorilla2pos.getY()-25);
 		// solange geworfen bis.... kollision // out of bounce
 		loop.addAction(wurf);
 		// banana now rotate; infinite!
 		loop.addAction(turn?new RotateRightAction(0.5F):new RotateLeftAction(0.5F));
 		// adde loopzeugs zu banana
 		banana.addComponent(loop);
-		
+
 		// out of bounce event (banane fliegt aus dem fenster)
 		// <---
 		Event leavingEvent = new MyLeavingScreenEvent();
@@ -479,14 +479,14 @@ public class GamePlayState extends BasicTWLGameState {
 		
 		// collision event (banane trifft auf etwas auf)
 		// <---
-		Event collisionEvent = new CollisionEvent();
+		Event collisionEvent = new MyCollisionEvent();
 		collisionEvent.addAction(new Action() {
 			@Override
 			public void update(GameContainer gc, StateBasedGame sb, int delta,
 					Component event) {
 
 				// hole die Entity, mit der kollidiert wurde
-				CollisionEvent collider = (CollisionEvent) event;
+				MyCollisionEvent collider = (MyCollisionEvent) event;
 				Entity entity = collider.getCollidedEntity();
 
 				// wenn diese durch ein Pattern zerstört werden kann, dann
