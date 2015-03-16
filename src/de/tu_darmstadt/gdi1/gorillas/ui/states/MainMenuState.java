@@ -144,7 +144,8 @@ public class MainMenuState extends BasicTWLGameState {
 				nListener.addComponent(nPressed);
 				entityManager.addEntity(stateID, nListener);
 		    	
-		    
+
+		    	if (!Gorillas.data.getPaused())Gorillas.data.setPlayerWon("");
 	}
 
 	@Override

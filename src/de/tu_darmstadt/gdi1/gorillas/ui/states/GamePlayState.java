@@ -41,7 +41,6 @@ import eea.engine.entity.StateBasedEntityManager;
 import eea.engine.event.Event;
 import eea.engine.event.basicevents.CollisionEvent;
 import eea.engine.event.basicevents.KeyPressedEvent;
-import eea.engine.event.basicevents.LeavingScreenEvent;
 import eea.engine.event.basicevents.LoopEvent;
 import eea.engine.interfaces.IDestructible;
 
@@ -238,6 +237,7 @@ public class GamePlayState extends BasicTWLGameState {
 		else 
 			nameLabel.setText(wurfAnzahl + ". Wurf! Player 2: "+Gorillas.data.getPlayer2());
 		if (goCongratulate) {
+			entityManager.getEntity(stateID, "boom").setVisible(false);
 			entityManager.removeEntity(stateID, entityManager.getEntity(stateID, "boom"));
 			game.enterState(Gorillas.CONGRATULATIONSTATE);
 		}
