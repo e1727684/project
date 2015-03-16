@@ -498,9 +498,9 @@ public class GamePlayState extends BasicTWLGameState {
 					destructible = (IDestructible) entity;
 				} else {
 					if (entity.getID() == "gorilla1")
-						Gorillas.data.setPlayerWon("player2");
+						Gorillas.data.setPlayerWon(Gorillas.data.getPlayer2());
 					else if (entity.getID() == "gorilla2")
-						Gorillas.data.setPlayerWon("player1");
+						Gorillas.data.setPlayerWon(Gorillas.data.getPlayer1());
 					return;
 				}
 
