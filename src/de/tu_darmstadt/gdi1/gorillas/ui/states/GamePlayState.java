@@ -64,13 +64,21 @@ public class GamePlayState extends BasicTWLGameState {
 			throws SlickException {
 		
 		// Benötigte Entitäten
-        // <--
+        // <---
         Entity escListener = new Entity("ESC_Listener");
         Entity gorilla1 = new Entity("gorilla1");
         Entity gorilla2 = new Entity("gorilla2");
         Entity sun_smiling = new Entity("sun_smiling");
-
-		// Zeug, das wir brauchen bevor wir die Gorillas setzten!
+        // --->
+        
+        // Füge Bilder hinzu
+        // <---
+        sun_smiling.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/sun/sun_smiling.png")));
+        gorilla1.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/gorillas/gorilla.png")));
+        gorilla2.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/gorillas/gorilla.png")));
+        // --->
+        
+		// Zeug, das wir brauchen bevor wir die Gorillas und die Häuser setzten!
         // <---
         entityManager.addEntity(this.stateID, entityManager.getEntity(0, "background"));
         int[] houseHeights = randomizeHouses(game.getContainer().getHeight());
@@ -82,13 +90,6 @@ public class GamePlayState extends BasicTWLGameState {
         gorilla1.setPosition(gorilla1pos); 
         gorilla2.setPosition(gorilla2pos); 
         sun_smiling.setPosition(new Vector2f((game.getContainer().getWidth() / 2), 30));
-        // --->
-        
-        // Füge Bilder hinzu
-        // <---
-        sun_smiling.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/sun/sun_smiling.png")));
-        gorilla1.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/gorillas/gorilla.png")));
-        gorilla2.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/gorillas/gorilla.png")));
         // --->
         
         // Events und Actions (Hier: Nur ESC -> MainMenu)
@@ -207,7 +208,7 @@ public class GamePlayState extends BasicTWLGameState {
 
             entityManager.renderEntities(container, game, g);
            
-            //Name werden am oberen Rand angezeigt
+            //Namen werden am oberen Rand angezeigt
             g.drawString(Gorillas.data.getPlayer1(), 20, 10);
             g.drawString(Gorillas.data.getPlayer2(), 730, 10);
     }
@@ -252,7 +253,7 @@ public class GamePlayState extends BasicTWLGameState {
 		RootPane rp = super.createRootPane();
 		nameLabel = new Label("");
 		// erstelle ein Label mit der Aufschrift "x:"
-		angleLabel = new Label("angle:");
+		angleLabel = new Label("Winkel:");
 		// erstelle ein EditField. Es dient der Eingabe von Text
 		angleInput = new EditField();
 		// mit der Methode addCallBack lï¿½sst sich dem EditField ein CallBack
@@ -271,7 +272,7 @@ public class GamePlayState extends BasicTWLGameState {
 		// analog zu einer Eingabemï¿½glichkeit fï¿½r x-Werte wird auch eine
 		// fï¿½r
 		// y-Werte kreiert
-		speedLabel = new Label("speed:");
+		speedLabel = new Label("Speed:");
 		speedInput = new EditField();
 		speedInput.addCallback(new Callback() {
 			public void callback(int key) {
