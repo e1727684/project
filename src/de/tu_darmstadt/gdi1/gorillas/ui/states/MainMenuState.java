@@ -135,6 +135,14 @@ public class MainMenuState extends BasicTWLGameState {
 				});
 				escListener.addComponent(escPressed);
 				entityManager.addEntity(stateID, escListener);
+				
+				
+				// Bei Druecken der N-Taste neues Spiel staren
+				Entity nListener = new Entity("n_Listener");
+				KeyPressedEvent nPressed = new KeyPressedEvent(Input.KEY_N);
+				nPressed.addAction(new ChangeStateAction(Gorillas.GAMESETUPSTATE)); //
+				nListener.addComponent(nPressed);
+				entityManager.addEntity(stateID, nListener);
 		    	
 		    
 	}
