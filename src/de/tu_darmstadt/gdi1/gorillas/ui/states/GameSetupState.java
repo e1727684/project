@@ -48,14 +48,7 @@ public class GameSetupState extends BasicTWLGameState {
                 //wird zwischengespeichert für StateChange über Rootpane-Button
                 sb = game;
                 gc = container;
- 
-                // Entität für Hintergrund
-                Entity background = new Entity("gamesetup");
-                // Startposition des Hintergrunds
-                background.setPosition(new Vector2f(400, 300));
-                // Bild zur Entität hinzufügen
-                background.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/background.png")));
-                entityManager.addEntity(this.stateID, background);
+                entityManager.addEntity(this.stateID, entityManager.getEntity(0, "background"));
  
         }
        

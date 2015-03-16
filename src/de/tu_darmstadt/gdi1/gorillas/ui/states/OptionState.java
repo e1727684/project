@@ -38,12 +38,8 @@ public class OptionState extends BasicTWLGameState {
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
-		
-		//Entität für Hintergrund
-		Entity background = new Entity("instructionsetup");
-		background.setPosition(new Vector2f(400,300));														//Startposition des Hintergrunds
-		background.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/background.png")));		//Bild zur Entität hinzufügen
-		entityManager.addEntity(this.stateID,  background);	
+
+        entityManager.addEntity(this.stateID, entityManager.getEntity(0, "background"));
 		
 		// Bei Druecken der ESC-Taste zurueck ins Hauptmenue wechseln
 		Entity escListener = new Entity("ESC_Listener");
