@@ -36,44 +36,48 @@ public class MainMenuState extends BasicTWLGameState {
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
+				float scale = 0.28f;
+				int offsety = 100;
+				int starty = 90;
+				ImageRenderComponent buttonImage = new ImageRenderComponent(new Image("assets/dropofwater/entry.png"));
 				
 				Entity background = new Entity("background");// Entität für Hintergrund
-		    	Entity instructions_Entity = new Entity("Beenden");// Beenden-Entitaet
+		    	Entity instructions_Entity = new Entity("Einstellungen");// Beenden-Entitaet
 		    	Entity new_Game_Entity = new Entity("Neues Spiel starten");// Neues Spiel starten-Entitaet
 		    	Entity about_Entity = new Entity("About");// About-Entität
-		    	Entity highscore_Entity = new Entity("Beenden");// Highscore-Entitaet
+		    	Entity highscore_Entity = new Entity("Highscore");// Highscore-Entitaet
 		    	Entity quit_Entity = new Entity("Beenden");// Beenden-Entitaet
 				
 		    	// Setze Positionen
 				// <---
 				background.setPosition(new Vector2f(400,300));		
-		    	new_Game_Entity.setPosition(new Vector2f(218, 90));
-		    	instructions_Entity.setPosition(new Vector2f(218, 190));
-		    	about_Entity.setPosition(new Vector2f(218, 290));
-		    	highscore_Entity.setPosition(new Vector2f(218, 390));
-		    	quit_Entity.setPosition(new Vector2f(218, 490));
+		    	new_Game_Entity.setPosition(new Vector2f(218, starty));
+		    	instructions_Entity.setPosition(new Vector2f(218, starty+offsety));
+		    	about_Entity.setPosition(new Vector2f(218, starty+offsety*2));
+		    	highscore_Entity.setPosition(new Vector2f(218, starty+offsety*3));
+		    	quit_Entity.setPosition(new Vector2f(218, starty+offsety*4));
 				// --->
 				
 		    	// Setze Skalierungen
 				// <---
-		    	new_Game_Entity.setScale(0.28f);
-		    	instructions_Entity.setScale(0.28f);
-		    	about_Entity.setScale(0.28f);
-		    	highscore_Entity.setScale(0.28f);
-		    	quit_Entity.setScale(0.28f);
+		    	new_Game_Entity.setScale(scale);
+		    	instructions_Entity.setScale(scale);
+		    	about_Entity.setScale(scale);
+		    	highscore_Entity.setScale(scale);
+		    	quit_Entity.setScale(scale);
 				// --->
 				
 		    	// Füge Bilder hinzu
 				// <---
 				background.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/background.png")));
-		    	new_Game_Entity.addComponent(new ImageRenderComponent(new Image("assets/dropofwater/entry.png")));
-		    	instructions_Entity.addComponent(new ImageRenderComponent(new Image("assets/dropofwater/entry.png")));
-		    	about_Entity.addComponent(new ImageRenderComponent(new Image("assets/dropofwater/entry.png")));
-		    	highscore_Entity.addComponent(new ImageRenderComponent(new Image("assets/dropofwater/entry.png")));
-		    	quit_Entity.addComponent(new ImageRenderComponent(new Image("assets/dropofwater/entry.png")));
+		    	new_Game_Entity.addComponent(buttonImage);
+		    	instructions_Entity.addComponent(buttonImage);
+		    	about_Entity.addComponent(buttonImage);
+		    	highscore_Entity.addComponent(buttonImage);
+		    	quit_Entity.addComponent(buttonImage);
 				// --->
 		    	
-		    	// Erstelle die Events und addiere die zugehörigen Aktionen hinzu
+		    	// Erstelle die Events und füge die zugehörigen Aktionen hinzu
 				// <---
 		    	ANDEvent mainEvents_n = new ANDEvent(new MouseEnteredEvent(), new MouseClickedEvent());
 		    	ANDEvent mainEvents_i = new ANDEvent(new MouseEnteredEvent(), new MouseClickedEvent());
