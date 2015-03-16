@@ -93,7 +93,7 @@ public class GamePlayState extends BasicTWLGameState {
         
 		// Zeug, das wir brauchen bevor wir die Gorillas und die Häuser setzten!
         // <---
-        //entityManager.addEntity(this.stateID, entityManager.getEntity(0, "background"));
+        entityManager.addEntity(this.stateID, entityManager.getEntity(0, "background"));
         int[] houseHeights = randomizeHouses(game.getContainer().getHeight());
         randomizeGorillaPositions(game.getContainer().getHeight(), game.getContainer().getWidth(), houseHeights, gorilla1, gorilla2); 
         // --->
@@ -477,7 +477,8 @@ public class GamePlayState extends BasicTWLGameState {
 		
 		// collision event (banane trifft auf etwas auf)
 		// <---
-		Event collisionEvent = new MyCollisionEvent();
+		MyCollisionEvent collisionEvent = new MyCollisionEvent();
+		collisionEvent.setEm(entityManager);
 		collisionEvent.addAction(new Action() {
 			@Override
 			public void update(GameContainer gc, StateBasedGame sb, int delta,
