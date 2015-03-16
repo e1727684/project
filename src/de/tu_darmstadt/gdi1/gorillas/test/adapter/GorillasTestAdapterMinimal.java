@@ -246,7 +246,8 @@ public class GorillasTestAdapterMinimal {
 	 * @return the time scaling factor for the parabolic flight calculation
 	 */
 	public float getTimeScalingFactor() {
-		return 1/300;
+		Wurf wurf = new Wurf(0F);
+		return 1/wurf.deltat;
 	}
 
 	/**
