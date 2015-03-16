@@ -72,9 +72,11 @@ public class GamePlayState extends BasicTWLGameState {
 
 		// Zeug, das wir brauchen bevor wir die Gorillas setzten!
         // <---
+        entityManager.addEntity(this.stateID, entityManager.getEntity(0, "background"));
         int[] houseHeights = randomizeHouses(game.getContainer().getHeight());
         randomizeGorillaPositions(game.getContainer().getHeight(), game.getContainer().getWidth(), houseHeights, gorilla1, gorilla2); 
         // --->
+        
         // Setzen der Positionen der Gorillas und der Soone
         // <---
         gorilla1.setPosition(gorilla1pos); 
@@ -108,7 +110,6 @@ public class GamePlayState extends BasicTWLGameState {
         entityManager.addEntity(this.stateID, gorilla1);
         entityManager.addEntity(this.stateID, gorilla2);
         entityManager.addEntity(stateID, escListener);
-        entityManager.addEntity(this.stateID, entityManager.getEntity(0, "background"));
         entityManager.addEntity(this.stateID, sun_smiling);
         // --->
         
