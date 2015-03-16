@@ -216,21 +216,10 @@ public class GamePlayState extends BasicTWLGameState {
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta)
 			throws SlickException {
-		if (entityManager.hasEntity(stateID, "banana")) { // switch the input label to invisible while the banana is flying AND ROTATING
-			nameLabel.setVisible(false);
-			angleLabel.setVisible(false);
-			angleInput.setVisible(false);
-			speedLabel.setVisible(false);
-			speedInput.setVisible(false);
-			dropButton.setVisible(false);
-		} else {
-			nameLabel.setVisible(true);
-			angleLabel.setVisible(true);
-			angleInput.setVisible(true);
-			speedLabel.setVisible(true);
-			speedInput.setVisible(true);
-			dropButton.setVisible(true);
-		}
+		if (entityManager.hasEntity(stateID, "banana")) // switch the input label to invisible while the banana is flying AND ROTATING
+			switchInputLabel(false);
+		else 
+			switchInputLabel(true);
 		if (turn) // display names so the players know whose turn it is!
 			nameLabel.setText("Player 1: "+Gorillas.data.getPlayer1());
 		else 
@@ -238,6 +227,15 @@ public class GamePlayState extends BasicTWLGameState {
 		entityManager.updateEntities(container, game, delta);
 	}
 
+	private void switchInputLabel(boolean visible) {
+		nameLabel.setVisible(visible);
+		angleLabel.setVisible(visible);
+		angleInput.setVisible(visible);
+		speedLabel.setVisible(visible);
+		speedInput.setVisible(visible);
+		dropButton.setVisible(visible);
+	}
+	
 	@Override
 	public int getID() {
 		return stateID;
@@ -411,7 +409,7 @@ public class GamePlayState extends BasicTWLGameState {
 			e.printStackTrace();
 		}
 
-		// Banane wird verworfen
+		// Banane will geworfen werden
 		LoopEvent loop = new LoopEvent();
 		// neuer wurf
 		Wurf wurf = new Wurf(Integer.parseInt(speedInput.getText()));
