@@ -465,7 +465,6 @@ public class GamePlayState extends BasicTWLGameState {
 				destructible.impactAt(event.getOwnerEntity().getPosition());
 			}
 		});
-		collisionEvent.addAction(new DestroyEntityAction());
 		banana.addComponent(collisionEvent);
 		// --->
 		
