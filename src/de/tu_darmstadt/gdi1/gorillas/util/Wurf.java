@@ -8,8 +8,9 @@ import eea.engine.action.basicactions.Movement;
 public class Wurf extends Movement implements Action {
 	public int angle;
 	public Vector2f startPos;
-	public int timer;
-	public int gravity = 3;
+	public float timer;
+	public float gravity = -9.81F;
+	public float deltat = 100;
 	public Wurf(float speed) {
 		super(speed);
 	}
@@ -20,8 +21,8 @@ public class Wurf extends Movement implements Action {
 		// retrieve the current position (x, y)
 		Vector2f pos = position;
 		// update the x+y position by the displacement
-		pos.x = (float) (startPos.x + getX(angle, speed, timer/10)/20);
-		pos.y = (float) (startPos.y - getY(angle, speed, timer/10)/20);
+		pos.x = (float) (startPos.x + getX(angle, speed, timer/deltat));
+		pos.y = (float) (startPos.y - getY(angle, speed, timer/deltat));
 		timer+=delta;
 		// return the new position
 		return pos;
@@ -35,19 +36,11 @@ public class Wurf extends Movement implements Action {
 		return Math.sin(Math.toRadians(angle))*speed;
 	}
 
-	private double getX(int angle, float speed, int delta) {
+	private double getX(int angle, float speed, float delta) {
 		return getVx(angle,speed) * delta;
 	}
 
-	private double getY(int angle, float speed, int delta) {
-		return getVy(angle,speed) * delta + (0.5 * (-gravity) * delta * delta);
-	}
-	
-	public int getAngle() {
-		return angle;
-	}
-
-	public void setAngle(int angle) {
-		this.angle = angle;
+	private double getY(int angle, float speed, float delta) {
+		return getVy(angle,speed) * delta + (0.5 * gravity * delta * delta);
 	}
 }

@@ -233,7 +233,7 @@ public class GorillasTestAdapterMinimal {
 	public Vector2f getNextShotPosition(Vector2f startPosition, int angle,
 			int speed, boolean fromLeftToRight, int deltaTime) {
 		Wurf wurf = new Wurf(speed);
-		wurf.setAngle(fromLeftToRight?angle:(180-angle));
+		wurf.angle = fromLeftToRight?angle:(180-angle);
 		wurf.startPos = startPosition;
 		return wurf.getNextPosition(startPosition, speed, 0, deltaTime);
 	}
@@ -246,7 +246,8 @@ public class GorillasTestAdapterMinimal {
 	 * @return the time scaling factor for the parabolic flight calculation
 	 */
 	public float getTimeScalingFactor() {
-		return 1/300;
+		Wurf wurf = new Wurf(0F);
+		return 1/wurf.deltat;
 	}
 
 	/**
