@@ -30,6 +30,7 @@ import eea.engine.entity.StateBasedEntityManager;
 import eea.engine.event.ANDEvent;
 import eea.engine.event.Event;
 import eea.engine.event.basicevents.KeyPressedEvent;
+import eea.engine.event.basicevents.LoopEvent;
 import eea.engine.event.basicevents.MouseClickedEvent;
 import eea.engine.event.basicevents.MouseEnteredEvent;
 import eea.engine.event.basicevents.TimeEvent;
@@ -39,7 +40,7 @@ public class MainMenuState extends BasicTWLGameState {
 	private int stateID;
 	private StateBasedEntityManager entityManager;
 	
-	private final int distance = 100;
+	private final int distance = 80;
     private final int start_Position = 80;
 
 	public MainMenuState(int sid) {
@@ -51,36 +52,41 @@ public class MainMenuState extends BasicTWLGameState {
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
-				float scale = 0.28f;
+				float scale = 0.18f;
 				int offset = 90;
 
 				Action buttonPressed = new Action() {@Override public void update(GameContainer gc, StateBasedGame sb, int delta, Component event) {MusicPlayer.playButton();}};
-				
+
 				Entity background = new Entity("background");// Entität für Hintergrund
+				Entity mbackground = new Entity("menubackground");// Entität für Hintergrund
 		    	Entity new_Game_Entity = new Entity("Neues Spiel starten");// Neues Spiel starten-Entitaet
-		    	Entity instructions_Entity = new Entity("Instructions");// Beenden-Entitaet
-		    	Entity about_Entity = new Entity("About");// About-Entität
+		    	Entity instructions_Entity = new Entity("Instructions");// Instructions-Entitaet
 		    	Entity highscore_Entity = new Entity("Highscore");// Highscore-Entitaet
+		    	Entity options_Entity = new Entity("Options");
+		    	Entity about_Entity = new Entity("About");// About-Entität
 		    	Entity quit_Entity = new Entity("Beenden");// Beenden-Entitaet
 		    	Entity music = new Entity("Music");
 				
 		    	// Setze Positionen
 				// <---
-				background.setPosition(new Vector2f(400,300));		
+				background.setPosition(new Vector2f(400,300));
+				mbackground.setPosition(new Vector2f(400,300));		
 
 		    	new_Game_Entity.setPosition(new Vector2f(218, offset));
 		    	instructions_Entity.setPosition(new Vector2f(218, offset+distance));
-		    	about_Entity.setPosition(new Vector2f(218, offset+distance*2));
-		    	highscore_Entity.setPosition(new Vector2f(218, offset+distance*3));
-		    	quit_Entity.setPosition(new Vector2f(218, offset+distance*4));
+		    	highscore_Entity.setPosition(new Vector2f(218, offset+distance*2));
+		    	options_Entity.setPosition(new Vector2f(218, offset+distance*3));
+		    	about_Entity.setPosition(new Vector2f(218, offset+distance*4));
+		    	quit_Entity.setPosition(new Vector2f(218, offset+distance*5));
 				// --->
 				
 		    	// Setze Skalierungen
 				// <---
 		    	new_Game_Entity.setScale(scale);
 		    	instructions_Entity.setScale(scale);
-		    	about_Entity.setScale(scale);
 		    	highscore_Entity.setScale(scale);
+		    	options_Entity.setScale(scale);
+		    	about_Entity.setScale(scale);
 		    	quit_Entity.setScale(scale);
 				// --->
 				
@@ -88,11 +94,12 @@ public class MainMenuState extends BasicTWLGameState {
 				// <---
 		    	if (!Gorillas.data.guiDisabled) { // really.... 
 				background.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/background.png")));
-				
+				mbackground.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/backgroundMain.png")));
 		    	new_Game_Entity.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/button.png")));
 		    	instructions_Entity.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/button.png")));
-		    	about_Entity.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/button.png")));
+		    	options_Entity.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/button.png")));
 		    	highscore_Entity.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/button.png")));
+		    	about_Entity.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/button.png")));
 		    	quit_Entity.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/button.png")));
 		    	Event sound = new TimeEvent(1, false);
 		    	sound.addAction(new Action() {
@@ -110,37 +117,44 @@ public class MainMenuState extends BasicTWLGameState {
 				// <---
 		    	ANDEvent mainEvents_n = new ANDEvent(new MouseEnteredEvent(), new MouseClickedEvent());
 		    	ANDEvent mainEvents_i = new ANDEvent(new MouseEnteredEvent(), new MouseClickedEvent());
-		    	ANDEvent mainEvents_a = new ANDEvent(new MouseEnteredEvent(), new MouseClickedEvent());
+		    	ANDEvent mainEvents_o = new ANDEvent(new MouseEnteredEvent(), new MouseClickedEvent());
 		    	ANDEvent mainEvents_h = new ANDEvent(new MouseEnteredEvent(), new MouseClickedEvent());
+		    	ANDEvent mainEvents_a = new ANDEvent(new MouseEnteredEvent(), new MouseClickedEvent());
 		    	ANDEvent mainEvents_q = new ANDEvent(new MouseEnteredEvent(), new MouseClickedEvent());
 		    	Action new_Game_Action = new ChangeStateInitAction(Gorillas.GAMESETUPSTATE);
 		    	Action instructions_Action = new ChangeStateAction(Gorillas.INSTRUCTIONSTATE);
-		    	Action about_Action = new ChangeStateAction(Gorillas.ABOUTSTATE);
+		    	Action options_Action = new ChangeStateAction(Gorillas.OPTIONSTATE);
 		    	Action highscore_Action = new ChangeStateAction(Gorillas.HIGHSCORESTATE);
+		    	Action about_Action = new ChangeStateAction(Gorillas.ABOUTSTATE);
 		    	Action quit_Action = new QuitAction();
 		    	mainEvents_n.addAction(new_Game_Action);
 		    	mainEvents_i.addAction(instructions_Action);
-		    	mainEvents_a.addAction(about_Action);
+		    	mainEvents_o.addAction(options_Action);
 		    	mainEvents_h.addAction(highscore_Action);
+		    	mainEvents_a.addAction(about_Action);
 		    	mainEvents_q.addAction(quit_Action);
 		    	mainEvents_n.addAction(buttonPressed);
 		    	mainEvents_i.addAction(buttonPressed);
-		    	mainEvents_a.addAction(buttonPressed);
+		    	mainEvents_o.addAction(buttonPressed);
 		    	mainEvents_h.addAction(buttonPressed);
+		    	mainEvents_a.addAction(buttonPressed);
 		    	mainEvents_q.addAction(buttonPressed);
 		    	new_Game_Entity.addComponent(mainEvents_n);
 		    	instructions_Entity.addComponent(mainEvents_i);
-		    	about_Entity.addComponent(mainEvents_a);
+		    	options_Entity.addComponent(mainEvents_o);
 		    	highscore_Entity.addComponent(mainEvents_h);
+		    	about_Entity.addComponent(mainEvents_a);
 		    	quit_Entity.addComponent(mainEvents_q);
 				// --->
 		    	
 		    	// Fuege die Entities zum StateBasedEntityManager hinzu
 				entityManager.addEntity(this.stateID, background);
+				entityManager.addEntity(this.stateID, mbackground);
 		    	entityManager.addEntity(this.stateID, new_Game_Entity);
 		    	entityManager.addEntity(this.stateID, instructions_Entity);
-		    	entityManager.addEntity(this.stateID, about_Entity);
+		    	entityManager.addEntity(this.stateID, options_Entity);
 		    	entityManager.addEntity(this.stateID, highscore_Entity);
+		    	entityManager.addEntity(this.stateID, about_Entity);
 		    	entityManager.addEntity(this.stateID, quit_Entity);
 		    	entityManager.addEntity(this.stateID, music);
 		    	
@@ -188,6 +202,8 @@ public class MainMenuState extends BasicTWLGameState {
 		entityManager.updateEntities(container, game, delta);
 	}
 
+	int clk = 0;
+	boolean draw = true;
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g)
 			throws SlickException {
@@ -196,15 +212,22 @@ public class MainMenuState extends BasicTWLGameState {
         g.setColor(new Color(0, 0, 0));
 		
 		int counter = 0;
-		g.drawString("Neues Spiel starten", 110, start_Position+counter*distance); counter++;
-		g.drawString("Instructions", 110, start_Position+counter*distance); counter++;
-		g.drawString("About", 110, start_Position+counter*distance); counter++;
-		g.drawString("Highscore", 110, start_Position+counter*distance); counter++;
-		g.drawString("Beenden", 110, start_Position+counter*distance); counter++;
+		g.drawString("Neues Spiel starten", 160, start_Position+counter*distance); counter++;
+		g.drawString("Instructions", 160, start_Position+counter*distance); counter++;
+		g.drawString("Options", 160, start_Position+counter*distance); counter++;
+		g.drawString("Highscore", 160, start_Position+counter*distance); counter++;
+		g.drawString("About", 160, start_Position+counter*distance); counter++;
+		g.drawString("Beenden", 160, start_Position+counter*distance); counter++;
 		
 		//GamePaused-Message
 		if (Gorillas.data.getPaused()) {
-			g.drawString("- Spiel pausiert(drücke ESC) -", 500, 50);}
+			if (clk % 75 == 0) {
+				draw = !draw;
+			}
+			clk++;
+			if (draw)
+			g.drawString("- Spiel pausiert(drücke ESC) -", 500, 120);
+		}
 	}
 
 	@Override

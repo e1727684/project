@@ -9,11 +9,18 @@ import java.io.ObjectOutputStream;
 
 public class Options {
 	private boolean musicEnabled;
+	private boolean windEnabled;
+	private boolean spottEnabled;
+	private int g;
 	private static final String OPTION_FILE = "settings.ini";
 	ObjectOutputStream outputStream = null;
 	ObjectInputStream inputStream = null;
 
 	public Options() {
+		musicEnabled = true;
+		windEnabled = true;
+		spottEnabled = true;
+		g = 10;
 		load();
 	}
 	
@@ -39,6 +46,9 @@ public class Options {
 					OPTION_FILE));
 			String[] temp = (String[]) inputStream.readObject();
 			musicEnabled = temp[0].equals("true");
+			windEnabled = temp[1].equals("true");
+			spottEnabled = temp[2].equals("true");
+			g = Integer.parseInt(temp[3]);
 		} catch (FileNotFoundException e) {
 			System.out.println("[Laad] FNF Error: " + e.getMessage());
 		} catch (IOException e) {
@@ -63,6 +73,9 @@ public class Options {
 					OPTION_FILE));
 			String[] temp = new String[10];
 			temp[0] = musicEnabled?"true":"false";
+			temp[1] = windEnabled?"true":"false";
+			temp[2] = spottEnabled?"true":"false";
+			temp[3] = ""+g;
 			outputStream.writeObject(temp);
 		} catch (FileNotFoundException e) {
 			System.out.println("[Update] FNF Error: " + e.getMessage()
