@@ -51,10 +51,14 @@ public class GamePlayState extends BasicTWLGameState {
 	private int stateID;
 	private StateBasedEntityManager entityManager;
 
-	private Label angleLabel;
-	public EditField angleInput;
-	private Label speedLabel;
-	public EditField speedInput;
+	private Label angleLabel1;
+	private Label angleLabel2;
+	public EditField angleInput1;
+	public EditField angleInput2;
+	private Label speedLabel1;
+	private Label speedLabel2;
+	public EditField speedInput1;
+	public EditField speedInput2;
 	private Button dropButton;
 	private Label nameLabel;
 	private boolean turn;
@@ -283,10 +287,17 @@ public class GamePlayState extends BasicTWLGameState {
 			} catch (SlickException e) { // shouldn't....
 			}
 		nameLabel.setVisible(visible);
-		angleLabel.setVisible(visible);
-		angleInput.setVisible(visible);
-		speedLabel.setVisible(visible);
-		speedInput.setVisible(visible);
+		if (turn) {
+			angleLabel1.setVisible(visible);
+			angleInput1.setVisible(visible);
+			speedLabel1.setVisible(visible);
+			speedInput1.setVisible(visible);
+		} else {
+			angleLabel2.setVisible(visible);
+			angleInput2.setVisible(visible);
+			speedLabel2.setVisible(visible);
+			speedInput2.setVisible(visible);
+		}
 		dropButton.setVisible(visible);
 	}
 	
@@ -305,30 +316,48 @@ public class GamePlayState extends BasicTWLGameState {
 		RootPane rp = super.createRootPane();
 		nameLabel = new Label("");
 		// erstelle ein Label mit der Aufschrift "x:"
-		angleLabel = new Label("Winkel:");
+		angleLabel1 = new Label("Winkel:");
+		angleLabel2 = new Label("Winkel:");
 		// erstelle ein EditField. Es dient der Eingabe von Text
-		angleInput = new EditField();
+		angleInput1 = new EditField();
+		angleInput2 = new EditField();
 		// mit der Methode addCallBack lï¿½sst sich dem EditField ein CallBack
 		// hinzufï¿½gen, in dessen Methode callback(int key) bestimmt wird, was
 		// geschehen soll, wenn ein Zeichen eingegeben wird
-		angleInput.addCallback(new Callback() {
+		angleInput1.addCallback(new Callback() {
 			public void callback(int key) {
 				// in unserem Fall wird der Input in der Methode
 				// handleEditFieldInput verarbeitet (siehe weiter unten in
 				// dieser Klasse, was diese tut, und was es mit ihren Parametern
 				// auf sich hat)
-				handleEditFieldInput(key, angleInput, this, 360);
+				handleEditFieldInput(key, angleInput1, this, 360);
+			}
+		});
+		angleInput2.addCallback(new Callback() {
+			public void callback(int key) {
+				// in unserem Fall wird der Input in der Methode
+				// handleEditFieldInput verarbeitet (siehe weiter unten in
+				// dieser Klasse, was diese tut, und was es mit ihren Parametern
+				// auf sich hat)
+				handleEditFieldInput(key, angleInput2, this, 360);
 			}
 		});
 
 		// analog zu einer Eingabemï¿½glichkeit fï¿½r x-Werte wird auch eine
 		// fï¿½r
 		// y-Werte kreiert
-		speedLabel = new Label("Speed:");
-		speedInput = new EditField();
-		speedInput.addCallback(new Callback() {
+		speedLabel1 = new Label("Speed:");
+		speedInput1 = new EditField();
+		speedInput1.addCallback(new Callback() {
 			public void callback(int key) {
-				handleEditFieldInput(key, speedInput, this, 200);
+				handleEditFieldInput(key, speedInput1, this, 200);
+			}
+		});
+		speedLabel2 = new Label("Speed:");
+		speedInput2 = new EditField();
+		speedInput2.addCallback(new Callback() {
+			public void callback(int key) {
+				handleEditFieldInput(key, speedInput2, this, 200);
 			}
 		});
 
@@ -353,11 +382,15 @@ public class GamePlayState extends BasicTWLGameState {
 		// am Schluss der Methode mï¿½ssen alle GUI-Elemente der Rootpane
 		// hinzugefï¿½gt werden
 		rp.add(nameLabel);
-		rp.add(angleLabel);
-		rp.add(angleInput);
+		rp.add(angleLabel1);
+		rp.add(angleLabel2);
+		rp.add(angleInput1);
+		rp.add(angleInput2);
 
-		rp.add(speedLabel);
-		rp.add(speedInput);
+		rp.add(speedLabel1);
+		rp.add(speedLabel2);
+		rp.add(speedInput1);
+		rp.add(speedInput2);
 
 		rp.add(dropButton);
 		// ... und die fertige Rootpane zurï¿½ckgegeben werden
@@ -381,27 +414,42 @@ public class GamePlayState extends BasicTWLGameState {
 		// bestimmt
 		// werden, so muss adjustSize() aufgerufen werden.
 		nameLabel.adjustSize();
-		angleLabel.adjustSize();
-		speedLabel.adjustSize();
+		angleLabel1.adjustSize();
+		angleLabel2.adjustSize();
+		speedLabel1.adjustSize();
+		speedLabel2.adjustSize();
 
 		// Ansonsten wird die Grï¿½ï¿½e manuell mit setSize() gesetzt
-		angleInput.setSize(50, 25);
-		speedInput.setSize(50, 25);
+		angleInput1.setSize(50, 25);
+		angleInput2.setSize(50, 25);
+		speedInput1.setSize(50, 25);
+		speedInput2.setSize(50, 25);
 		dropButton.setSize(50, 25);
 
 		// Nachdem alle Grï¿½ï¿½en adjustiert wurden, muss allen GUI-Elementen
 		// eine
 		// Position (linke obere Ecke) zugewiesen werden
 		nameLabel.setPosition(xOffset, yOffset);
-		angleLabel.setPosition(xOffset, yOffset + angleLabel.getHeight() + gap);
-		angleInput.setPosition(xOffset + angleLabel.getWidth() + gap, yOffset + angleLabel.getHeight() + gap);
+		angleLabel1.setPosition(xOffset, yOffset + angleLabel1.getHeight() + gap);
+		angleLabel2.setPosition(xOffset, yOffset + angleLabel2.getHeight() + gap);
+		angleInput1.setPosition(xOffset + angleLabel1.getWidth() + gap, yOffset + angleLabel1.getHeight() + gap);
+		angleInput2.setPosition(xOffset + angleLabel2.getWidth() + gap, yOffset + angleLabel2.getHeight() + gap);
 
-		speedLabel.setPosition(xOffset, yOffset + angleLabel.getHeight() + gap + angleLabel.getHeight() + gap);
-		speedInput.setPosition(xOffset + speedLabel.getWidth() + gap,
-				yOffset + 2*angleLabel.getHeight() + 2*gap);
+		speedLabel1.setPosition(xOffset, yOffset + angleLabel1.getHeight() + gap + angleLabel1.getHeight() + gap);
+		speedLabel2.setPosition(xOffset, yOffset + angleLabel2.getHeight() + gap + angleLabel2.getHeight() + gap);
+		speedInput1.setPosition(xOffset + speedLabel1.getWidth() + gap, yOffset + 2*angleLabel1.getHeight() + 2*gap);
+		speedInput2.setPosition(xOffset + speedLabel2.getWidth() + gap, yOffset + 2*angleLabel2.getHeight() + 2*gap);
 
-		dropButton.setPosition(xOffset + speedLabel.getWidth() + gap, yOffset
-				+ 2*angleLabel.getHeight() + 3*gap + speedLabel.getHeight());
+		angleLabel1.setVisible(false);
+		angleInput1.setVisible(false);
+		speedLabel1.setVisible(false);
+		speedInput1.setVisible(false);
+		angleLabel2.setVisible(false);
+		angleInput2.setVisible(false);
+		speedLabel2.setVisible(false);
+		speedInput2.setVisible(false);
+		
+		dropButton.setPosition(xOffset + speedLabel1.getWidth() + gap, yOffset + 2*angleLabel1.getHeight() + 3*gap + speedLabel1.getHeight());
 	}
 
 	/**
@@ -466,9 +514,9 @@ public class GamePlayState extends BasicTWLGameState {
 		// Banane will geworfen werden
 		LoopEvent loop = new LoopEvent();
 		// neuer wurf
-		Wurf wurf = new Wurf(Integer.parseInt(speedInput.getText()));
+		Wurf wurf = new Wurf(Integer.parseInt(turn?speedInput1.getText():speedInput2.getText()));
 		// winkel wird gesetzt
-		wurf.angle = turn?Integer.parseInt(angleInput.getText()):(180-Integer.parseInt(angleInput.getText()));
+		wurf.angle = turn?Integer.parseInt(angleInput1.getText()):(180-Integer.parseInt(angleInput2.getText()));
 		// x0 und y0 für newtonsche gleichung..
 		wurf.startPos = turn?new Vector2f(gorilla1pos.getX()+30,gorilla1pos.getY()-38):new Vector2f(gorilla2pos.getX()-30,gorilla2pos.getY()-38);
 		// solange geworfen bis.... kollision // out of bounce
