@@ -62,7 +62,6 @@ public class GameSetupState extends BasicTWLGameState {
                 entityManager.renderEntities(container, game, g);
                
                 //Fehlermeldungen bei falscher Eingabe (wenn leer, dann bei passendem EditField)
-                g.setColor(new Color(255, 0, 0));
                 
                 if(oneIsEmpty)
                         g.drawString("Bitte Name eingeben!", player1_Input.getX(), 380);

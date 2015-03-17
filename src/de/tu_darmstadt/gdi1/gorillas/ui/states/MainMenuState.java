@@ -1,5 +1,6 @@
 package de.tu_darmstadt.gdi1.gorillas.ui.states;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -163,6 +164,7 @@ public class MainMenuState extends BasicTWLGameState {
 			throws SlickException {
 
 		entityManager.renderEntities(container, game, g);
+        g.setColor(new Color(0, 0, 0));
 		
 		int counter = 0;
 		g.drawString("Neues Spiel starten", 110, start_Position+counter*distance); counter++;
