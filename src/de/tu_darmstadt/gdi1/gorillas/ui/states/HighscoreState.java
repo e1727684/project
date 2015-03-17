@@ -129,8 +129,8 @@ public class HighscoreState extends BasicTWLGameState {
 	
 	@Override
 	protected void layoutRootPane() {
-		highscore_Label.setPosition(250, 100);
-		scores_Label.setPosition(150, 200);
+		highscore_Label.setPosition(350, 40);
+		scores_Label.setPosition(150, 120);
     	scores1_Label.setPosition(150, 240);
     	scores2_Label.setPosition(200, 240);
     	scores3_Label.setPosition(320, 240);
