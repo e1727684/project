@@ -59,25 +59,17 @@ public class GameData {
 			highscore[i][3] = Integer.toString(bananasThrown);
 			return true;
 		} else {
-			System.out.println("Name "+name+" schon vorhanden");
-			printHighscoreInConsole();
-			System.out.println("Addiere........");
 			highscore[i][1] = Integer.toString(Integer.parseInt(highscore[i][1])+numberOfRounds);
 			highscore[i][2] = Integer.toString(Integer.parseInt(highscore[i][2])+roundsWon);
 			highscore[i][3] = Integer.toString(Integer.parseInt(highscore[i][3])+bananasThrown);
-			printHighscoreInConsole();
-			System.out.println("Sortiere.......");
 			return sortHighscore();
 		}
 	}
 	
 	private boolean sortHighscore() {
 		String[][] temp = highscore;
-		System.out.println("Leere Feld aus........");
 		highscore = new String[highscoreLength][4];
-		printHighscoreInConsole();
 		int i = 0;
-		System.out.println("Füge wieder ein........");
 		while (temp[i][0] != null 
 				&& addHighscore(temp[i][0], Integer.parseInt(temp[i][1]), Integer.parseInt(temp[i][2]), Integer.parseInt(temp[i][3]))) 
 				{i++;}
