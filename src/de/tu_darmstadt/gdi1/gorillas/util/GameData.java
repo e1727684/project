@@ -22,6 +22,7 @@ public class GameData {
 	private int remainingRounds;
 	private int playTillScore;
 	private int[] currentScore;
+	public boolean musicIsPlaying;
 
 	public GameData() {// ONE call in Gorillas, then getter&setters!
 		init();
@@ -37,6 +38,7 @@ public class GameData {
 		setRemainingRounds(1);
 		setPlayTillScore(0);
 		currentScore = new int[2];
+		musicIsPlaying = false;
 		load();
 		// more?
 	}

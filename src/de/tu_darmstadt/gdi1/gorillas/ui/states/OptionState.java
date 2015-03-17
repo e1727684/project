@@ -12,9 +12,11 @@ import de.matthiasmann.twl.Label;
 import de.matthiasmann.twl.slick.BasicTWLGameState;
 import de.matthiasmann.twl.slick.RootPane;
 import de.tu_darmstadt.gdi1.gorillas.main.Gorillas;
+import de.tu_darmstadt.gdi1.gorillas.util.MusicPlayer;
 import eea.engine.action.Action;
 import eea.engine.action.basicactions.ChangeStateAction;
 import eea.engine.action.basicactions.ChangeStateInitAction;
+import eea.engine.component.Component;
 import eea.engine.component.render.ImageRenderComponent;
 import eea.engine.entity.Entity;
 import eea.engine.entity.StateBasedEntityManager;
@@ -40,6 +42,7 @@ public class OptionState extends BasicTWLGameState {
 			throws SlickException {
 
         entityManager.addEntity(this.stateID, entityManager.getEntity(0, "background"));
+        Action buttonPressed = new Action() {@Override public void update(GameContainer gc, StateBasedGame sb, int delta, Component event) {MusicPlayer.playButton();}};
 		
 		// Bei Druecken der ESC-Taste zurueck ins Hauptmenue wechseln
 		Entity escListener = new Entity("ESC_Listener");
@@ -61,6 +64,7 @@ public class OptionState extends BasicTWLGameState {
     	// Erstelle das Ausloese-Event und die zugehoerige Action
     	ANDEvent mainEvents_z = new ANDEvent(new MouseEnteredEvent(), new MouseClickedEvent());
     	Action zurück_Action = new ChangeStateInitAction(Gorillas.MAINMENUSTATE);
+    	mainEvents_z.addAction(buttonPressed);
     	mainEvents_z.addAction(zurück_Action);
     	zurück_Entity.addComponent(mainEvents_z);
     	

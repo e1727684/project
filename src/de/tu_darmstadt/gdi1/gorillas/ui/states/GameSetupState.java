@@ -125,7 +125,7 @@ public class GameSetupState extends BasicTWLGameState {
                
                 //startGameButton wechselt nur den State, wenn beide Namen eingegeben wurden und nicht gleich sind
                 startGameButton = new Button("Start Game!");
- 
+                
                 startGameButton.addCallback(new Runnable() {
                         @Override
                         public void run() {

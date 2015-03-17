@@ -18,6 +18,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import de.matthiasmann.twl.slick.BasicTWLGameState;
 import de.tu_darmstadt.gdi1.gorillas.main.Gorillas;
 import de.tu_darmstadt.gdi1.gorillas.util.GameData;
+import de.tu_darmstadt.gdi1.gorillas.util.MusicPlayer;
 import eea.engine.action.Action;
 import eea.engine.action.basicactions.ChangeStateAction;
 import eea.engine.action.basicactions.ChangeStateInitAction;
@@ -52,6 +53,8 @@ public class MainMenuState extends BasicTWLGameState {
 			throws SlickException {
 				float scale = 0.28f;
 				int offset = 90;
+
+				Action buttonPressed = new Action() {@Override public void update(GameContainer gc, StateBasedGame sb, int delta, Component event) {MusicPlayer.playButton();}};
 				
 				Entity background = new Entity("background");// Entität für Hintergrund
 		    	Entity new_Game_Entity = new Entity("Neues Spiel starten");// Neues Spiel starten-Entitaet
@@ -91,24 +94,15 @@ public class MainMenuState extends BasicTWLGameState {
 		    	about_Entity.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/button.png")));
 		    	highscore_Entity.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/button.png")));
 		    	quit_Entity.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/button.png")));
-		    	Event loop = new TimeEvent(1, false);
-		    	loop.addAction(new Action() {
+		    	Event sound = new TimeEvent(1, false);
+		    	sound.addAction(new Action() {
 					@Override
 					public void update(GameContainer gc, StateBasedGame sb,
 							int delta, Component event) {
-							try {
-								AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("sound.wav").getAbsoluteFile());
-								Clip clip = AudioSystem.getClip();
-								clip.open(audioInputStream);
-								clip.start();
-					    	} catch(Exception ex) {
-					    		System.out.println("Error with playing sound.");
-					    		ex.printStackTrace();
-					    	}
+							MusicPlayer.playBg();
 					}
-		    		
 		    	});
-		    	music.addComponent(loop);
+		    	music.addComponent(sound);
 		    	}
 				// --->
 		    	
@@ -129,6 +123,11 @@ public class MainMenuState extends BasicTWLGameState {
 		    	mainEvents_a.addAction(about_Action);
 		    	mainEvents_h.addAction(highscore_Action);
 		    	mainEvents_q.addAction(quit_Action);
+		    	mainEvents_n.addAction(buttonPressed);
+		    	mainEvents_i.addAction(buttonPressed);
+		    	mainEvents_a.addAction(buttonPressed);
+		    	mainEvents_h.addAction(buttonPressed);
+		    	mainEvents_q.addAction(buttonPressed);
 		    	new_Game_Entity.addComponent(mainEvents_n);
 		    	instructions_Entity.addComponent(mainEvents_i);
 		    	about_Entity.addComponent(mainEvents_a);
@@ -162,6 +161,7 @@ public class MainMenuState extends BasicTWLGameState {
 								gc.resume();
 							
 							Gorillas.data.setPaused(false);
+							MusicPlayer.playButton();
 						}
 					}
 				});
@@ -173,6 +173,7 @@ public class MainMenuState extends BasicTWLGameState {
 				Entity nListener = new Entity("n_Listener");
 				KeyPressedEvent nPressed = new KeyPressedEvent(Input.KEY_N);
 				nPressed.addAction(new ChangeStateAction(Gorillas.GAMESETUPSTATE)); //
+				nPressed.addAction(buttonPressed);
 				nListener.addComponent(nPressed);
 				entityManager.addEntity(stateID, nListener);
 		    	
