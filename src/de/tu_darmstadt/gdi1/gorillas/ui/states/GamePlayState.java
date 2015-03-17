@@ -133,7 +133,7 @@ public class GamePlayState extends BasicTWLGameState {
         });
         escListener.addComponent(escPressed);
         // --->
-        
+         
         // Entities dem StateBasedEntityManager übergeben
         // <---
         entityManager.addEntity(this.stateID, gorilla1);
