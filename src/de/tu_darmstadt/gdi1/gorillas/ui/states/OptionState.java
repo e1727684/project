@@ -8,11 +8,8 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
 
-import de.matthiasmann.twl.Label;
 import de.matthiasmann.twl.slick.BasicTWLGameState;
-import de.matthiasmann.twl.slick.RootPane;
 import de.tu_darmstadt.gdi1.gorillas.main.Gorillas;
-import de.tu_darmstadt.gdi1.gorillas.ui.widgets.valueadjuster.AdvancedValueAdjusterInt;
 import de.tu_darmstadt.gdi1.gorillas.util.MusicPlayer;
 import eea.engine.action.Action;
 import eea.engine.action.basicactions.ChangeStateAction;

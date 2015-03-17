@@ -8,9 +8,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
 
-import de.matthiasmann.twl.Label;
 import de.matthiasmann.twl.slick.BasicTWLGameState;
-import de.matthiasmann.twl.slick.RootPane;
 import de.tu_darmstadt.gdi1.gorillas.main.Gorillas;
 import de.tu_darmstadt.gdi1.gorillas.util.MusicPlayer;
 import eea.engine.action.Action;
@@ -29,8 +27,6 @@ public class CongratulationState extends BasicTWLGameState {
 	
 	private int stateID;
 	private StateBasedEntityManager entityManager;
-	
-	private Label instruction_Label;
 	
 	public CongratulationState(int sid) {
 		stateID = sid;
