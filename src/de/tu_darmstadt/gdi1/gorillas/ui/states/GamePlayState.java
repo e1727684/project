@@ -34,6 +34,7 @@ import de.tu_darmstadt.gdi1.gorillas.util.Wurf;
 import eea.engine.action.Action;
 import eea.engine.action.basicactions.ChangeStateAction;
 import eea.engine.action.basicactions.DestroyEntityAction;
+import eea.engine.action.basicactions.MoveUpAction;
 import eea.engine.action.basicactions.RotateLeftAction;
 import eea.engine.action.basicactions.RotateRightAction;
 import eea.engine.component.Component;
@@ -43,6 +44,7 @@ import eea.engine.entity.Entity;
 import eea.engine.entity.StateBasedEntityManager;
 import eea.engine.event.Event;
 import eea.engine.event.basicevents.KeyPressedEvent;
+import eea.engine.event.basicevents.LeavingScreenEvent;
 import eea.engine.event.basicevents.LoopEvent;
 import eea.engine.interfaces.IDestructible;
 
@@ -66,6 +68,7 @@ public class GamePlayState extends BasicTWLGameState {
 	private Vector2f gorilla2pos;
 	private AtomicInteger wurfAnzahl;
 	private boolean goCongratulate;
+	private boolean reset;
 	private int wind;
 
 	public GamePlayState(int sid) {
@@ -247,6 +250,26 @@ public class GamePlayState extends BasicTWLGameState {
 			switchInputLabel(false);
 		else 
 			switchInputLabel(true);
+		
+		if (reset) {
+			reset = false;
+			entityManager.clearEntitiesFromState(stateID);
+			game.enterState(Gorillas.GAMEPLAYSTATE);
+			init(container, game);
+		}
+		
+		nameLabel.setText(buildTheLabel()); //updated for turns, rounds, score, ..
+		
+		if (goCongratulate) {
+			game.enterState(Gorillas.CONGRATULATIONSTATE);
+		}
+		if (!Gorillas.data.getPlayerWon().equals("")) {
+			someoneWon();
+		}
+		entityManager.updateEntities(container, game, delta);
+	}
+	
+	private String buildTheLabel() {
 		String buildNameLabel = "";
 		if (Gorillas.data.getRemainingRounds() > 0 && Gorillas.data.getPlayTillScore() == 0) // display names so the players know whose turn it is!
 			if (Gorillas.data.getRemainingRounds() == 1)
@@ -263,49 +286,56 @@ public class GamePlayState extends BasicTWLGameState {
 			buildNameLabel += "Player 1: "+Gorillas.data.getPlayer1();
 		else 
 			buildNameLabel += "Player 2: "+Gorillas.data.getPlayer2();
-		nameLabel.setText(buildNameLabel);
-		if (goCongratulate) {
-			game.enterState(Gorillas.CONGRATULATIONSTATE);
-		}
-		if (!Gorillas.data.getPlayerWon().equals("")) {
-			entityManager.getEntity(stateID, "gorilla1").setVisible(false);
-			entityManager.getEntity(stateID, "gorilla2").setVisible(false);
-			
-			Entity jubel = new Entity("jubel");
-			Entity boom = new Entity("boom");
-			
-			boom.setPosition(entityManager.getEntity(stateID, Gorillas.data.getPlayerWon().equals("player1")?"gorilla2":"gorilla1").getPosition());
-			jubel.setPosition(entityManager.getEntity(stateID, Gorillas.data.getPlayerWon().equals("player1")?"gorilla1":"gorilla2").getPosition());
-			
-			boom.addComponent(new ImageRenderComponent(new Image("assets/gorillas/explosions/explosion_1.png")));
-			jubel.addComponent(new ImageRenderComponent(new Image(Gorillas.data.getPlayerWon().equals("player1")?"assets/gorillas/gorillas/gorilla_left_up.png":"assets/gorillas/gorillas/gorilla_right_up.png")));
+		return buildNameLabel;
+	}
+	
+	private void someoneWon() throws SlickException {
+		entityManager.getEntity(stateID, "gorilla1").setVisible(false);
+		entityManager.getEntity(stateID, "gorilla2").setVisible(false);
+		
+		Entity jubel = new Entity("jubel");
+		Entity boom = new Entity("boom");
+		
+		boom.setPosition(entityManager.getEntity(stateID, Gorillas.data.getPlayerWon().equals("player1")?"gorilla2":"gorilla1").getPosition());
+		jubel.setPosition(entityManager.getEntity(stateID, Gorillas.data.getPlayerWon().equals("player1")?"gorilla1":"gorilla2").getPosition());
+		
+		boom.addComponent(new ImageRenderComponent(new Image("assets/gorillas/explosions/explosion_1.png")));
+		jubel.addComponent(new ImageRenderComponent(new Image(Gorillas.data.getPlayerWon().equals("player1")?"assets/gorillas/gorillas/gorilla_left_up.png":"assets/gorillas/gorillas/gorilla_right_up.png")));
 
-			LoopEvent loop = new LoopEvent();
-			loop.addAction(new Jubel(3.5F));
-			jubel.addComponent(loop);
-			
-			entityManager.addEntity(stateID, boom);
-			entityManager.addEntity(stateID, jubel);
-			if (Gorillas.data.getRemainingRounds() <= 1 && Gorillas.data.getPlayTillScore() == 0) {
-				goCongratulate = true;
-			} else if (Gorillas.data.getPlayTillScore() == Gorillas.data.getCurrentScore()[0]+1 || Gorillas.data.getPlayTillScore() == Gorillas.data.getCurrentScore()[1]+1) {
-				goCongratulate = true;
-			} else {
-				Gorillas.data.setRemainingRounds(Gorillas.data.getRemainingRounds()-1);
-				int[] score = Gorillas.data.getCurrentScore();
-				if (Gorillas.data.getPlayerWon().equals("player1")) {
-					score[0] = score[0]+1;
+		LoopEvent loop = new LoopEvent();
+		MoveUpAction mua = new MoveUpAction(0.5F);
+		loop.addAction(mua);
+		Event leavingEvent = new LeavingScreenEvent();
+		//leavingEvent.addAction(new DestroyEntityAction());
+		leavingEvent.addAction(new Action() {
+
+			@Override
+			public void update(GameContainer gc, StateBasedGame sb,
+					int delta, Component event) {
+				if (Gorillas.data.getRemainingRounds() <= 1 && Gorillas.data.getPlayTillScore() == 0) {
+					goCongratulate = true;
+				} else if (Gorillas.data.getPlayTillScore() == Gorillas.data.getCurrentScore()[0]+1 || Gorillas.data.getPlayTillScore() == Gorillas.data.getCurrentScore()[1]+1) {
+					goCongratulate = true;
 				} else {
-					score[1] = score[1]+1;
+					Gorillas.data.setRemainingRounds(Gorillas.data.getRemainingRounds()-1);
+					int[] score = Gorillas.data.getCurrentScore();
+					if (Gorillas.data.getPlayerWon().equals("player1")) {
+						score[0] = score[0]+1;
+					} else {
+						score[1] = score[1]+1;
+					}
+					Gorillas.data.setCurrentScore(score);
+					Gorillas.data.setPlayerWon("");
+					reset = true;
 				}
-				Gorillas.data.setCurrentScore(score);
-				Gorillas.data.setPlayerWon("");
-				entityManager.clearEntitiesFromState(stateID);
-				game.enterState(Gorillas.GAMEPLAYSTATE);
-				init(container, game);
+				
 			}
-		}
-		entityManager.updateEntities(container, game, delta);
+			
+		});
+		boom.addComponent(leavingEvent);
+		boom.addComponent(loop);
+		entityManager.addEntity(stateID, boom);
+		entityManager.addEntity(stateID, jubel);
 	}
 	
 	private void switchInputLabel(boolean visible) {
