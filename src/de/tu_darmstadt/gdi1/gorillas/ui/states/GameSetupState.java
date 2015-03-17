@@ -20,7 +20,9 @@ public class GameSetupState extends BasicTWLGameState {
         private StateBasedEntityManager entityManager;
         private StateBasedGame sb;      //für State-Wechsel
         GameContainer gc;                       //für State-Wechsel
- 
+
+        private Label round_Label;
+        EditField round_Input;
         private Label player1_Label;
         EditField player1_Input;
         private Label player2_Label;
@@ -89,6 +91,15 @@ public class GameSetupState extends BasicTWLGameState {
                 RootPane rp = super.createRootPane();
                
                 //Label & EditField & Überwachung von Editfield für Player1
+                round_Label = new Label("Rounds:");
+                round_Input = new EditField();
+ 
+                round_Input.addCallback(new Callback() {
+                        public void callback(int key) {
+                                handleEditFieldInput(key, round_Input, this, 15, round_Input.getText());
+                        }
+                });
+                
                 player1_Label = new Label("Spieler1:");
                 player1_Input = new EditField();
  
@@ -137,6 +148,9 @@ public class GameSetupState extends BasicTWLGameState {
                                 //ist keine der oberen Bedingungen gegeben
                                 if(!oneIsEmpty && !twoIsEmpty && !isEqual){
                                        
+                                		if (!round_Input.getText().equals(""))
+                                			Gorillas.data.setRemainingRounds(Integer.parseInt(round_Input.getText()));
+                                	
                                         //Namen werden gespeichert
                                         Gorillas.data.setPlayer1(playerName1);
                                         Gorillas.data.setPlayer2(playerName2);
@@ -152,6 +166,8 @@ public class GameSetupState extends BasicTWLGameState {
                 });
  
                 //Elemente werden zur RootPane hinzugefügt
+                rp.add(round_Label);
+                rp.add(round_Input);
                 rp.add(player1_Label);
                 rp.add(player1_Input);
                 rp.add(player2_Label);
@@ -169,11 +185,14 @@ public class GameSetupState extends BasicTWLGameState {
  
                 int xOffset = 120;
                 int yOffset = 300;
- 
+
+                round_Input.setSize(80, 40);
                 player1_Input.setSize(250, 40);
                 player2_Input.setSize(250, 40);
  
                 //Position von Label & Editfield Player1
+                round_Label.setPosition(250, 120);
+                round_Input.setPosition(250, 150);
                 player1_Label.setPosition(xOffset, yOffset);
                 player1_Input.setPosition(xOffset, yOffset + 30);
                

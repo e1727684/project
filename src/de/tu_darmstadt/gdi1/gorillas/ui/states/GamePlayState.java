@@ -242,9 +242,9 @@ public class GamePlayState extends BasicTWLGameState {
 		else 
 			switchInputLabel(true);
 		if (turn) // display names so the players know whose turn it is!
-			nameLabel.setText(wurfAnzahl + ". Wurf! Player 1: "+Gorillas.data.getPlayer1());
+			nameLabel.setText(Gorillas.data.getRemainingRounds() + " Runden verbleibend \nScore: "+Gorillas.data.getCurrentScore()[0]+":"+Gorillas.data.getCurrentScore()[1]+"\n" +wurfAnzahl + ". Wurf! Player 1: "+Gorillas.data.getPlayer1());
 		else 
-			nameLabel.setText(wurfAnzahl + ". Wurf! Player 2: "+Gorillas.data.getPlayer2());
+			nameLabel.setText(Gorillas.data.getRemainingRounds() + " Runden verbleibend \nScore: "+Gorillas.data.getCurrentScore()[0]+":"+Gorillas.data.getCurrentScore()[1]+"\n" +wurfAnzahl + ". Wurf! Player 2: "+Gorillas.data.getPlayer2());
 		if (goCongratulate) {
 			game.enterState(Gorillas.CONGRATULATIONSTATE);
 		}
@@ -267,18 +267,25 @@ public class GamePlayState extends BasicTWLGameState {
 			
 			entityManager.addEntity(stateID, boom);
 			entityManager.addEntity(stateID, jubel);
-			
-			Timer timer = new Timer(3000, new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-					goCongratulate = true;
-				}});
-			timer.setRepeats(false);
-			timer.start();
+			if (Gorillas.data.getRemainingRounds() <= 1) {
+				goCongratulate = true;
+			} else {
+				Gorillas.data.setRemainingRounds(Gorillas.data.getRemainingRounds()-1);
+				int[] score = Gorillas.data.getCurrentScore();
+				if (Gorillas.data.getPlayerWon().equals("player1")) {
+					score[0] = score[0]+1;
+				} else {
+					score[1] = score[1]+1;
+				}
+				Gorillas.data.setCurrentScore(score);
+				Gorillas.data.setPlayerWon("");
+				game.enterState(Gorillas.GAMEPLAYSTATE);
+				init(container, game);
+			}
 		}
 		entityManager.updateEntities(container, game, delta);
 	}
-
+	
 	private void switchInputLabel(boolean visible) {
 		if (visible)
 			try {
@@ -405,7 +412,7 @@ public class GamePlayState extends BasicTWLGameState {
 	protected void layoutRootPane() {
 
 		int xOffset = 50;
-		int yOffset = 50;
+		int yOffset = 80;
 		int gap = 5;
 
 		// alle GUI-Elemente m�ssen eine Gr��e zugewiesen bekommen. Soll
@@ -429,7 +436,7 @@ public class GamePlayState extends BasicTWLGameState {
 		// Nachdem alle Gr��en adjustiert wurden, muss allen GUI-Elementen
 		// eine
 		// Position (linke obere Ecke) zugewiesen werden
-		nameLabel.setPosition(xOffset, yOffset);
+		nameLabel.setPosition(xOffset, yOffset/2);
 		angleLabel1.setPosition(xOffset, yOffset + angleLabel1.getHeight() + gap);
 		angleLabel2.setPosition(xOffset, yOffset + angleLabel2.getHeight() + gap);
 		angleInput1.setPosition(xOffset + angleLabel1.getWidth() + gap, yOffset + angleLabel1.getHeight() + gap);
@@ -562,7 +569,7 @@ public class GamePlayState extends BasicTWLGameState {
 					} else if (entity.getID() == "gorilla2") {
 						Gorillas.data.setPlayerWon("player1");
 						Gorillas.data.addHighscore(Gorillas.data.getPlayer1(), 1, 1, wurfAnzahl.get());
-						Gorillas.data.addHighscore(Gorillas.data.getPlayer2(), 1, 2, wurfAnzahl.get()-1);
+						Gorillas.data.addHighscore(Gorillas.data.getPlayer2(), 1, 0, wurfAnzahl.get()-1);
 						Gorillas.data.save();
 					}
 					return;
