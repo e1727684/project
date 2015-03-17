@@ -53,7 +53,7 @@ public class InstructionState extends BasicTWLGameState {
     	Entity zurück_Entity = new Entity("Zurück");
     	
     	// Setze Position und Bildkomponente
-    	zurück_Entity.setPosition(new Vector2f(400, 450));
+    	zurück_Entity.setPosition(new Vector2f(400, 470));
     	zurück_Entity.setScale(0.18f);
     	if (!Gorillas.data.guiDisabled) { // really.... 
     	zurück_Entity.addComponent(new ImageRenderComponent(new Image("assets/gorillas/button.png")));
@@ -75,7 +75,7 @@ public class InstructionState extends BasicTWLGameState {
 		
 		entityManager.renderEntities(container, game, g);
 		
-		g.drawString("Zurück", 370, 445);
+		g.drawString("Zurück", 370, 465);
 		
 	}
 
@@ -98,8 +98,7 @@ public class InstructionState extends BasicTWLGameState {
 		RootPane rp = super.createRootPane();
 		
 		/*Intruktion-Label*/
-    	instruction_Label = new Label("Blablabla und so weiter...");
-    	instruction_Label.setPosition(250, 100);
+    	instruction_Label = new Label("Erinnerst Du Dich noch an das QBasic-Spiel Gorilla? \n\nEs war das klassische Spiel, in dem hoch oben auf Wolkenkratzern zwei Gorillas gegen den Tod kämpften. \n\nBeschieße Deinen Gegner mit hochexplosiven Bananen. \n\nDu musst jedoch den richtigen Schusswinkel sowie die Geschwindigkeit herausfinden, \num ihn zu treffen und zu verletzen. \nAuch Wind spielt eine Rolle und muss beachtet werden. \n\nDas Spiel kann nur zu zweit gespielt werden. \n\nWenn man im ''Neues Spiel Starten''-Fenster eine positive Zahl eingibt,\ndann spielt man bis einer die eingegebene Punktzahl erreicht. \nGibt man eine negative Zahl ein, spielt man eine feste Anzahl an Runden. \n\nDuelliere dich gegen Deinen Freund oder Kollegen und sei der bessere Gorilla.");
     	rp.add(instruction_Label);
     	
     	return rp;
@@ -107,7 +106,7 @@ public class InstructionState extends BasicTWLGameState {
 	
 	@Override
 	protected void layoutRootPane() {
-		instruction_Label.setPosition(250, 100);
+		instruction_Label.setPosition(50, 220);
 	}
 
 }

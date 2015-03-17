@@ -590,6 +590,13 @@ public class GamePlayState extends BasicTWLGameState {
 		// <---
 		Event leavingEvent = new MyLeavingScreenEvent();
 		leavingEvent.addAction(new DestroyEntityAction());
+		leavingEvent.addAction(new Action() {
+			@Override
+			public void update(GameContainer gc, StateBasedGame sb, int delta,
+					Component event) {
+				// TODO Hohn und Spott bitte hier einfügen.
+			}
+		});
 		banana.addComponent(leavingEvent);
 		// --->
 		
