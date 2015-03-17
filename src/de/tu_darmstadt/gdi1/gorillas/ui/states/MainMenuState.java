@@ -1,5 +1,11 @@
 package de.tu_darmstadt.gdi1.gorillas.ui.states;
 
+import java.io.File;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -21,9 +27,11 @@ import eea.engine.component.render.ImageRenderComponent;
 import eea.engine.entity.Entity;
 import eea.engine.entity.StateBasedEntityManager;
 import eea.engine.event.ANDEvent;
+import eea.engine.event.Event;
 import eea.engine.event.basicevents.KeyPressedEvent;
 import eea.engine.event.basicevents.MouseClickedEvent;
 import eea.engine.event.basicevents.MouseEnteredEvent;
+import eea.engine.event.basicevents.TimeEvent;
 
 public class MainMenuState extends BasicTWLGameState {
 
@@ -51,6 +59,7 @@ public class MainMenuState extends BasicTWLGameState {
 		    	Entity about_Entity = new Entity("About");// About-Entität
 		    	Entity highscore_Entity = new Entity("Highscore");// Highscore-Entitaet
 		    	Entity quit_Entity = new Entity("Beenden");// Beenden-Entitaet
+		    	Entity music = new Entity("Music");
 				
 		    	// Setze Positionen
 				// <---
@@ -82,6 +91,24 @@ public class MainMenuState extends BasicTWLGameState {
 		    	about_Entity.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/button.png")));
 		    	highscore_Entity.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/button.png")));
 		    	quit_Entity.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/button.png")));
+		    	Event loop = new TimeEvent(1, false);
+		    	loop.addAction(new Action() {
+					@Override
+					public void update(GameContainer gc, StateBasedGame sb,
+							int delta, Component event) {
+							try {
+								AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("sound.wav").getAbsoluteFile());
+								Clip clip = AudioSystem.getClip();
+								clip.open(audioInputStream);
+								clip.start();
+					    	} catch(Exception ex) {
+					    		System.out.println("Error with playing sound.");
+					    		ex.printStackTrace();
+					    	}
+					}
+		    		
+		    	});
+		    	music.addComponent(loop);
 		    	}
 				// --->
 		    	
@@ -116,6 +143,7 @@ public class MainMenuState extends BasicTWLGameState {
 		    	entityManager.addEntity(this.stateID, about_Entity);
 		    	entityManager.addEntity(this.stateID, highscore_Entity);
 		    	entityManager.addEntity(this.stateID, quit_Entity);
+		    	entityManager.addEntity(this.stateID, music);
 		    	
 		    	
 		    	// Bei Druecken der ESC-Taste zurueck ins Spiel wechseln

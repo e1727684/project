@@ -79,7 +79,6 @@ public class Gorillas extends TWLStateBasedGame {
 		data.guiDisabled = false;
 		// Insert this StateBasedGame into an AppContainer (a window)
 		AppGameContainer app = new AppGameContainer(new Gorillas(false));
-
 		// Set window properties and start it
 		app.setShowFPS(debug);
 		app.setDisplayMode(FRAME_WIDTH, FRAME_HEIGHT, false);
