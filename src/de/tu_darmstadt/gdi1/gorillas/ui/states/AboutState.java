@@ -40,8 +40,6 @@ public class AboutState extends BasicTWLGameState {
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
-
-        entityManager.addEntity(this.stateID, entityManager.getEntity(0, "background"));
         Action buttonPressed = new Action() {@Override public void update(GameContainer gc, StateBasedGame sb, int delta, Component event) {MusicPlayer.playButton();}};
 		
 		// Bei Druecken der ESC-Taste zurueck ins Hauptmenue wechseln
@@ -58,9 +56,13 @@ public class AboutState extends BasicTWLGameState {
     	// Setze Position und Bildkomponente
     	zurück_Entity.setPosition(new Vector2f(400, 450));
     	zurück_Entity.setScale(0.18f);
+		Entity background = new Entity("aboutBack");
+		background.setPosition(new Vector2f(400,300));
     	if (!Gorillas.data.guiDisabled) { // really.... 
-    	zurück_Entity.addComponent(new ImageRenderComponent(new Image("assets/gorillas/button.png")));
+        	background.addComponent(new ImageRenderComponent(new Image("assets/gorillas/backgrounds/backgroundAbout.png")));
+        	zurück_Entity.addComponent(new ImageRenderComponent(new Image("assets/gorillas/button.png")));
     	}
+        entityManager.addEntity(this.stateID, background);
     	// Erstelle das Ausloese-Event und die zugehoerige Action
     	ANDEvent mainEvents_z = new ANDEvent(new MouseEnteredEvent(), new MouseClickedEvent());
     	Action zurück_Action = new ChangeStateInitAction(Gorillas.MAINMENUSTATE);
@@ -101,15 +103,15 @@ public class AboutState extends BasicTWLGameState {
 		RootPane rp = super.createRootPane();
 		
 		/*Intruktion-Label*/
-		about_Label = new Label("13. Januar 2015.\nDie Projektgruppe trifft sich zum allerersten Mal.\nDas Thema? Unbekannt.\nDas Ziel? Unbekannt.\nDie Java-Kentnisse der Gruppenmitglieder? Unbekannt.\n\n\n04. Februar 2015.\nDas Thema wird bekanntgegeben!\nDas Abenteuer kann beginnen. Es ist... \nEine Hommage auf das Spiel Gorillas von 1991.\n\nEntwickler:\n ~ Deniz Tobias Buruncuk\n ~ Dennis Hasenstab\n ~ Marcel Dieter\n ~ Philip Stauder");
-    	rp.add(about_Label);
+		//about_Label = new Label("13. Januar 2015.\nDie Projektgruppe trifft sich zum allerersten Mal.\nDas Thema? Unbekannt.\nDas Ziel? Unbekannt.\nDie Java-Kentnisse der Gruppenmitglieder? Unbekannt.\n\n\n04. Februar 2015.\nDas Thema wird bekanntgegeben!\nDas Abenteuer kann beginnen. Es ist... \nEine Hommage auf das Spiel Gorillas von 1991.\n\nEntwickler:\n ~ Deniz Tobias Buruncuk\n ~ Dennis Hasenstab\n ~ Marcel Dieter\n ~ Philip Stauder");
+    	//rp.add(about_Label);
     	
     	return rp;
 	}
 	
 	@Override
 	protected void layoutRootPane() {
-		about_Label.setPosition(50, 220);
+		//about_Label.setPosition(50, 220);
 	}
 
 }

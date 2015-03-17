@@ -296,7 +296,7 @@ public class GamePlayState extends BasicTWLGameState {
 				buildNameLabel += Gorillas.data.getPlayTillScore() + " Punkt gewinnt!";
 			else
 				buildNameLabel += Gorillas.data.getPlayTillScore() + " Punkte gewinnen!";
-		buildNameLabel += "\nScore: "+Gorillas.data.getCurrentScore()[0]+":"+Gorillas.data.getCurrentScore()[1]+"\n" +wurfAnzahl + ". Wurf! ";
+		buildNameLabel += "\n"+Gorillas.data.getCurrentScore()[0]+">Score<"+Gorillas.data.getCurrentScore()[1]+"\n" +wurfAnzahl + ". Wurf! ";
 		if (turn)
 			buildNameLabel += "Player 1: "+Gorillas.data.getPlayer1();
 		else 
@@ -508,7 +508,7 @@ public class GamePlayState extends BasicTWLGameState {
 	@Override
 	protected void layoutRootPane() {
 
-		int xOffset = 50;
+		int xOffset = 5;
 		int yOffset = 80;
 		int gap = 5;
 

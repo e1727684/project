@@ -56,7 +56,7 @@ public class OptionState extends BasicTWLGameState {
 		escListener.addComponent(escPressed);
     	Entity zurück_Entity = new Entity("Zurück");
     	if (!Gorillas.data.guiDisabled) { // really.... 
-    	mbackground.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/backgroundMain.png")));
+    	mbackground.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/backgrounds/backgroundMain.png")));
     	musicButton.addComponent(new ImageRenderComponent(new Image("assets/gorillas/button.png")));
     	windButton.addComponent(new ImageRenderComponent(new Image("assets/gorillas/button.png")));
     	spottButton.addComponent(new ImageRenderComponent(new Image("assets/gorillas/button.png")));

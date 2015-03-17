@@ -5,7 +5,9 @@ package de.tu_darmstadt.gdi1.gorillas.ui.states;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
 
 import de.matthiasmann.twl.Button;
@@ -15,6 +17,8 @@ import de.matthiasmann.twl.Label;
 import de.matthiasmann.twl.slick.BasicTWLGameState;
 import de.matthiasmann.twl.slick.RootPane;
 import de.tu_darmstadt.gdi1.gorillas.main.Gorillas;
+import eea.engine.component.render.ImageRenderComponent;
+import eea.engine.entity.Entity;
 import eea.engine.entity.StateBasedEntityManager;
  
 public class GameSetupState extends BasicTWLGameState {
@@ -50,7 +54,13 @@ public class GameSetupState extends BasicTWLGameState {
                 //wird zwischengespeichert für StateChange über Rootpane-Button
                 sb = game;
                 gc = container;
-                entityManager.addEntity(this.stateID, entityManager.getEntity(0, "background"));
+
+        		Entity background = new Entity("aboutBack");
+        		background.setPosition(new Vector2f(400,300));
+            	if (!Gorillas.data.guiDisabled) { // really.... 
+                	background.addComponent(new ImageRenderComponent(new Image("assets/gorillas/backgrounds/backgroundDaWoManNamenEingibt.png")));
+            	}
+                entityManager.addEntity(this.stateID, background);
  
         }
        
@@ -175,9 +185,9 @@ public class GameSetupState extends BasicTWLGameState {
                 //Elemente werden zur RootPane hinzugefügt
                 rp.add(round_Label);
                 rp.add(round_Input);
-                rp.add(player1_Label);
+                //rp.add(player1_Label);
                 rp.add(player1_Input);
-                rp.add(player2_Label);
+                //rp.add(player2_Label);
                 rp.add(player2_Input);
                 rp.add(startGameButton);
                
@@ -193,13 +203,13 @@ public class GameSetupState extends BasicTWLGameState {
                 int xOffset = 120;
                 int yOffset = 300;
 
-                round_Input.setSize(80, 40);
+                round_Input.setSize(40, 40);
                 player1_Input.setSize(250, 40);
                 player2_Input.setSize(250, 40);
  
                 //Position von Label & Editfield Player1
-                round_Label.setPosition(250, 120);
-                round_Input.setPosition(250, 150);
+                round_Label.setPosition(50, 120);
+                round_Input.setPosition(50, 150);
                 player1_Label.setPosition(xOffset, yOffset);
                 player1_Input.setPosition(xOffset, yOffset + 30);
                
@@ -210,7 +220,7 @@ public class GameSetupState extends BasicTWLGameState {
                 //Position von startGameButton
                 //startGameButton.setSize(50, 25);                              //entweder feste Größe für Button...
                 startGameButton.adjustSize();                                   //..., oder angepasst.
-                startGameButton.setPosition(xOffset + 230 , yOffset + 120);
+                startGameButton.setPosition(xOffset + 230 , yOffset + 135);
  
         }
  

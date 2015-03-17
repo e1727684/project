@@ -41,7 +41,13 @@ public class InstructionState extends BasicTWLGameState {
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
 
-        entityManager.addEntity(this.stateID, entityManager.getEntity(0, "background"));
+
+		Entity background = new Entity("aboutBack");
+		background.setPosition(new Vector2f(400,300));
+    	if (!Gorillas.data.guiDisabled) { // really.... 
+        	background.addComponent(new ImageRenderComponent(new Image("assets/gorillas/backgrounds/backgroundInstruction.png")));
+    	}
+        entityManager.addEntity(this.stateID, background);
         Action buttonPressed = new Action() {@Override public void update(GameContainer gc, StateBasedGame sb, int delta, Component event) {MusicPlayer.playButton();}};
 		
 		// Bei Druecken der ESC-Taste zurueck ins Hauptmenue wechseln
@@ -56,7 +62,7 @@ public class InstructionState extends BasicTWLGameState {
     	Entity zurück_Entity = new Entity("Zurück");
     	
     	// Setze Position und Bildkomponente
-    	zurück_Entity.setPosition(new Vector2f(400, 470));
+    	zurück_Entity.setPosition(new Vector2f(400, 450));
     	zurück_Entity.setScale(0.18f);
     	if (!Gorillas.data.guiDisabled) { // really.... 
     	zurück_Entity.addComponent(new ImageRenderComponent(new Image("assets/gorillas/button.png")));
@@ -79,7 +85,7 @@ public class InstructionState extends BasicTWLGameState {
 		
 		entityManager.renderEntities(container, game, g);
 		
-		g.drawString("Zurück", 370, 465);
+		g.drawString("Zurück", 370, 445);
 		
 	}
 
@@ -110,7 +116,7 @@ public class InstructionState extends BasicTWLGameState {
 	
 	@Override
 	protected void layoutRootPane() {
-		instruction_Label.setPosition(50, 220);
+		instruction_Label.setPosition(50, 200);
 	}
 
 }

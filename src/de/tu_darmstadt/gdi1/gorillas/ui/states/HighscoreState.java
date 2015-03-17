@@ -30,7 +30,6 @@ public class HighscoreState extends BasicTWLGameState {
 	private int stateID;
 	private StateBasedEntityManager entityManager;
 
-	private Label highscore_Label;
 	private Label scores_Label;
 	private Label scores1_Label;
 	private Label scores2_Label;
@@ -48,7 +47,12 @@ public class HighscoreState extends BasicTWLGameState {
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
 
-        entityManager.addEntity(this.stateID, entityManager.getEntity(0, "background"));
+		Entity background = new Entity("aboutBack");
+		background.setPosition(new Vector2f(400,300));
+    	if (!Gorillas.data.guiDisabled) { // really.... 
+        	background.addComponent(new ImageRenderComponent(new Image("assets/gorillas/backgrounds/backgroundHighscore.png")));
+    	}
+        entityManager.addEntity(this.stateID, background);
         Action buttonPressed = new Action() {@Override public void update(GameContainer gc, StateBasedGame sb, int delta, Component event) {MusicPlayer.playButton();}};
 		
 		// Bei Druecken der ESC-Taste zurueck ins Hauptmenue wechseln
@@ -109,7 +113,6 @@ public class HighscoreState extends BasicTWLGameState {
 		RootPane rp = super.createRootPane();
 		
 		/*Intruktion-Label*/
-    	highscore_Label = new Label("HighScore:");
     	scores_Label = new Label("Place   Player              Rounds              Won                               Mean accuracy \n");
     	scores1_Label = new Label(Gorillas.data.giveHighscoreAsString(0));
     	scores2_Label = new Label(Gorillas.data.giveHighscoreAsString(1));
@@ -117,9 +120,6 @@ public class HighscoreState extends BasicTWLGameState {
     	scores4_Label = new Label(Gorillas.data.giveHighscoreAsString(3));
     	scores5_Label = new Label(Gorillas.data.giveHighscoreAsString(4));
     	scores6_Label = new Label(Gorillas.data.giveHighscoreAsString(5));
-    	highscore_Label.setPosition(250, 100);
-    	scores_Label.setPosition(150, 200);
-    	rp.add(highscore_Label);
     	rp.add(scores_Label);
     	rp.add(scores1_Label);
     	rp.add(scores2_Label);
@@ -133,14 +133,13 @@ public class HighscoreState extends BasicTWLGameState {
 	
 	@Override
 	protected void layoutRootPane() {
-		highscore_Label.setPosition(350, 40);
-		scores_Label.setPosition(150, 120);
-    	scores1_Label.setPosition(150, 240);
-    	scores2_Label.setPosition(200, 240);
-    	scores3_Label.setPosition(320, 240);
-    	scores4_Label.setPosition(400, 240);
-    	scores5_Label.setPosition(425, 240);
-    	scores6_Label.setPosition(560, 240);
+		scores_Label.setPosition(150, 150);
+    	scores1_Label.setPosition(150, 270);
+    	scores2_Label.setPosition(200, 270);
+    	scores3_Label.setPosition(320, 270);
+    	scores4_Label.setPosition(410, 270);
+    	scores5_Label.setPosition(435, 270);
+    	scores6_Label.setPosition(560, 270);
 	}
 
 }

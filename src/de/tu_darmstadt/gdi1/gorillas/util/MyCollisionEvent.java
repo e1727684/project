@@ -55,7 +55,7 @@ public class MyCollisionEvent extends Event {
 		// if there is such an entity, store a reference and indicate the
 		// willingness
 		// to perform the action(s)
-		if (entity != null && !em.getEntity(2, "background").equals(entity) && !em.getEntity(2, "arrow_wind").equals(entity)) {
+		if (entity != null && !em.getEntity(2, "background").equals(entity) && (em.hasEntity(2, "arrow_wind")?!em.getEntity(2, "arrow_wind").equals(entity):true)) {
 			if (em.getEntity(2, "sun_smiling").equals(entity)) {
 				try {
 					em.getEntity(2, "sun_smiling").addComponent(new ImageRenderComponent(new Image("/assets/gorillas/sun/sun_astonished.png")));

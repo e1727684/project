@@ -41,7 +41,12 @@ public class CongratulationState extends BasicTWLGameState {
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
 
-        entityManager.addEntity(this.stateID, entityManager.getEntity(0, "background"));
+		Entity background = new Entity("aboutBack");
+		background.setPosition(new Vector2f(400,300));
+    	if (!Gorillas.data.guiDisabled) { // really.... 
+        	background.addComponent(new ImageRenderComponent(new Image("assets/gorillas/backgrounds/backgroundCongrats.png")));
+    	}
+        entityManager.addEntity(this.stateID, background);
         Action buttonPressed = new Action() {@Override public void update(GameContainer gc, StateBasedGame sb, int delta, Component event) {MusicPlayer.playButton();}};
 		
 		// Bei Druecken der ESC-Taste zurueck ins Hauptmenue wechseln
@@ -78,7 +83,9 @@ public class CongratulationState extends BasicTWLGameState {
 			throws SlickException {
 		
 		entityManager.renderEntities(container, game, g);
-		
+
+		g.drawString("Herzlichen Glückwunsch Spieler " + (Gorillas.data.getPlayerWon().equals("player1")?Gorillas.data.getPlayer1():Gorillas.data.getPlayer2()) + "!",
+				250, 80);
 		g.drawString("Zurück", 370, 445);
 		
 	}
@@ -94,23 +101,4 @@ public class CongratulationState extends BasicTWLGameState {
 	public int getID() {
 		return stateID;
 	} 
-	
-	@Override
-	protected RootPane createRootPane() {
-		
-		// erstelle die RootPane
-		RootPane rp = super.createRootPane();
-		
-		/*Intruktion-Label*/
-    	instruction_Label = new Label("Herzlichen Glückwunsch " + (Gorillas.data.getPlayerWon().equals("player1")?Gorillas.data.getPlayer1():Gorillas.data.getPlayer2()) + "!");
-    	instruction_Label.setPosition(250, 100);
-    	rp.add(instruction_Label);
-    	return rp;
-	}
-	
-	@Override
-	protected void layoutRootPane() {
-		instruction_Label.setPosition(250, 100);
-	}
-
 }
