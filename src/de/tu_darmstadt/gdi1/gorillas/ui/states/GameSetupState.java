@@ -140,7 +140,7 @@ public class GameSetupState extends BasicTWLGameState {
                                 else
                                         twoIsEmpty = false;
                                 //wenn Namen gleich sind                                       
-                                if (playerName1.equals(playerName2) && !playerName1.isEmpty())
+                                if (playerName1.equalsIgnoreCase(playerName2) && !playerName1.isEmpty())
                                         isEqual = true;
                                 else
                                         isEqual = false;
