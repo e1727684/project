@@ -137,7 +137,8 @@ public class GorillasTestAdapterMinimal {
 	 * player names).
 	 */
 	public void rememberGameData() {
-		//gorillas.data.save();
+		if (TestGorillas.data == null) TestGorillas.data = new GameData(); // eh.... ok. we testing i guess? 
+		TestGorillas.data.save();
 	}
 
 	/**
@@ -145,7 +146,7 @@ public class GorillasTestAdapterMinimal {
 	 * should make sure that
 	 */
 	public void restoreGameData() {
-		//gorillas.data.load();
+		TestGorillas.data.load();
 	}
 
 	/**
