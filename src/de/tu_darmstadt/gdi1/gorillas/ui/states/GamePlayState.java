@@ -87,14 +87,16 @@ public class GamePlayState extends BasicTWLGameState {
         Entity gorilla1 = new Entity("gorilla1");
         Entity gorilla2 = new Entity("gorilla2");
         Entity sun_smiling = new Entity("sun_smiling");
+        Entity arrow_wind = new Entity("arrow_wind");
         // --->
         
         // Füge Bilder hinzu
         // <---
     	if (!Gorillas.data.guiDisabled) { // really.... 
-        sun_smiling.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/sun/sun_smiling.png")));
-        gorilla1.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/gorillas/gorilla.png")));
-        gorilla2.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/gorillas/gorilla.png")));
+            sun_smiling.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/sun/sun_smiling.png")));
+            arrow_wind.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/pfeil.png")));
+            gorilla1.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/gorillas/gorilla.png")));
+            gorilla2.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/gorillas/gorilla.png")));
     	}
         // --->
         
@@ -113,6 +115,9 @@ public class GamePlayState extends BasicTWLGameState {
         gorilla1.setPosition(gorilla1pos); 
         gorilla2.setPosition(gorilla2pos); 
         sun_smiling.setPosition(new Vector2f((game.getContainer().getWidth() / 2), 30));
+        arrow_wind.setPosition(new Vector2f(545, 55));
+        //arrow_wind.setSize(new Vector2f(this.wind, 20));
+        arrow_wind.setScale(0.7F*wind/15);
         // --->
         
         // Events und Actions (Hier: Nur ESC -> MainMenu)
@@ -135,6 +140,7 @@ public class GamePlayState extends BasicTWLGameState {
         entityManager.addEntity(this.stateID, gorilla2);
         entityManager.addEntity(stateID, escListener);
         entityManager.addEntity(this.stateID, sun_smiling);
+        entityManager.addEntity(this.stateID, arrow_wind);
         // --->
         
         //Links fängt an
@@ -414,7 +420,7 @@ public class GamePlayState extends BasicTWLGameState {
 				handleEditFieldInput(key, speedInput2, this, 200);
 			}
 		});
-
+		
 		// zuletzt wird noch ein Button hinzugefï¿½gt
 		dropButton = new Button("throw");
 		// ï¿½hnlich wie einem EditField kann auch einem Button ein CallBack
@@ -435,6 +441,11 @@ public class GamePlayState extends BasicTWLGameState {
 		});
 		// am Schluss der Methode mï¿½ssen alle GUI-Elemente der Rootpane
 		// hinzugefï¿½gt werden
+		
+		Label windLabel = new Label("Windstärke");
+		windLabel.setPosition(515, 37);
+		rp.add(windLabel);
+		
 		rp.add(nameLabel);
 		rp.add(angleLabel1);
 		rp.add(angleLabel2);
