@@ -1,11 +1,5 @@
 package de.tu_darmstadt.gdi1.gorillas.ui.states;
 
-import java.io.File;
-
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -30,7 +24,6 @@ import eea.engine.entity.StateBasedEntityManager;
 import eea.engine.event.ANDEvent;
 import eea.engine.event.Event;
 import eea.engine.event.basicevents.KeyPressedEvent;
-import eea.engine.event.basicevents.LoopEvent;
 import eea.engine.event.basicevents.MouseClickedEvent;
 import eea.engine.event.basicevents.MouseEnteredEvent;
 import eea.engine.event.basicevents.TimeEvent;
@@ -228,6 +221,7 @@ public class MainMenuState extends BasicTWLGameState {
 			if (draw)
 			g.drawString("- Spiel pausiert(drücke ESC) -", 500, 120);
 		}
+		
 	}
 
 	@Override
