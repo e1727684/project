@@ -10,7 +10,7 @@ import de.tu_darmstadt.gdi1.gorillas.main.Gorillas;
 
 public class MusicPlayer {
 	public static void playBg() {
-		if (!Gorillas.data.musicIsPlaying) {
+		if (!Gorillas.data.musicIsPlaying && Gorillas.options.isMusicEnabled()) {
 		  try {
 			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("sounds/bg.wav").getAbsoluteFile());
 			Clip clip = AudioSystem.getClip();
@@ -23,10 +23,22 @@ public class MusicPlayer {
     	  }
 		}
 	}
-	
+
 	public static void playButton() {
 		try {
 			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("sounds/button.wav").getAbsoluteFile());
+			Clip clip = AudioSystem.getClip();
+			clip.open(audioInputStream);
+			clip.start();
+    	} catch(Exception ex) {
+    		System.out.println("Error with playing sound.");
+    		ex.printStackTrace();
+    	}
+	}
+	
+	public static void playApplause() {
+		try {
+			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("sounds/applause.wav").getAbsoluteFile());
 			Clip clip = AudioSystem.getClip();
 			clip.open(audioInputStream);
 			clip.start();

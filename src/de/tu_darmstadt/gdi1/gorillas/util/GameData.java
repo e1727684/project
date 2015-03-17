@@ -66,7 +66,7 @@ public class GameData {
     		e.printStackTrace();
     	}
 	}
-
+	
 	public void loadScoreFile() {
 		try {
 			inputStream = new ObjectInputStream(new FileInputStream(

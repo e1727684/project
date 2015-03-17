@@ -16,6 +16,7 @@ import de.tu_darmstadt.gdi1.gorillas.ui.states.InstructionState;
 import de.tu_darmstadt.gdi1.gorillas.ui.states.MainMenuState;
 import de.tu_darmstadt.gdi1.gorillas.ui.states.OptionState;
 import de.tu_darmstadt.gdi1.gorillas.util.GameData;
+import de.tu_darmstadt.gdi1.gorillas.util.Options;
 import eea.engine.entity.StateBasedEntityManager;
 
 /**
@@ -43,6 +44,7 @@ public class Gorillas extends TWLStateBasedGame {
 
 	public static boolean debug = false;
 	public static GameData data;
+	public static Options options;
 	public Gorillas(boolean debug) {
 		super("Gorillas");
 		setDebug(debug);
@@ -77,6 +79,7 @@ public class Gorillas extends TWLStateBasedGame {
 		// @formatter:on
 		data = new GameData();
 		data.guiDisabled = false;
+		options = new Options();
 		// Insert this StateBasedGame into an AppContainer (a window)
 		AppGameContainer app = new AppGameContainer(new Gorillas(false));
 		// Set window properties and start it
