@@ -30,6 +30,12 @@ public class HighscoreState extends BasicTWLGameState {
 
 	private Label highscore_Label;
 	private Label scores_Label;
+	private Label scores1_Label;
+	private Label scores2_Label;
+	private Label scores3_Label;
+	private Label scores4_Label;
+	private Label scores5_Label;
+	private Label scores6_Label;
 	
 	public HighscoreState(int sid) {
 		stateID = sid;
@@ -100,11 +106,23 @@ public class HighscoreState extends BasicTWLGameState {
 		
 		/*Intruktion-Label*/
     	highscore_Label = new Label("HighScore:");
-    	scores_Label = new Label(Gorillas.data.giveHighscoreAsString());
+    	scores_Label = new Label("Place   Player              Rounds              Won                               Mean accuracy \n");
+    	scores1_Label = new Label(Gorillas.data.giveHighscoreAsString(0));
+    	scores2_Label = new Label(Gorillas.data.giveHighscoreAsString(1));
+    	scores3_Label = new Label(Gorillas.data.giveHighscoreAsString(2));
+    	scores4_Label = new Label(Gorillas.data.giveHighscoreAsString(3));
+    	scores5_Label = new Label(Gorillas.data.giveHighscoreAsString(4));
+    	scores6_Label = new Label(Gorillas.data.giveHighscoreAsString(5));
     	highscore_Label.setPosition(250, 100);
     	scores_Label.setPosition(150, 200);
     	rp.add(highscore_Label);
     	rp.add(scores_Label);
+    	rp.add(scores1_Label);
+    	rp.add(scores2_Label);
+    	rp.add(scores3_Label);
+    	rp.add(scores4_Label);
+    	rp.add(scores5_Label);
+    	rp.add(scores6_Label);
     	
     	return rp;
 	}
@@ -113,6 +131,12 @@ public class HighscoreState extends BasicTWLGameState {
 	protected void layoutRootPane() {
 		highscore_Label.setPosition(250, 100);
 		scores_Label.setPosition(150, 200);
+    	scores1_Label.setPosition(150, 240);
+    	scores2_Label.setPosition(200, 240);
+    	scores3_Label.setPosition(320, 240);
+    	scores4_Label.setPosition(410, 240);
+    	scores5_Label.setPosition(420, 240);
+    	scores6_Label.setPosition(560, 240);
 	}
 
 }

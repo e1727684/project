@@ -65,7 +65,14 @@ public class GameData {
 		try {
 			inputStream = new ObjectInputStream(new FileInputStream(
 					HIGHSCORE_FILE));
-			highscore = (String[][]) inputStream.readObject();
+			int i = 0;
+			String[][] temp = (String[][]) inputStream.readObject();
+			while (temp[i][0] != null
+					&& addHighscore(temp[i][0], Integer.parseInt(temp[i][1]),
+							Integer.parseInt(temp[i][2]),
+							Integer.parseInt(temp[i][3]))) {
+				i++;
+			}
 		} catch (FileNotFoundException e) {
 			System.out.println("[Laad] FNF Error: " + e.getMessage());
 		} catch (IOException e) {
@@ -111,7 +118,7 @@ public class GameData {
 		if (highscore == null)
 			load();
 		int i = 0;
-		while (i < getHighscoreCount() && !name.equals(highscore[i][0])) {
+		while (i < getHighscoreCount() && !name.matches(highscore[i][0].toString())) {
 			i++;
 		}
 		if (i > 0 || i == getHighscoreCount()) {
@@ -176,14 +183,30 @@ public class GameData {
 		}
 	}
 
-	public String giveHighscoreAsString() {
+	public String giveHighscoreAsString(int c) {
 		String hsc = "";
-		hsc += "Place   Player              Rounds              Won                   Mean accuracy \n";
 		for (int i = 0; i < getHighscoreCount(); i++) {
-			hsc += "0" + (i + 1) + "           " + highscore[i][0] + "                            "
-					+ highscore[i][1] + "                   " + highscore[i][2] +" ("
-					+ getPercentageWonAtHighscorePosition(i) + "%)                   "
-					+ getMeanAccuracyAtHighscorePosition(i) + " bananas \n";
+			switch (c) {
+				case 0:
+					hsc += "0" + (i + 1) + " \n";
+					break;
+				case 1:
+					hsc += highscore[i][0] + " \n";
+					break;
+				case 2:
+					hsc += highscore[i][1] + " \n";
+					break;
+				case 3:
+					hsc += highscore[i][2] + " \n";
+					break;
+				case 4:
+					hsc += " ("+getPercentageWonAtHighscorePosition(i)+"%)" + " \n";
+					break;
+				case 5:
+					hsc += getMeanAccuracyAtHighscorePosition(i) + " bananas" + " \n";
+					break;
+					
+			}
 		}
 		return hsc;
 	}
