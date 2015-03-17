@@ -508,12 +508,12 @@ public class GamePlayState extends BasicTWLGameState {
 				} else {
 					if (entity.getID() == "gorilla1") {
 						Gorillas.data.setPlayerWon("player2");
-						Gorillas.data.addHighscore(Gorillas.data.getPlayer1(), 1, 1, wurfAnzahl.get());
-						Gorillas.data.addHighscore(Gorillas.data.getPlayer2(), 1, 0, wurfAnzahl.get()-1);
+						Gorillas.data.addHighscore(Gorillas.data.getPlayer1(), 1, 0, wurfAnzahl.get());
+						Gorillas.data.addHighscore(Gorillas.data.getPlayer2(), 1, 1, wurfAnzahl.get()-1);
 					} else if (entity.getID() == "gorilla2") {
 						Gorillas.data.setPlayerWon("player1");
-						Gorillas.data.addHighscore(Gorillas.data.getPlayer1(), 1, 0, wurfAnzahl.get());
-						Gorillas.data.addHighscore(Gorillas.data.getPlayer2(), 1, 1, wurfAnzahl.get());
+						Gorillas.data.addHighscore(Gorillas.data.getPlayer1(), 1, 1, wurfAnzahl.get());
+						Gorillas.data.addHighscore(Gorillas.data.getPlayer2(), 1, 2, wurfAnzahl.get());
 					}
 					return;
 				}
