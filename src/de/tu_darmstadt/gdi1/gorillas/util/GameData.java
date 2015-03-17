@@ -22,7 +22,7 @@ public class GameData {
 	ObjectInputStream inputStream = null;
 	private static final String HIGHSCORE_FILE = "highscores.hsc";
 	private int remainingRounds;
-	private int playedRounds;
+	private int playTillScore;
 	private int[] currentScore;
 
 	public GameData() {// ONE call in Gorillas, then getter&setters!
@@ -37,7 +37,7 @@ public class GameData {
 		guiDisabled = true;
 		highscore = new String[highscoreLength][4];
 		setRemainingRounds(1);
-		setPlayedRounds(1);
+		setPlayTillScore(0);
 		currentScore = new int[2];
 		load();
 		// more?
@@ -314,19 +314,19 @@ public class GameData {
 		this.remainingRounds = remainingRounds;
 	}
 
-	public int getPlayedRounds() {
-		return playedRounds;
-	}
-
-	public void setPlayedRounds(int playedRounds) {
-		this.playedRounds = playedRounds;
-	}
-
 	public int[] getCurrentScore() {
 		return currentScore;
 	}
 
 	public void setCurrentScore(int[] currentScore) {
 		this.currentScore = currentScore;
+	}
+
+	public int getPlayTillScore() {
+		return playTillScore;
+	}
+
+	public void setPlayTillScore(int playTillScore) {
+		this.playTillScore = playTillScore;
 	}
 }

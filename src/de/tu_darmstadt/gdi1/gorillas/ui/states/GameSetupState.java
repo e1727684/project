@@ -91,7 +91,7 @@ public class GameSetupState extends BasicTWLGameState {
                 RootPane rp = super.createRootPane();
                
                 //Label & EditField & Überwachung von Editfield für Player1
-                round_Label = new Label("Rounds:");
+                round_Label = new Label("Pos num. for score \nNeg num. for rounds!");
                 round_Input = new EditField();
  
                 round_Input.addCallback(new Callback() {
@@ -149,8 +149,11 @@ public class GameSetupState extends BasicTWLGameState {
                                 if(!oneIsEmpty && !twoIsEmpty && !isEqual){
                                        
                                 		if (!round_Input.getText().equals(""))
-                                			Gorillas.data.setRemainingRounds(Integer.parseInt(round_Input.getText()));
-                                	
+                                			if (Integer.parseInt(round_Input.getText()) < 0)
+                                				Gorillas.data.setRemainingRounds(-Integer.parseInt(round_Input.getText()));
+                                			else
+                                				Gorillas.data.setPlayTillScore(Integer.parseInt(round_Input.getText()));
+                                			
                                         //Namen werden gespeichert
                                         Gorillas.data.setPlayer1(playerName1);
                                         Gorillas.data.setPlayer2(playerName2);

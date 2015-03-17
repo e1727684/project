@@ -134,8 +134,8 @@ public class HighscoreState extends BasicTWLGameState {
     	scores1_Label.setPosition(150, 240);
     	scores2_Label.setPosition(200, 240);
     	scores3_Label.setPosition(320, 240);
-    	scores4_Label.setPosition(410, 240);
-    	scores5_Label.setPosition(420, 240);
+    	scores4_Label.setPosition(400, 240);
+    	scores5_Label.setPosition(425, 240);
     	scores6_Label.setPosition(560, 240);
 	}
 

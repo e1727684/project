@@ -241,10 +241,17 @@ public class GamePlayState extends BasicTWLGameState {
 			switchInputLabel(false);
 		else 
 			switchInputLabel(true);
-		if (turn) // display names so the players know whose turn it is!
-			nameLabel.setText(Gorillas.data.getRemainingRounds() + " Runden verbleibend \nScore: "+Gorillas.data.getCurrentScore()[0]+":"+Gorillas.data.getCurrentScore()[1]+"\n" +wurfAnzahl + ". Wurf! Player 1: "+Gorillas.data.getPlayer1());
+		String buildNameLabel = "";
+		if (Gorillas.data.getRemainingRounds() > 0 && Gorillas.data.getPlayTillScore() == 0) // display names so the players know whose turn it is!
+			buildNameLabel += Gorillas.data.getRemainingRounds() + " Runden verbleibend!";
 		else 
-			nameLabel.setText(Gorillas.data.getRemainingRounds() + " Runden verbleibend \nScore: "+Gorillas.data.getCurrentScore()[0]+":"+Gorillas.data.getCurrentScore()[1]+"\n" +wurfAnzahl + ". Wurf! Player 2: "+Gorillas.data.getPlayer2());
+			buildNameLabel += Gorillas.data.getPlayTillScore() + " Punkte gewinnen!";
+		buildNameLabel += "\nScore: "+Gorillas.data.getCurrentScore()[0]+":"+Gorillas.data.getCurrentScore()[1]+"\n" +wurfAnzahl + ". Wurf! ";
+		if (turn)
+			buildNameLabel += "Player 1: "+Gorillas.data.getPlayer1();
+		else 
+			buildNameLabel += "Player 2: "+Gorillas.data.getPlayer2();
+		nameLabel.setText(buildNameLabel);
 		if (goCongratulate) {
 			game.enterState(Gorillas.CONGRATULATIONSTATE);
 		}
@@ -267,7 +274,9 @@ public class GamePlayState extends BasicTWLGameState {
 			
 			entityManager.addEntity(stateID, boom);
 			entityManager.addEntity(stateID, jubel);
-			if (Gorillas.data.getRemainingRounds() <= 1) {
+			if (Gorillas.data.getRemainingRounds() <= 1 && Gorillas.data.getPlayTillScore() == 0) {
+				goCongratulate = true;
+			} else if (Gorillas.data.getPlayTillScore() == Gorillas.data.getCurrentScore()[0]+1 || Gorillas.data.getPlayTillScore() == Gorillas.data.getCurrentScore()[1]+1) {
 				goCongratulate = true;
 			} else {
 				Gorillas.data.setRemainingRounds(Gorillas.data.getRemainingRounds()-1);
@@ -279,6 +288,7 @@ public class GamePlayState extends BasicTWLGameState {
 				}
 				Gorillas.data.setCurrentScore(score);
 				Gorillas.data.setPlayerWon("");
+				entityManager.clearEntitiesFromState(stateID);
 				game.enterState(Gorillas.GAMEPLAYSTATE);
 				init(container, game);
 			}
