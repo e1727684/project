@@ -118,10 +118,21 @@ public class GameData {
 		if (highscore == null)
 			load();
 		int i = 0;
-		while (i < getHighscoreCount() && !name.matches(highscore[i][0].toString())) {
+		boolean nameExist = false;
+		while (i < getHighscoreCount()) {
+			if (name.matches(highscore[i][0].toString())) {
+				nameExist = true;
+				break;
+			}
 			i++;
 		}
-		if (i > 0 || i == getHighscoreCount()) {
+		if (getHighscoreCount() == 0) {
+			highscore[0][0] = name;
+			highscore[0][1] = Integer.toString(numberOfRounds);
+			highscore[0][2] = Integer.toString(roundsWon);
+			highscore[0][3] = Integer.toString(bananasThrown);
+			return true;
+		} else if (!nameExist) {
 			i = 0;
 			while (i < getHighscoreCount() // falls schlechter als alle andern,
 											// hänge hinten an
@@ -143,12 +154,10 @@ public class GameData {
 			highscore[i][3] = Integer.toString(bananasThrown);
 			return true;
 		} else {
-			highscore[i][1] = Integer.toString(Integer
-					.parseInt(highscore[i][1]) + numberOfRounds);
-			highscore[i][2] = Integer.toString(Integer
-					.parseInt(highscore[i][2]) + roundsWon);
-			highscore[i][3] = Integer.toString(Integer
-					.parseInt(highscore[i][3]) + bananasThrown);
+			highscore[i][0] = name;
+			highscore[i][1] = Integer.toString(Integer.parseInt(highscore[i][1]) + numberOfRounds);
+			highscore[i][2] = Integer.toString(Integer.parseInt(highscore[i][2]) + roundsWon);
+			highscore[i][3] = Integer.toString(Integer.parseInt(highscore[i][3]) + bananasThrown);
 			return sortHighscore();
 		}
 	}
