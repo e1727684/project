@@ -23,13 +23,13 @@ import de.matthiasmann.twl.slick.BasicTWLGameState;
 import de.matthiasmann.twl.slick.RootPane;
 import de.tu_darmstadt.gdi1.gorillas.main.Gorillas;
 import de.tu_darmstadt.gdi1.gorillas.util.GameData;
+import de.tu_darmstadt.gdi1.gorillas.util.MusicPlayer;
 import de.tu_darmstadt.gdi1.gorillas.util.MyCollisionEvent;
 import de.tu_darmstadt.gdi1.gorillas.util.MyLeavingScreenEvent;
 import de.tu_darmstadt.gdi1.gorillas.util.Wurf;
 import eea.engine.action.Action;
 import eea.engine.action.basicactions.ChangeStateAction;
 import eea.engine.action.basicactions.DestroyEntityAction;
-import eea.engine.action.basicactions.MoveUpAction;
 import eea.engine.action.basicactions.RotateLeftAction;
 import eea.engine.action.basicactions.RotateRightAction;
 import eea.engine.component.Component;
@@ -39,8 +39,8 @@ import eea.engine.entity.Entity;
 import eea.engine.entity.StateBasedEntityManager;
 import eea.engine.event.Event;
 import eea.engine.event.basicevents.KeyPressedEvent;
-import eea.engine.event.basicevents.LeavingScreenEvent;
 import eea.engine.event.basicevents.LoopEvent;
+import eea.engine.event.basicevents.TimeEvent;
 import eea.engine.interfaces.IDestructible;
 
 public class GamePlayState extends BasicTWLGameState {
@@ -64,7 +64,9 @@ public class GamePlayState extends BasicTWLGameState {
 	private AtomicInteger wurfAnzahl;
 	private boolean goCongratulate;
 	private boolean reset;
-	private int wind;
+	private int wind = 0;
+	private boolean daneben;
+
 
 	public GamePlayState(int sid) {
 		stateID = sid;
@@ -80,6 +82,7 @@ public class GamePlayState extends BasicTWLGameState {
 		Gorillas.data.setPaused(false);
 		wurfAnzahl = new AtomicInteger(1);
 		goCongratulate = false;
+		daneben = false;
 		
 		// Benötigte Entitäten
         // <---
@@ -107,7 +110,8 @@ public class GamePlayState extends BasicTWLGameState {
         int houseWidth = 100, startPointHouses = 0, housesIndex = 0;
         houseHeights = randomizeHouses(houseHeights, houseWidth, startPointHouses, housesIndex, game.getContainer().getHeight());
         randomizeGorillaPositions(game.getContainer().getHeight(), game.getContainer().getWidth(), houseHeights, gorilla1, gorilla2);
-        makeWind();
+        if (Gorillas.options.isWindEnabled())
+        	makeWind();
         // --->
         
         // Setzen der Positionen der Gorillas und der Soone
@@ -140,7 +144,8 @@ public class GamePlayState extends BasicTWLGameState {
         entityManager.addEntity(this.stateID, gorilla2);
         entityManager.addEntity(stateID, escListener);
         entityManager.addEntity(this.stateID, sun_smiling);
-        entityManager.addEntity(this.stateID, arrow_wind);
+        if (Gorillas.options.isWindEnabled())
+        	entityManager.addEntity(this.stateID, arrow_wind);
         // --->
         
         //Links fängt an
@@ -233,15 +238,24 @@ public class GamePlayState extends BasicTWLGameState {
         return houseHeights;
 	}
 
+	int clk = 0;
 	@Override
     public void render(GameContainer container, StateBasedGame game, Graphics g)
                     throws SlickException {
 
             entityManager.renderEntities(container, game, g);
-           
+            
             //Namen werden am oberen Rand angezeigt
             g.drawString(Gorillas.data.getPlayer1(), 20, 10);
             g.drawString(Gorillas.data.getPlayer2(), 730, 10);
+            if (daneben && Gorillas.options.isSpottEnabled()) {
+    			if (clk > 100) {
+    				daneben = false;
+    				clk = 0;
+    			}
+            	g.drawString(spott, 320, 150);
+            	clk++;
+            }
     }
 
 	@Override
@@ -301,18 +315,14 @@ public class GamePlayState extends BasicTWLGameState {
 		Entity boomTimer = new Entity("boomTimer");
 		
 		boom.setPosition(entityManager.getEntity(stateID, Gorillas.data.getPlayerWon().equals("player1")?"gorilla2":"gorilla1").getPosition());
-		boomTimer.setPosition(entityManager.getEntity(stateID, Gorillas.data.getPlayerWon().equals("player1")?"gorilla2":"gorilla1").getPosition());
 		jubel1.setPosition(entityManager.getEntity(stateID, Gorillas.data.getPlayerWon().equals("player1")?"gorilla1":"gorilla2").getPosition());
 		jubel2.setPosition(entityManager.getEntity(stateID, Gorillas.data.getPlayerWon().equals("player1")?"gorilla1":"gorilla2").getPosition());
 		
 		boom.addComponent(new ImageRenderComponent(new Image("assets/gorillas/explosions/explosion_1.png")));
-		boomTimer.addComponent(new ImageRenderComponent(new Image("assets/gorillas/explosions/explosion_1.png")));
 		jubel1.addComponent(new ImageRenderComponent(new Image(Gorillas.data.getPlayerWon().equals("player1")?"assets/gorillas/gorillas/gorilla_left_up.png":"assets/gorillas/gorillas/gorilla_right_up.png")));
 		jubel2.addComponent(new ImageRenderComponent(new Image(Gorillas.data.getPlayerWon().equals("player1")?"assets/gorillas/gorillas/gorilla_right_up.png":"assets/gorillas/gorillas/gorilla_left_up.png")));
 		
 		LoopEvent loop = new LoopEvent();
-		MoveUpAction mua = new MoveUpAction(0.1F);
-		loop.addAction(mua);
 		loop.addAction(new Action() {
 			int clk = 0;
 			@Override
@@ -328,8 +338,8 @@ public class GamePlayState extends BasicTWLGameState {
 				clk++;
 			}
 		});
-		Event leavingEvent = new LeavingScreenEvent();
-		leavingEvent.addAction(new Action() {
+		Event timeEvent = new TimeEvent(3000, false);
+		timeEvent.addAction(new Action() {
 			@Override
 			public void update(GameContainer gc, StateBasedGame sb,
 					int delta, Component event) {
@@ -346,16 +356,21 @@ public class GamePlayState extends BasicTWLGameState {
 						score[1] = score[1]+1;
 					}
 					Gorillas.data.setCurrentScore(score);
-					Gorillas.data.setPlayerWon("");
 					reset = true;
 				}
-				
 			}
-			
 		});
-		boomTimer.addComponent(leavingEvent);
+		Event timeEvent2 = new TimeEvent(100, false);
+		timeEvent2.addAction(new Action() {
+			@Override
+			public void update(GameContainer gc, StateBasedGame sb,
+					int delta, Component event) {
+				MusicPlayer.playApplause();
+			}
+		});
+		boomTimer.addComponent(timeEvent);
+		boomTimer.addComponent(timeEvent2);
 		boomTimer.addComponent(loop);
-		boomTimer.setVisible(false);
 		entityManager.addEntity(stateID, boom);
 		entityManager.addEntity(stateID, boomTimer);
 		entityManager.addEntity(stateID, jubel1);
@@ -465,11 +480,11 @@ public class GamePlayState extends BasicTWLGameState {
 		});
 		// am Schluss der Methode mï¿½ssen alle GUI-Elemente der Rootpane
 		// hinzugefï¿½gt werden
-		
-		Label windLabel = new Label("Windstärke");
-		windLabel.setPosition(515, 37);
-		rp.add(windLabel);
-		
+		if (Gorillas.options.isWindEnabled()) {
+			Label windLabel = new Label("Windstärke");
+			windLabel.setPosition(515, 37);
+			rp.add(windLabel);
+		}
 		rp.add(nameLabel);
 		rp.add(angleLabel1);
 		rp.add(angleLabel2);
@@ -624,7 +639,7 @@ public class GamePlayState extends BasicTWLGameState {
 			@Override
 			public void update(GameContainer gc, StateBasedGame sb, int delta,
 					Component event) {
-				// TODO Hohn und Spott bitte hier einfügen.
+				daneben();
 			}
 		});
 		banana.addComponent(leavingEvent);
@@ -682,5 +697,15 @@ public class GamePlayState extends BasicTWLGameState {
 		
 		// banane darf endlich fliegen und rotieren!!!
 		entityManager.addEntity(stateID, banana);
+	}
+
+	String spott;
+	protected void daneben() {
+    	Random rand = new Random();
+    	String[] spott = {"Knapp daneben ist auch vorbei.", "Einfach nein.", "Versuchs doch einfach noch mal.", "Gestern Nacht war wohl lang.",
+    				"Das hast du jetzt nicht wirklich getan.", "Zielen nicht vergessen.", "Ist das dein Ernst?", "Probiers gar nicht erst.",
+    				"Triffst du überhaupt?"};
+		daneben = true;
+		this.spott = spott[rand.nextInt(spott.length)];
 	}
 }
