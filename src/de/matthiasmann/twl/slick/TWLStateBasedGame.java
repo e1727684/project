@@ -29,13 +29,9 @@
  */
 package de.matthiasmann.twl.slick;
 
-import de.matthiasmann.twl.GUI;
-import de.matthiasmann.twl.Widget;
-import de.matthiasmann.twl.renderer.Renderer;
-import de.matthiasmann.twl.renderer.lwjgl.LWJGLRenderer;
-import de.matthiasmann.twl.theme.ThemeManager;
 import java.io.IOException;
 import java.net.URL;
+
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -44,6 +40,12 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.GameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.Transition;
+
+import de.matthiasmann.twl.GUI;
+import de.matthiasmann.twl.Widget;
+import de.matthiasmann.twl.renderer.Renderer;
+import de.matthiasmann.twl.renderer.lwjgl.LWJGLRenderer;
+import de.matthiasmann.twl.theme.ThemeManager;
 
 /**
  * A StateBaseGame subclass with support for a TWL Ui per state.

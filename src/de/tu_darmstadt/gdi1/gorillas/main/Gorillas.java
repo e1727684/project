@@ -7,7 +7,14 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 
 import de.matthiasmann.twl.slick.TWLStateBasedGame;
-import de.tu_darmstadt.gdi1.gorillas.ui.states.*;
+import de.tu_darmstadt.gdi1.gorillas.ui.states.AboutState;
+import de.tu_darmstadt.gdi1.gorillas.ui.states.CongratulationState;
+import de.tu_darmstadt.gdi1.gorillas.ui.states.GamePlayState;
+import de.tu_darmstadt.gdi1.gorillas.ui.states.GameSetupState;
+import de.tu_darmstadt.gdi1.gorillas.ui.states.HighscoreState;
+import de.tu_darmstadt.gdi1.gorillas.ui.states.InstructionState;
+import de.tu_darmstadt.gdi1.gorillas.ui.states.MainMenuState;
+import de.tu_darmstadt.gdi1.gorillas.ui.states.OptionState;
 import de.tu_darmstadt.gdi1.gorillas.util.GameData;
 import eea.engine.entity.StateBasedEntityManager;
 

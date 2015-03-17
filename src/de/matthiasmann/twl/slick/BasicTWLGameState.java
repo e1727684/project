@@ -29,15 +29,15 @@
  */
 package de.matthiasmann.twl.slick;
 
-import de.matthiasmann.twl.ActionMap;
-import de.matthiasmann.twl.Widget;
-import de.tu_darmstadt.gdi1.gorillas.test.setup.TWLTestStateBasedGame;
-import de.tu_darmstadt.gdi1.gorillas.test.setup.TestGorillas;
-
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
+
+import de.matthiasmann.twl.ActionMap;
+import de.matthiasmann.twl.Widget;
+import de.tu_darmstadt.gdi1.gorillas.test.setup.TWLTestStateBasedGame;
+import de.tu_darmstadt.gdi1.gorillas.test.setup.TestGorillas;
 
 /**
  * The base class for all game states when using TWLStateBasedGame.

@@ -3,13 +3,9 @@ package de.tu_darmstadt.gdi1.gorillas.ui.states;
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
-
-import javax.swing.Timer;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -27,7 +23,6 @@ import de.matthiasmann.twl.slick.BasicTWLGameState;
 import de.matthiasmann.twl.slick.RootPane;
 import de.tu_darmstadt.gdi1.gorillas.main.Gorillas;
 import de.tu_darmstadt.gdi1.gorillas.util.GameData;
-import de.tu_darmstadt.gdi1.gorillas.util.Jubel;
 import de.tu_darmstadt.gdi1.gorillas.util.MyCollisionEvent;
 import de.tu_darmstadt.gdi1.gorillas.util.MyLeavingScreenEvent;
 import de.tu_darmstadt.gdi1.gorillas.util.Wurf;

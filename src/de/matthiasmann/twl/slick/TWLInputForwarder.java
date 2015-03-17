@@ -29,10 +29,11 @@
  */
 package de.matthiasmann.twl.slick;
 
-import de.matthiasmann.twl.GUI;
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.util.InputAdapter;
+
+import de.matthiasmann.twl.GUI;
 
 /**
  * Forwards input events from Slick to TWL

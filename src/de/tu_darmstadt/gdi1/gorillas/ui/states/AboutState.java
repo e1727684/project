@@ -98,7 +98,6 @@ public class AboutState extends BasicTWLGameState {
 		
 		/*Intruktion-Label*/
 		about_Label = new Label("Blablabla und so weiter...");
-		about_Label.setPosition(250, 100);
     	rp.add(about_Label);
     	
     	return rp;
@@ -106,7 +105,7 @@ public class AboutState extends BasicTWLGameState {
 	
 	@Override
 	protected void layoutRootPane() {
-		about_Label.setPosition(250, 100);
+		about_Label.setPosition(50, 220);
 	}
 
 }

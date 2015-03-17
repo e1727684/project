@@ -8,8 +8,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import com.sun.javafx.geom.Vec4f;
-
 public class GameData {
 	private String player1;
 	private String player2;
