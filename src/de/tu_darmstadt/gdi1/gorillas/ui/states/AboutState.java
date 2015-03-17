@@ -97,7 +97,7 @@ public class AboutState extends BasicTWLGameState {
 		RootPane rp = super.createRootPane();
 		
 		/*Intruktion-Label*/
-		about_Label = new Label("Blablabla und so weiter...");
+		about_Label = new Label("13. Januar 2015.\nDie Projektgruppe trifft sich zum allerersten Mal.\nDas Thema? Unbekannt.\nDas Ziel? Unbekannt.\nDie Java-Kentnisse der Gruppenmitglieder? Unbekannt.\n\n\n04. Februar 2015.\nDas Thema wird bekanntgegeben!\nDas Abenteuer kann beginnen. Es ist... \nEine Hommage auf das Spiel Gorillas von 1991.\n\nEntwickler:\n ~ Deniz Tobias Buruncuk\n ~ Dennis Hasenstab\n ~ Marcel Dieter\n ~ Philip Stauder");
     	rp.add(about_Label);
     	
     	return rp;
