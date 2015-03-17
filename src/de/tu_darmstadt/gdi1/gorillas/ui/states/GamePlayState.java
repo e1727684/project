@@ -470,7 +470,7 @@ public class GamePlayState extends BasicTWLGameState {
 		// winkel wird gesetzt
 		wurf.angle = turn?Integer.parseInt(angleInput.getText()):(180-Integer.parseInt(angleInput.getText()));
 		// x0 und y0 für newtonsche gleichung..
-		wurf.startPos = turn?new Vector2f(gorilla1pos.getX()+35,gorilla1pos.getY()-25):new Vector2f(gorilla2pos.getX()-35,gorilla2pos.getY()-25);
+		wurf.startPos = turn?new Vector2f(gorilla1pos.getX()+30,gorilla1pos.getY()-38):new Vector2f(gorilla2pos.getX()-30,gorilla2pos.getY()-38);
 		// solange geworfen bis.... kollision // out of bounce
 		loop.addAction(wurf);
 		// banana now rotate; infinite!
@@ -510,10 +510,12 @@ public class GamePlayState extends BasicTWLGameState {
 						Gorillas.data.setPlayerWon("player2");
 						Gorillas.data.addHighscore(Gorillas.data.getPlayer1(), 1, 0, wurfAnzahl.get());
 						Gorillas.data.addHighscore(Gorillas.data.getPlayer2(), 1, 1, wurfAnzahl.get());
+						Gorillas.data.save();
 					} else if (entity.getID() == "gorilla2") {
 						Gorillas.data.setPlayerWon("player1");
 						Gorillas.data.addHighscore(Gorillas.data.getPlayer1(), 1, 1, wurfAnzahl.get());
 						Gorillas.data.addHighscore(Gorillas.data.getPlayer2(), 1, 2, wurfAnzahl.get()-1);
+						Gorillas.data.save();
 					}
 					return;
 				}
