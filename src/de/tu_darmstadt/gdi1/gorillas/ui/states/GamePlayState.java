@@ -88,9 +88,11 @@ public class GamePlayState extends BasicTWLGameState {
         
         // Füge Bilder hinzu
         // <---
+    	if (!Gorillas.data.test) { // really.... 
         sun_smiling.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/sun/sun_smiling.png")));
         gorilla1.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/gorillas/gorilla.png")));
         gorilla2.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/gorillas/gorilla.png")));
+    	}
         // --->
         
 		// Zeug, das wir brauchen bevor wir die Gorillas und die Häuser setzten!
@@ -206,12 +208,14 @@ public class GamePlayState extends BasicTWLGameState {
                 else
                         startPointHouses = startPointHouses + houseWidth;
 
+            	if (!Gorillas.data.test) { // really.... 
                 DestructibleImageEntity house = new DestructibleImageEntity(
                                 "obstacle", image, "gorillas/destruction.png", false);
+            	
                 house.setPosition(new Vector2f(startPointHouses, heigth
                                 - (houseHeights[housesIndex] / 2)));
                 entityManager.addEntity(stateID, house);
-               
+            	}
                 housesIndex++;
         }
         return houseHeights;

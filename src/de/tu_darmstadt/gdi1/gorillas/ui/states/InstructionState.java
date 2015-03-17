@@ -55,8 +55,9 @@ public class InstructionState extends BasicTWLGameState {
     	// Setze Position und Bildkomponente
     	zurück_Entity.setPosition(new Vector2f(400, 450));
     	zurück_Entity.setScale(0.18f);
+    	if (!Gorillas.data.test) { // really.... 
     	zurück_Entity.addComponent(new ImageRenderComponent(new Image("assets/gorillas/button.png")));
-    	
+    	}
     	// Erstelle das Ausloese-Event und die zugehoerige Action
     	ANDEvent mainEvents_z = new ANDEvent(new MouseEnteredEvent(), new MouseClickedEvent());
     	Action zurück_Action = new ChangeStateInitAction(Gorillas.MAINMENUSTATE);

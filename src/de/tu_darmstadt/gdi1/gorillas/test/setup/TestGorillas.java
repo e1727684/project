@@ -5,7 +5,14 @@ import java.net.URL;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 
+import de.tu_darmstadt.gdi1.gorillas.ui.states.AboutState;
+import de.tu_darmstadt.gdi1.gorillas.ui.states.CongratulationState;
+import de.tu_darmstadt.gdi1.gorillas.ui.states.GamePlayState;
+import de.tu_darmstadt.gdi1.gorillas.ui.states.GameSetupState;
+import de.tu_darmstadt.gdi1.gorillas.ui.states.HighscoreState;
+import de.tu_darmstadt.gdi1.gorillas.ui.states.InstructionState;
 import de.tu_darmstadt.gdi1.gorillas.ui.states.MainMenuState;
+import de.tu_darmstadt.gdi1.gorillas.ui.states.OptionState;
 import de.tu_darmstadt.gdi1.gorillas.util.GameData;
 import eea.engine.entity.StateBasedEntityManager;
 
@@ -27,10 +34,12 @@ public class TestGorillas extends TWLTestStateBasedGame {
 	public static final int GAMEPLAYSTATE = 2;
 	public static final int HIGHSCORESTATE = 3;
 	public static final int OPTIONSTATE = 4;
-	public static final int INSTRUCTIONSSTATE = 5;
+	public static final int INSTRUCTIONSTATE = 5;
+	public static final int ABOUTSTATE = 6;
+	public static final int CONGRATULATIONSTATE = 7;
 
 	public static boolean debug = false;
-
+	public static GameData data;
 	public TestGorillas(boolean debug) {
 		super("Gorillas");
 		setDebug(debug);
@@ -46,11 +55,24 @@ public class TestGorillas extends TWLTestStateBasedGame {
 
 		// Add states to the StateBasedGame
 		this.addState(new MainMenuState(MAINMENUSTATE));
-		// TODO: Add the other states...
+		this.addState(new MainMenuState(MAINMENUSTATE));
+		this.addState(new GameSetupState(GAMESETUPSTATE));
+		this.addState(new GamePlayState(GAMEPLAYSTATE));
+		this.addState(new HighscoreState(HIGHSCORESTATE));
+		this.addState(new OptionState(OPTIONSTATE));
+		this.addState(new InstructionState(INSTRUCTIONSTATE));
+		this.addState(new AboutState(ABOUTSTATE));
+		this.addState(new CongratulationState(CONGRATULATIONSTATE));
 
 		// Add states to the StateBasedEntityManager
 		StateBasedEntityManager.getInstance().addState(MAINMENUSTATE);
-		// TODO: Add the other states...
+		StateBasedEntityManager.getInstance().addState(GAMESETUPSTATE);
+		StateBasedEntityManager.getInstance().addState(GAMEPLAYSTATE);
+		StateBasedEntityManager.getInstance().addState(HIGHSCORESTATE);
+		StateBasedEntityManager.getInstance().addState(OPTIONSTATE);
+		StateBasedEntityManager.getInstance().addState(INSTRUCTIONSTATE);
+		StateBasedEntityManager.getInstance().addState(ABOUTSTATE);
+		StateBasedEntityManager.getInstance().addState(CONGRATULATIONSTATE);
 	}
 
 	@Override

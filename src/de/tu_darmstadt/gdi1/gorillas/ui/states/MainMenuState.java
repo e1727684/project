@@ -74,7 +74,7 @@ public class MainMenuState extends BasicTWLGameState {
 				
 		    	// Füge Bilder hinzu
 				// <---
-		    	if (Gorillas.data != null && !Gorillas.data.test) { // really.... 
+		    	if (!Gorillas.data.test) { // really.... 
 				background.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/background.png")));
 				
 		    	new_Game_Entity.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/button.png")));

@@ -84,7 +84,7 @@ public class GorillasTestAdapterMinimal {
 		System.err.println(System.getProperty("os.name") + ": "
 				+ System.getProperty("org.lwjgl.librarypath"));
 		// @formatter:on
-		if (Gorillas.data == null) Gorillas.data = new GameData(); // eh.... ok. we testing i guess? 
+		TestGorillas.data = new GameData(); // eh.... ok. we testing i guess? 
 
 		// Initialisiere das Spiel Tanks im Debug-Modus (ohne UI-Ausgabe)
 		gorillas = new TestGorillas(true);
@@ -99,26 +99,6 @@ public class GorillasTestAdapterMinimal {
 
 		speedInput = new EditField();
 		angleInput = new EditField();
-
-		// Add states to the StateBasedGame
-		gorillas.addState(new MainMenuState(MAINMENUSTATE));
-		gorillas.addState(new GameSetupState(GAMESETUPSTATE));
-		gorillas.addState(new GamePlayState(GAMEPLAYSTATE));
-		gorillas.addState(new HighscoreState(HIGHSCORESTATE));
-		gorillas.addState(new OptionState(OPTIONSTATE));
-		gorillas.addState(new InstructionState(INSTRUCTIONSTATE));
-		gorillas.addState(new AboutState(ABOUTSTATE));
-		gorillas.addState(new CongratulationState(CONGRATULATIONSTATE));
-
-		// Add states to the StateBasedEntityManager
-		StateBasedEntityManager.getInstance().addState(MAINMENUSTATE);
-		StateBasedEntityManager.getInstance().addState(GAMESETUPSTATE);
-		StateBasedEntityManager.getInstance().addState(GAMEPLAYSTATE);
-		StateBasedEntityManager.getInstance().addState(HIGHSCORESTATE);
-		StateBasedEntityManager.getInstance().addState(OPTIONSTATE);
-		StateBasedEntityManager.getInstance().addState(INSTRUCTIONSTATE);
-		StateBasedEntityManager.getInstance().addState(ABOUTSTATE);
-		StateBasedEntityManager.getInstance().addState(CONGRATULATIONSTATE);
 	}
 
 	/**
@@ -178,9 +158,8 @@ public class GorillasTestAdapterMinimal {
 	 *            the name of player 2
 	 */
 	public void setPlayerNames(String player1Name, String player2Name) {
-		if (data == null) data = new GameData(); // ehh.... ok.
-		data.setPlayer1(player1Name);
-		data.setPlayer2(player2Name);
+		TestGorillas.data.setPlayer1(player1Name);
+		TestGorillas.data.setPlayer2(player2Name);
 	}
 
 	/**
@@ -339,10 +318,10 @@ public class GorillasTestAdapterMinimal {
 	 */
 	public String getPlayer1Error() {
 		if (getStateBasedGame().getCurrentStateID()==TestGorillas.GAMESETUPSTATE)
-			if (data.getPlayer1() == "")
+			if (TestGorillas.data.getPlayer1() == "")
 				return getEmptyError();
 			else
-				if (data.getPlayer1().equals(data.getPlayer2()))
+				if (TestGorillas.data.getPlayer1().equals(TestGorillas.data.getPlayer2()))
 						return getEqualError();
 				else
 					return "";
@@ -359,10 +338,10 @@ public class GorillasTestAdapterMinimal {
 	 */
 	public String getPlayer2Error() {
 		if (getStateBasedGame().getCurrentStateID()==TestGorillas.GAMESETUPSTATE)
-			if (data.getPlayer2() == "")
+			if (TestGorillas.data.getPlayer2() == "")
 				return getEmptyError();
 			else
-				if (data.getPlayer2().equals(data.getPlayer1()))
+				if (TestGorillas.data.getPlayer2().equals(TestGorillas.data.getPlayer1()))
 						return getEqualError();
 				else
 					return "";
@@ -399,8 +378,6 @@ public class GorillasTestAdapterMinimal {
 	 * ermoeglichen, das Spiel neu zu starten)
 	 */
 	public void handleKeyPressN() {
-		//Zum testen vom Test: 
-			getStateBasedGame().enterState(TestGorillas.GAMESETUPSTATE);
 		handleKeyPressed(0, Input.KEY_N);
 	}
 }
