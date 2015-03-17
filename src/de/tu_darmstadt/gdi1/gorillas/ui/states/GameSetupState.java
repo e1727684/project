@@ -93,7 +93,7 @@ public class GameSetupState extends BasicTWLGameState {
                 //Label & EditField & Überwachung von Editfield für Player1
                 round_Label = new Label("Pos num. for score \nNeg num. for rounds!");
                 round_Input = new EditField();
- 
+                round_Input.setText(""+1);
                 round_Input.addCallback(new Callback() {
                         public void callback(int key) {
                                 handleEditFieldInput(key, round_Input, this, 15, round_Input.getText());
@@ -102,7 +102,7 @@ public class GameSetupState extends BasicTWLGameState {
                 
                 player1_Label = new Label("Spieler1:");
                 player1_Input = new EditField();
- 
+                player1_Input.setText(Gorillas.data.getPlayer1());
                 player1_Input.addCallback(new Callback() {
                         public void callback(int key) {
                                 handleEditFieldInput(key, player1_Input, this, 15, player2_Input.getText());
@@ -112,7 +112,7 @@ public class GameSetupState extends BasicTWLGameState {
                 //Label & EditField & Überwachung von Editfield(siehe handleEditFieldInput()) für Player2
                 player2_Label = new Label("Spieler2:");
                 player2_Input = new EditField();
- 
+                player2_Input.setText(Gorillas.data.getPlayer2());
                 player2_Input.addCallback(new Callback() {
                         public void callback(int key) {
                                 handleEditFieldInput(key, player2_Input, this, 15, player1_Input.getText());

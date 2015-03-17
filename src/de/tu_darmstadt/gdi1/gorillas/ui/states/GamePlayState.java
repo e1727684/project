@@ -66,6 +66,7 @@ public class GamePlayState extends BasicTWLGameState {
 	private Vector2f gorilla2pos;
 	private AtomicInteger wurfAnzahl;
 	private boolean goCongratulate;
+	private int wind;
 
 	public GamePlayState(int sid) {
 		stateID = sid;
@@ -105,7 +106,8 @@ public class GamePlayState extends BasicTWLGameState {
         int[] houseHeights = new int[8];
         int houseWidth = 100, startPointHouses = 0, housesIndex = 0;
         houseHeights = randomizeHouses(houseHeights, houseWidth, startPointHouses, housesIndex, game.getContainer().getHeight());
-        randomizeGorillaPositions(game.getContainer().getHeight(), game.getContainer().getWidth(), houseHeights, gorilla1, gorilla2); 
+        randomizeGorillaPositions(game.getContainer().getHeight(), game.getContainer().getWidth(), houseHeights, gorilla1, gorilla2);
+        makeWind();
         // --->
         
         // Setzen der Positionen der Gorillas und der Soone
@@ -141,6 +143,10 @@ public class GamePlayState extends BasicTWLGameState {
         turn = true;
 	}
 	
+	private void makeWind() {
+        Random rand = new Random(); // such random
+		this.wind = 15-rand.nextInt(30);
+	}
 	private void randomizeGorillaPositions(int height, int width, int[] houseHeights, Entity gorilla1, Entity gorilla2) {
 		// positions for gorilla 1
         float gorilla1PosX = 0;
@@ -537,6 +543,7 @@ public class GamePlayState extends BasicTWLGameState {
 		// x0 und y0 für newtonsche gleichung..
 		wurf.startPos = turn?new Vector2f(gorilla1pos.getX()+30,gorilla1pos.getY()-38):new Vector2f(gorilla2pos.getX()-30,gorilla2pos.getY()-38);
 		// solange geworfen bis.... kollision // out of bounce
+		wurf.wind = this.wind;
 		loop.addAction(wurf);
 		// banana now rotate; infinite!
 		loop.addAction(turn?new RotateRightAction(0.5F):new RotateLeftAction(0.5F));
