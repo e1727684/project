@@ -179,7 +179,7 @@ public class GorillasTestAdapterExtended1 extends GorillasTestAdapterMinimal {
 	 */
 	public void addHighscore(String name, int numberOfRounds, int roundsWon,
 			int bananasThrown) {
-		// TODO: Implement
+		gorillas.data.addHighscore(name, numberOfRounds, roundsWon, bananasThrown);
 	}
 
 	/**
@@ -196,8 +196,7 @@ public class GorillasTestAdapterExtended1 extends GorillasTestAdapterMinimal {
 	 * @return number of highscore entries
 	 */
 	public int getHighscoreCount() {
-		// TODO: Implement
-		return -1;
+		return super.gorillas.data.getHighscoreCount();
 	}
 
 	/**
@@ -212,8 +211,7 @@ public class GorillasTestAdapterExtended1 extends GorillasTestAdapterMinimal {
 	 *         if position is invalid
 	 */
 	public String getNameAtHighscorePosition(int position) {
-		// TODO: Implement
-		return null;
+		return gorillas.data.getNameAtHighscorePosition(position);
 	}
 
 	/**
@@ -228,8 +226,7 @@ public class GorillasTestAdapterExtended1 extends GorillasTestAdapterMinimal {
 	 *         passed position or -1 if position is invalid
 	 */
 	public int getRoundsPlayedAtHighscorePosition(int position) {
-		// TODO: Implement
-		return -1;
+		return gorillas.data.getRoundsPlayedAtHighscorePosition(position);
 	}
 
 	/**
@@ -244,8 +241,7 @@ public class GorillasTestAdapterExtended1 extends GorillasTestAdapterMinimal {
 	 *         position or -1 if position is invalid
 	 */
 	public int getRoundsWonAtHighscorePosition(int position) {
-		// TODO: Implement
-		return -1;
+		return gorillas.data.getRoundsWonAtHighscorePosition(position);
 	}
 
 	/**
@@ -260,8 +256,7 @@ public class GorillasTestAdapterExtended1 extends GorillasTestAdapterMinimal {
 	 *         position or -1 if position is invalid
 	 */
 	public int getPercentageWonAtHighscorePosition(int position) {
-		// TODO: Implement
-		return -1;
+		return gorillas.data.getPercentageWonAtHighscorePosition(position);
 	}
 
 	/**
@@ -276,8 +271,7 @@ public class GorillasTestAdapterExtended1 extends GorillasTestAdapterMinimal {
 	 *         if position is invalid
 	 */
 	public double getMeanAccuracyAtHighscorePosition(int position) {
-		// TODO: Implement
-		return -1;
+		return gorillas.data.getMeanAccuracyAtHighscorePosition(position);
 	}
 
 	/**

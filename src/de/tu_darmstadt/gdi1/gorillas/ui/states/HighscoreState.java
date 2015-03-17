@@ -27,8 +27,9 @@ public class HighscoreState extends BasicTWLGameState {
 	
 	private int stateID;
 	private StateBasedEntityManager entityManager;
-	
-	private Label instruction_Label;
+
+	private Label highscore_Label;
+	private Label scores_Label;
 	
 	public HighscoreState(int sid) {
 		stateID = sid;
@@ -55,7 +56,7 @@ public class HighscoreState extends BasicTWLGameState {
     	// Setze Position und Bildkomponente
     	zurück_Entity.setPosition(new Vector2f(400, 450));
     	zurück_Entity.setScale(0.18f);
-    	if (!Gorillas.data.test) { // really.... 
+    	if (!Gorillas.data.guiDisabled) { // really.... 
     	zurück_Entity.addComponent(new ImageRenderComponent(new Image("assets/gorillas/button.png")));
     	}
     	// Erstelle das Ausloese-Event und die zugehoerige Action
@@ -98,16 +99,20 @@ public class HighscoreState extends BasicTWLGameState {
 		RootPane rp = super.createRootPane();
 		
 		/*Intruktion-Label*/
-    	instruction_Label = new Label("Blablabla und so weiter...");
-    	instruction_Label.setPosition(250, 100);
-    	rp.add(instruction_Label);
+    	highscore_Label = new Label("HighScore:");
+    	scores_Label = new Label(Gorillas.data.giveHighscoreAsString());
+    	highscore_Label.setPosition(250, 100);
+    	scores_Label.setPosition(150, 200);
+    	rp.add(highscore_Label);
+    	rp.add(scores_Label);
     	
     	return rp;
 	}
 	
 	@Override
 	protected void layoutRootPane() {
-		instruction_Label.setPosition(250, 100);
+		highscore_Label.setPosition(250, 100);
+		scores_Label.setPosition(150, 200);
 	}
 
 }

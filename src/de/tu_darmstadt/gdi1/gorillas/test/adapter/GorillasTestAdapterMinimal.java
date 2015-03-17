@@ -24,7 +24,7 @@ import eea.engine.entity.StateBasedEntityManager;
 public class GorillasTestAdapterMinimal {
 
 	// erbt von TWLTestStateBasedGame (nur fuer Tests!)
-	TestGorillas gorillas;
+	public TestGorillas gorillas;
 	
 	// werden gebraucht:
 	public GameData data;

@@ -88,7 +88,7 @@ public class GamePlayState extends BasicTWLGameState {
         
         // Füge Bilder hinzu
         // <---
-    	if (!Gorillas.data.test) { // really.... 
+    	if (!Gorillas.data.guiDisabled) { // really.... 
         sun_smiling.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/sun/sun_smiling.png")));
         gorilla1.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/gorillas/gorilla.png")));
         gorilla2.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/gorillas/gorilla.png")));
@@ -98,7 +98,9 @@ public class GamePlayState extends BasicTWLGameState {
 		// Zeug, das wir brauchen bevor wir die Gorillas und die Häuser setzten!
         // <---
         entityManager.addEntity(this.stateID, entityManager.getEntity(0, "background"));
-        int[] houseHeights = randomizeHouses(game.getContainer().getHeight());
+        int[] houseHeights = new int[8];
+        int houseWidth = 100, startPointHouses = 0, housesIndex = 0;
+        houseHeights = randomizeHouses(houseHeights, houseWidth, startPointHouses, housesIndex, game.getContainer().getHeight());
         randomizeGorillaPositions(game.getContainer().getHeight(), game.getContainer().getWidth(), houseHeights, gorilla1, gorilla2); 
         // --->
         
@@ -176,11 +178,7 @@ public class GamePlayState extends BasicTWLGameState {
         // still black magic BUT we have our gorilla positions!
         gorilla2pos = new Vector2f(gorilla2PosX, gorilla2PosY); // Startposition
 	}
-	private int[] randomizeHouses(int heigth) {
-        int[] houseHeights = new int[8];
-        int houseWidth = 100;
-        int startPointHouses = 0; // Anfangspunkt Häuser
-        int housesIndex = 0;
+	private int[] randomizeHouses(int[] houseHeights, int houseWidth, int startPointHouses, int housesIndex, int heigth) {
         Random rand = new Random(); // such random
         for (int e = 0; e < 8; e++) {
 
@@ -208,7 +206,7 @@ public class GamePlayState extends BasicTWLGameState {
                 else
                         startPointHouses = startPointHouses + houseWidth;
 
-            	if (!Gorillas.data.test) { // really.... 
+            	if (!Gorillas.data.guiDisabled) { // really.... 
                 DestructibleImageEntity house = new DestructibleImageEntity(
                                 "obstacle", image, "gorillas/destruction.png", false);
             	
@@ -280,7 +278,7 @@ public class GamePlayState extends BasicTWLGameState {
 	private void switchInputLabel(boolean visible) {
 		if (visible)
 			try {
-				if (!Gorillas.data.test)
+				if (!Gorillas.data.guiDisabled)
 					entityManager.getEntity(2, "sun_smiling").addComponent(new ImageRenderComponent(new Image("/assets/gorillas/sun/sun_smiling.png")));
 			} catch (SlickException e) { // shouldn't....
 			}
@@ -508,10 +506,15 @@ public class GamePlayState extends BasicTWLGameState {
 				if (entity instanceof IDestructible) {
 					destructible = (IDestructible) entity;
 				} else {
-					if (entity.getID() == "gorilla1")
+					if (entity.getID() == "gorilla1") {
 						Gorillas.data.setPlayerWon("player2");
-					else if (entity.getID() == "gorilla2")
+						Gorillas.data.addHighscore(Gorillas.data.getPlayer1(), 1, 1, wurfAnzahl.get());
+						Gorillas.data.addHighscore(Gorillas.data.getPlayer2(), 1, 0, wurfAnzahl.get()-1);
+					} else if (entity.getID() == "gorilla2") {
 						Gorillas.data.setPlayerWon("player1");
+						Gorillas.data.addHighscore(Gorillas.data.getPlayer1(), 1, 0, wurfAnzahl.get());
+						Gorillas.data.addHighscore(Gorillas.data.getPlayer2(), 1, 1, wurfAnzahl.get());
+					}
 					return;
 				}
 
