@@ -291,28 +291,45 @@ public class GamePlayState extends BasicTWLGameState {
 	}
 	
 	private void someoneWon() throws SlickException {
+		if (!entityManager.hasEntity(stateID, "boomTimer")) {
 		entityManager.getEntity(stateID, "gorilla1").setVisible(false);
 		entityManager.getEntity(stateID, "gorilla2").setVisible(false);
-		
-		Entity jubel = new Entity("jubel");
+
+		Entity jubel1 = new Entity("jubel1");
+		Entity jubel2 = new Entity("jubel2");
 		Entity boom = new Entity("boom");
 		Entity boomTimer = new Entity("boomTimer");
 		
 		boom.setPosition(entityManager.getEntity(stateID, Gorillas.data.getPlayerWon().equals("player1")?"gorilla2":"gorilla1").getPosition());
 		boomTimer.setPosition(entityManager.getEntity(stateID, Gorillas.data.getPlayerWon().equals("player1")?"gorilla2":"gorilla1").getPosition());
-		jubel.setPosition(entityManager.getEntity(stateID, Gorillas.data.getPlayerWon().equals("player1")?"gorilla1":"gorilla2").getPosition());
+		jubel1.setPosition(entityManager.getEntity(stateID, Gorillas.data.getPlayerWon().equals("player1")?"gorilla1":"gorilla2").getPosition());
+		jubel2.setPosition(entityManager.getEntity(stateID, Gorillas.data.getPlayerWon().equals("player1")?"gorilla1":"gorilla2").getPosition());
 		
 		boom.addComponent(new ImageRenderComponent(new Image("assets/gorillas/explosions/explosion_1.png")));
 		boomTimer.addComponent(new ImageRenderComponent(new Image("assets/gorillas/explosions/explosion_1.png")));
-		jubel.addComponent(new ImageRenderComponent(new Image(Gorillas.data.getPlayerWon().equals("player1")?"assets/gorillas/gorillas/gorilla_left_up.png":"assets/gorillas/gorillas/gorilla_right_up.png")));
-
+		jubel1.addComponent(new ImageRenderComponent(new Image(Gorillas.data.getPlayerWon().equals("player1")?"assets/gorillas/gorillas/gorilla_left_up.png":"assets/gorillas/gorillas/gorilla_right_up.png")));
+		jubel2.addComponent(new ImageRenderComponent(new Image(Gorillas.data.getPlayerWon().equals("player1")?"assets/gorillas/gorillas/gorilla_right_up.png":"assets/gorillas/gorillas/gorilla_left_up.png")));
+		
 		LoopEvent loop = new LoopEvent();
-		MoveUpAction mua = new MoveUpAction(0.5F);
+		MoveUpAction mua = new MoveUpAction(0.1F);
 		loop.addAction(mua);
+		loop.addAction(new Action() {
+			int clk = 0;
+			@Override
+			public void update(GameContainer gc, StateBasedGame sb, int delta,
+					Component event) {
+				if (clk % 200 == 0) {
+					entityManager.getEntity(stateID, "jubel1").setVisible(true);
+					entityManager.getEntity(stateID, "jubel2").setVisible(false);
+				} else if (clk % 100 == 0) {
+					entityManager.getEntity(stateID, "jubel1").setVisible(false);
+					entityManager.getEntity(stateID, "jubel2").setVisible(true);
+				}
+				clk++;
+			}
+		});
 		Event leavingEvent = new LeavingScreenEvent();
-		//leavingEvent.addAction(new DestroyEntityAction());
 		leavingEvent.addAction(new Action() {
-
 			@Override
 			public void update(GameContainer gc, StateBasedGame sb,
 					int delta, Component event) {
@@ -341,7 +358,9 @@ public class GamePlayState extends BasicTWLGameState {
 		boomTimer.setVisible(false);
 		entityManager.addEntity(stateID, boom);
 		entityManager.addEntity(stateID, boomTimer);
-		entityManager.addEntity(stateID, jubel);
+		entityManager.addEntity(stateID, jubel1);
+		entityManager.addEntity(stateID, jubel2);
+		}
 	}
 	
 	private void switchInputLabel(boolean visible) {
