@@ -172,6 +172,10 @@ public class MainMenuState extends BasicTWLGameState {
 		g.drawString("About", 110, start_Position+counter*distance); counter++;
 		g.drawString("Highscore", 110, start_Position+counter*distance); counter++;
 		g.drawString("Beenden", 110, start_Position+counter*distance); counter++;
+		
+		//GamePaused-Message
+		if (Gorillas.data.getPaused()) {
+			g.drawString("- Spiel pausiert(drücke ESC) -", 500, 50);}
 	}
 
 	@Override
