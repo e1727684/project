@@ -7,9 +7,12 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
+import de.tu_darmstadt.gdi1.gorillas.main.Gorillas;
+
 public class Options {
 	private boolean musicEnabled;
 	private boolean windEnabled;
+
 	private boolean spottEnabled;
 	private int g;
 	private static final String OPTION_FILE = "settings.ini";
@@ -37,9 +40,30 @@ public class Options {
 	}
 
 	public void setMusicEnabled(boolean musicEnabled) {
+		if (!musicEnabled) 
+			Gorillas.data.musicIsPlaying = false;
 		this.musicEnabled = musicEnabled;
+		save();
 	}
 
+	public boolean isWindEnabled() {
+		return windEnabled;
+	}
+
+	public void setWindEnabled(boolean windEnabled) {
+		this.windEnabled = windEnabled;
+		save();
+	}
+
+	public boolean isSpottEnabled() {
+		return spottEnabled;
+	}
+
+	public void setSpottEnabled(boolean spottEnabled) {
+		this.spottEnabled = spottEnabled;
+		save();
+	}
+	
 	public void loadOptionFile() {
 		try {
 			inputStream = new ObjectInputStream(new FileInputStream(

@@ -9,11 +9,12 @@ import javax.sound.sampled.Clip;
 import de.tu_darmstadt.gdi1.gorillas.main.Gorillas;
 
 public class MusicPlayer {
+	public static Clip clip;
 	public static void playBg() {
 		if (!Gorillas.data.musicIsPlaying && Gorillas.options.isMusicEnabled()) {
 		  try {
 			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("sounds/bg.wav").getAbsoluteFile());
-			Clip clip = AudioSystem.getClip();
+			clip = AudioSystem.getClip();
 			clip.open(audioInputStream);
 			clip.start();
 			clip.loop(Clip.LOOP_CONTINUOUSLY);
@@ -25,6 +26,10 @@ public class MusicPlayer {
 		}
 	}
 
+	public static void stopBg() {
+		clip.stop();
+	}
+	
 	public static void playButton() {
 		try {
 			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("sounds/button.wav").getAbsoluteFile());
