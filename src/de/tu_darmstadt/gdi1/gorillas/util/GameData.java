@@ -46,6 +46,11 @@ public class GameData {
 		loadScoreFile();
 		deleteScoreFile();
 	}
+	
+	public void resetScore() {
+		deleteScoreFile();
+		highscore = new String[highscoreLength][4];
+	}
 
 	public void deleteScoreFile() {
 		try {
@@ -175,10 +180,10 @@ public class GameData {
 		String hsc = "";
 		hsc += "Place   Player              Rounds              Won                   Mean accuracy \n";
 		for (int i = 0; i < getHighscoreCount(); i++) {
-			hsc += "0" + (i + 1) + "   " + highscore[i][0] + "                                "
-					+ highscore[i][1] + "                        " + highscore[i][2] +" ("
+			hsc += "0" + (i + 1) + "           " + highscore[i][0] + "                            "
+					+ highscore[i][1] + "                   " + highscore[i][2] +" ("
 					+ getPercentageWonAtHighscorePosition(i) + "%)                   "
-					+ getMeanAccuracyAtHighscorePosition(i) + " \n";
+					+ getMeanAccuracyAtHighscorePosition(i) + " bananas \n";
 		}
 		return hsc;
 	}

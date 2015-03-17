@@ -187,7 +187,7 @@ public class GorillasTestAdapterExtended1 extends GorillasTestAdapterMinimal {
 	 * {@link #getHighscoreCount()} should return 0.
 	 */
 	public void resetHighscore() {
-		// TODO: Implement
+		gorillas.data.resetScore();
 	}
 
 	/**
@@ -196,7 +196,7 @@ public class GorillasTestAdapterExtended1 extends GorillasTestAdapterMinimal {
 	 * @return number of highscore entries
 	 */
 	public int getHighscoreCount() {
-		return super.gorillas.data.getHighscoreCount();
+		return gorillas.data.getHighscoreCount();
 	}
 
 	/**

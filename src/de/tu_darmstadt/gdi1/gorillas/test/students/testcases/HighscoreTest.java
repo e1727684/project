@@ -49,7 +49,7 @@ public class HighscoreTest {
 		adapter.addHighscore("PlayerTwo", 4, 1, 10);
 		adapter.addHighscore("PlayerThree", 5, 3, 14);
 		adapter.addHighscore("PlayerOne", 5, 2, 15);
-		adapter.gorillas.data.printHighscoreInConsole();
+		
 		assertEquals("", "PlayerThree", adapter.getNameAtHighscorePosition(0));
 		assertEquals("", 3, adapter.getRoundsWonAtHighscorePosition(0));
 		assertEquals("", "PlayerOne", adapter.getNameAtHighscorePosition(1));
