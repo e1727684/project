@@ -249,9 +249,15 @@ public class GamePlayState extends BasicTWLGameState {
 			switchInputLabel(true);
 		String buildNameLabel = "";
 		if (Gorillas.data.getRemainingRounds() > 0 && Gorillas.data.getPlayTillScore() == 0) // display names so the players know whose turn it is!
-			buildNameLabel += Gorillas.data.getRemainingRounds() + " Runden verbleibend!";
+			if (Gorillas.data.getRemainingRounds() == 1)
+				buildNameLabel += Gorillas.data.getRemainingRounds() + " Runde verbleibend!";
+			else
+				buildNameLabel += Gorillas.data.getRemainingRounds() + " Runden verbleibend!";
 		else 
-			buildNameLabel += Gorillas.data.getPlayTillScore() + " Punkte gewinnen!";
+			if (Gorillas.data.getPlayTillScore() == 1)
+				buildNameLabel += Gorillas.data.getPlayTillScore() + " Punkt gewinnt!";
+			else
+				buildNameLabel += Gorillas.data.getPlayTillScore() + " Punkte gewinnen!";
 		buildNameLabel += "\nScore: "+Gorillas.data.getCurrentScore()[0]+":"+Gorillas.data.getCurrentScore()[1]+"\n" +wurfAnzahl + ". Wurf! ";
 		if (turn)
 			buildNameLabel += "Player 1: "+Gorillas.data.getPlayer1();
