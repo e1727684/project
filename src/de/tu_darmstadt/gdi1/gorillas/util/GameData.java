@@ -17,7 +17,7 @@ public class GameData {
 	private String playerWon;
 	public boolean guiDisabled;
 	private String[][] highscore;
-	private int highscoreLength = 10;
+	private int highscoreLength = 1000;
 	ObjectOutputStream outputStream = null;
 	ObjectInputStream inputStream = null;
 	private static final String HIGHSCORE_FILE = "highscores.hsc";
@@ -194,10 +194,10 @@ public class GameData {
 
 	public String giveHighscoreAsString(int c) {
 		String hsc = "";
-		for (int i = 0; i < getHighscoreCount(); i++) {
+		for (int i = 0; i < getHighscoreCount() && i < 10; i++) { // i < 10 da nur 10 anzuzeigen sind.....
 			switch (c) {
 				case 0:
-					hsc += "0" + (i + 1) + " \n";
+					hsc += (i==9?"":"0") + (i + 1) + " \n";
 					break;
 				case 1:
 					hsc += highscore[i][0] + " \n";

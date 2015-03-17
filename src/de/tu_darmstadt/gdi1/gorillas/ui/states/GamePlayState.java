@@ -182,7 +182,7 @@ public class GamePlayState extends BasicTWLGameState {
         Random rand = new Random(); // such random
         for (int e = 0; e < 8; e++) {
 
-                houseHeights[housesIndex] = rand.nextInt(380) + 120;
+                houseHeights[housesIndex] = rand.nextInt(380)+60;
                
                 // Häuser
                 BufferedImage image = new BufferedImage(houseWidth,
