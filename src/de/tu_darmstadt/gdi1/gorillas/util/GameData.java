@@ -221,6 +221,8 @@ public class GameData {
 	}
 
 	public double getMeanAccuracyAtHighscorePosition(int position) {
+		if (getRoundsWonAtHighscorePosition(position) == 0)
+			return 0;
 		if (position >= 0 && highscore[position][0] != null)
 			return (int) Math
 					.round((double) getBananasAtHighscorePosition(position)
