@@ -296,11 +296,14 @@ public class GamePlayState extends BasicTWLGameState {
 		
 		Entity jubel = new Entity("jubel");
 		Entity boom = new Entity("boom");
+		Entity boomTimer = new Entity("boomTimer");
 		
 		boom.setPosition(entityManager.getEntity(stateID, Gorillas.data.getPlayerWon().equals("player1")?"gorilla2":"gorilla1").getPosition());
+		boomTimer.setPosition(entityManager.getEntity(stateID, Gorillas.data.getPlayerWon().equals("player1")?"gorilla2":"gorilla1").getPosition());
 		jubel.setPosition(entityManager.getEntity(stateID, Gorillas.data.getPlayerWon().equals("player1")?"gorilla1":"gorilla2").getPosition());
 		
 		boom.addComponent(new ImageRenderComponent(new Image("assets/gorillas/explosions/explosion_1.png")));
+		boomTimer.addComponent(new ImageRenderComponent(new Image("assets/gorillas/explosions/explosion_1.png")));
 		jubel.addComponent(new ImageRenderComponent(new Image(Gorillas.data.getPlayerWon().equals("player1")?"assets/gorillas/gorillas/gorilla_left_up.png":"assets/gorillas/gorillas/gorilla_right_up.png")));
 
 		LoopEvent loop = new LoopEvent();
@@ -333,9 +336,11 @@ public class GamePlayState extends BasicTWLGameState {
 			}
 			
 		});
-		boom.addComponent(leavingEvent);
-		boom.addComponent(loop);
+		boomTimer.addComponent(leavingEvent);
+		boomTimer.addComponent(loop);
+		boomTimer.setVisible(false);
 		entityManager.addEntity(stateID, boom);
+		entityManager.addEntity(stateID, boomTimer);
 		entityManager.addEntity(stateID, jubel);
 	}
 	
