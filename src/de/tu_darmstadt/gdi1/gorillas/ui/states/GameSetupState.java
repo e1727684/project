@@ -1,5 +1,8 @@
 package de.tu_darmstadt.gdi1.gorillas.ui.states;
  
+
+
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
@@ -59,6 +62,8 @@ public class GameSetupState extends BasicTWLGameState {
                 entityManager.renderEntities(container, game, g);
                
                 //Fehlermeldungen bei falscher Eingabe (wenn leer, dann bei passendem EditField)
+                g.setColor(new Color(255, 0, 0));
+                
                 if(oneIsEmpty)
                         g.drawString("Bitte Name eingeben!", player1_Input.getX(), 380);
                 if(twoIsEmpty)
@@ -140,7 +145,7 @@ public class GameSetupState extends BasicTWLGameState {
                                 else
                                         twoIsEmpty = false;
                                 //wenn Namen gleich sind                                       
-                                if (playerName1.equals(playerName2) && !playerName1.isEmpty())
+                                if (playerName1.equalsIgnoreCase(playerName2) && !playerName1.isEmpty())
                                         isEqual = true;
                                 else
                                         isEqual = false;
