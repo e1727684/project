@@ -99,7 +99,7 @@ public class GameData {
 	public String giveHighscoreAsString() {
 		String hsc = "";
 		for (int i = 0; i < getHighscoreCount(); i++) {
-			hsc += i+". Player: "+highscore[i][0]+". Rounds played: "+highscore[i][1]+". Rounds won: "+highscore[i][2]+". Bananas thrown: "+highscore[i][3]+". \n";
+			hsc += (i+1)+". Player: "+highscore[i][0]+". Rounds played: "+highscore[i][1]+". Rounds won: "+highscore[i][2]+". Bananas thrown: "+highscore[i][3]+". \n";
 		}
 		return hsc;
 	}
