@@ -97,8 +97,8 @@ public class MainMenuState extends BasicTWLGameState {
 				mbackground.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/backgroundMain.png")));
 		    	new_Game_Entity.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/button.png")));
 		    	instructions_Entity.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/button.png")));
-		    	options_Entity.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/button.png")));
 		    	highscore_Entity.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/button.png")));
+		    	options_Entity.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/button.png")));
 		    	about_Entity.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/button.png")));
 		    	quit_Entity.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/button.png")));
 		    	Event sound = new TimeEvent(1, false);
@@ -117,32 +117,32 @@ public class MainMenuState extends BasicTWLGameState {
 				// <---
 		    	ANDEvent mainEvents_n = new ANDEvent(new MouseEnteredEvent(), new MouseClickedEvent());
 		    	ANDEvent mainEvents_i = new ANDEvent(new MouseEnteredEvent(), new MouseClickedEvent());
-		    	ANDEvent mainEvents_o = new ANDEvent(new MouseEnteredEvent(), new MouseClickedEvent());
 		    	ANDEvent mainEvents_h = new ANDEvent(new MouseEnteredEvent(), new MouseClickedEvent());
+		    	ANDEvent mainEvents_o = new ANDEvent(new MouseEnteredEvent(), new MouseClickedEvent());
 		    	ANDEvent mainEvents_a = new ANDEvent(new MouseEnteredEvent(), new MouseClickedEvent());
 		    	ANDEvent mainEvents_q = new ANDEvent(new MouseEnteredEvent(), new MouseClickedEvent());
 		    	Action new_Game_Action = new ChangeStateInitAction(Gorillas.GAMESETUPSTATE);
 		    	Action instructions_Action = new ChangeStateAction(Gorillas.INSTRUCTIONSTATE);
-		    	Action options_Action = new ChangeStateAction(Gorillas.OPTIONSTATE);
 		    	Action highscore_Action = new ChangeStateAction(Gorillas.HIGHSCORESTATE);
+		    	Action options_Action = new ChangeStateAction(Gorillas.OPTIONSTATE);
 		    	Action about_Action = new ChangeStateAction(Gorillas.ABOUTSTATE);
 		    	Action quit_Action = new QuitAction();
 		    	mainEvents_n.addAction(new_Game_Action);
 		    	mainEvents_i.addAction(instructions_Action);
-		    	mainEvents_o.addAction(options_Action);
 		    	mainEvents_h.addAction(highscore_Action);
+		    	mainEvents_o.addAction(options_Action);
 		    	mainEvents_a.addAction(about_Action);
 		    	mainEvents_q.addAction(quit_Action);
 		    	mainEvents_n.addAction(buttonPressed);
 		    	mainEvents_i.addAction(buttonPressed);
-		    	mainEvents_o.addAction(buttonPressed);
 		    	mainEvents_h.addAction(buttonPressed);
+		    	mainEvents_o.addAction(buttonPressed);
 		    	mainEvents_a.addAction(buttonPressed);
 		    	mainEvents_q.addAction(buttonPressed);
 		    	new_Game_Entity.addComponent(mainEvents_n);
 		    	instructions_Entity.addComponent(mainEvents_i);
-		    	options_Entity.addComponent(mainEvents_o);
 		    	highscore_Entity.addComponent(mainEvents_h);
+		    	options_Entity.addComponent(mainEvents_o);
 		    	about_Entity.addComponent(mainEvents_a);
 		    	quit_Entity.addComponent(mainEvents_q);
 				// --->
@@ -152,8 +152,8 @@ public class MainMenuState extends BasicTWLGameState {
 				entityManager.addEntity(this.stateID, mbackground);
 		    	entityManager.addEntity(this.stateID, new_Game_Entity);
 		    	entityManager.addEntity(this.stateID, instructions_Entity);
-		    	entityManager.addEntity(this.stateID, options_Entity);
 		    	entityManager.addEntity(this.stateID, highscore_Entity);
+		    	entityManager.addEntity(this.stateID, options_Entity);
 		    	entityManager.addEntity(this.stateID, about_Entity);
 		    	entityManager.addEntity(this.stateID, quit_Entity);
 		    	entityManager.addEntity(this.stateID, music);
@@ -214,8 +214,8 @@ public class MainMenuState extends BasicTWLGameState {
 		int counter = 0;
 		g.drawString("Neues Spiel starten", 160, start_Position+counter*distance); counter++;
 		g.drawString("Instructions", 160, start_Position+counter*distance); counter++;
-		g.drawString("Options", 160, start_Position+counter*distance); counter++;
 		g.drawString("Highscore", 160, start_Position+counter*distance); counter++;
+		g.drawString("Options", 160, start_Position+counter*distance); counter++;
 		g.drawString("About", 160, start_Position+counter*distance); counter++;
 		g.drawString("Beenden", 160, start_Position+counter*distance); counter++;
 		

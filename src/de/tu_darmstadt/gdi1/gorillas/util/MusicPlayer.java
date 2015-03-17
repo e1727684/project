@@ -16,6 +16,7 @@ public class MusicPlayer {
 			Clip clip = AudioSystem.getClip();
 			clip.open(audioInputStream);
 			clip.start();
+			clip.loop(Clip.LOOP_CONTINUOUSLY);
 			Gorillas.data.musicIsPlaying = true;
     	  } catch(Exception ex) {
     		System.out.println("Error with playing sound.");
