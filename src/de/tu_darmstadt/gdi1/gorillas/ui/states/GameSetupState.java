@@ -139,8 +139,9 @@ public class GameSetupState extends BasicTWLGameState {
                         @Override
                         public void run() {
                                
-                                String playerName1 = player1_Input.getText();
-                                String playerName2 = player2_Input.getText();
+                        		//lieﬂt Namen aus Editfield und "trimmt" Leerzeichen
+                                String playerName1 = player1_Input.getText().trim();
+                                String playerName2 = player2_Input.getText().trim();
                                
                                 //wenn Editfield 1 leer ist
                                 if (playerName1.isEmpty())
@@ -152,7 +153,7 @@ public class GameSetupState extends BasicTWLGameState {
                                         twoIsEmpty = true;                                     
                                 else
                                         twoIsEmpty = false;
-                                //wenn Namen gleich sind                                       
+                                //wenn Namen gleich sind(Groﬂ-/Kleinschreibung und Leerzeichen an Anfang oder Ende machen keinen unterschied)                                      
                                 if (playerName1.equalsIgnoreCase(playerName2) && !playerName1.isEmpty())
                                         isEqual = true;
                                 else
