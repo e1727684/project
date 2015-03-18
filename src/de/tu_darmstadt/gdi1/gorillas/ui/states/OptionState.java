@@ -7,15 +7,12 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
-
 import de.matthiasmann.twl.Button;
 import de.matthiasmann.twl.EditField;
-import de.matthiasmann.twl.Label;
 import de.matthiasmann.twl.EditField.Callback;
 import de.matthiasmann.twl.slick.BasicTWLGameState;
 import de.matthiasmann.twl.slick.RootPane;
 import de.tu_darmstadt.gdi1.gorillas.main.Gorillas;
-import de.tu_darmstadt.gdi1.gorillas.ui.widgets.valueadjuster.AdvancedValueAdjusterInt;
 import de.tu_darmstadt.gdi1.gorillas.util.MusicPlayer;
 import eea.engine.action.Action;
 import eea.engine.action.basicactions.ChangeStateAction;
@@ -172,12 +169,15 @@ public class OptionState extends BasicTWLGameState {
 		
 		entityManager.renderEntities(container, game, g);
 
+		// Draw our menu and draw our menu and draw our menu and draw our menu and ...
+		// <---
 		g.drawString("Music: "+Gorillas.options.isMusicEnabled(), 160, start_Position);
 		g.drawString("Sfx: "+Gorillas.options.isSFXEnabled(), 160, start_Position+distance);
 		g.drawString("Wind: "+Gorillas.options.isWindEnabled(), 160, start_Position+2*distance);
 		g.drawString("Sarcasm: "+Gorillas.options.isSpottEnabled(), 160, start_Position+3*distance); 
 		g.drawString("Custom Gravity: ", 160, start_Position+4*distance - distance/4); 
 		g.drawString("Back", 160, start_Position+5*distance);
+		// --->
 		
 	}
 
@@ -194,7 +194,11 @@ public class OptionState extends BasicTWLGameState {
 	
     @Override
     protected RootPane createRootPane() {
+    	// Custom rootpane
         RootPane rp = super.createRootPane();
+        
+        // Creating input field and buttons ...
+        // <---
         g_Input = new EditField();
         g_Input.setText(""+Gorillas.options.getG());
         g_Input.addCallback(new Callback() {
@@ -213,17 +217,26 @@ public class OptionState extends BasicTWLGameState {
                 	}
                 }
         });
+        // --->
+        
+        // Finally: Adding the buttons to our rootpane ...
+        // <---
         rp.add(gButton);
         rp.add(g_Input);
+        // --->
+        
         return rp;
     }
     
     @Override
     protected void layoutRootPane() {
+        // Literally layout-ing our rootpane!
+        // <---
         g_Input.setSize(40, 20);
-        g_Input.setPosition(160, start_Position+4*distance+10);
         gButton.adjustSize();
+        g_Input.setPosition(160, start_Position+4*distance+10);
         gButton.setPosition(200, start_Position+4*distance+10);
+        // --->
     }
     
     /**
@@ -244,7 +257,7 @@ public class OptionState extends BasicTWLGameState {
             if (key == de.matthiasmann.twl.Event.KEY_NONE) {
                     String inputText = editField.getText();
                    
-                    // Engabe darf höchsten maxLength Zeichen lang sein. Andere Zeichen ERLAUBT, da Kommawerte erlaubt..
+                    // Input may only be maxLength long BUT all input is allowed since it's a float.
                     if (inputText.length() > maxLength) {
                             // a call of setText on an EditField triggers the callback, so
                             // remove callback before and add it again after the call
