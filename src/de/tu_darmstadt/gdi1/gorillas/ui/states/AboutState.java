@@ -48,7 +48,7 @@ public class AboutState extends BasicTWLGameState {
 		
 		/* Spiel zurück-Entitaet */
 		//-------------------------------------------------------
-    	Entity zurück_Entity = new Entity("Zurück");
+    	Entity zurück_Entity = new Entity("Back");
     	
     	// Setze Position und Bildkomponente
     	zurück_Entity.setPosition(new Vector2f(400, 450));

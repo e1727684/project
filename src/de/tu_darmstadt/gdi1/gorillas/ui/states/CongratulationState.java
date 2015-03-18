@@ -80,9 +80,9 @@ public class CongratulationState extends BasicTWLGameState {
 		
 		entityManager.renderEntities(container, game, g);
 
-		g.drawString("Herzlichen Glückwunsch Spieler " + (Gorillas.data.getPlayerWon().equals("player1")?Gorillas.data.getPlayer1():Gorillas.data.getPlayer2()) + "!",
+		g.drawString("Congratulations Player " + (Gorillas.data.getPlayerWon().equals("player1")?Gorillas.data.getPlayer1():Gorillas.data.getPlayer2()) + "!",
 				250, 80);
-		g.drawString("Zurück", 370, 445);
+		g.drawString("Back", 370, 445);
 		
 	}
 

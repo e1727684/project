@@ -315,19 +315,22 @@ public class GamePlayState extends BasicTWLGameState {
 		String buildNameLabel = "";
 		if (Gorillas.data.getRemainingRounds() != 0 && Gorillas.data.getPlayTillScore() == 0) // display names so the players know whose turn it is!
 			if (Gorillas.data.getRemainingRounds() == 1)
-				buildNameLabel += Gorillas.data.getRemainingRounds() + " Runde verbleibend!";
+				buildNameLabel += "LAST ROUND!\n";
 			else
-				buildNameLabel += Gorillas.data.getRemainingRounds() + " Runden verbleibend!";
+				buildNameLabel += Gorillas.data.getRemainingRounds() + " rounds left!\n";
 		else 
 			if (Gorillas.data.getPlayTillScore() == 1)
-				buildNameLabel += Gorillas.data.getPlayTillScore() + " Punkt gewinnt!";
+				buildNameLabel += "NEXT HIT WINS!\n";
 			else
-				buildNameLabel += Gorillas.data.getPlayTillScore() + " Punkte gewinnen!";
-		buildNameLabel += "\n"+Gorillas.data.getCurrentScore()[0]+">Score<"+Gorillas.data.getCurrentScore()[1]+"\n" +wurfAnzahl + ". Wurf! ";
+				buildNameLabel += "Score "+Gorillas.data.getPlayTillScore() + " times to win!\n";
+		if ((Gorillas.data.getRemainingRounds() > 1 || Gorillas.data.getPlayTillScore() > 1) 
+				|| ((Gorillas.data.getRemainingRounds() == 1 || Gorillas.data.getPlayTillScore() == 1) 
+						&& (Gorillas.data.getCurrentScore()[0] != 0 || Gorillas.data.getCurrentScore()[1] != 0)))
+			buildNameLabel += ""+Gorillas.data.getCurrentScore()[0]+">Score<"+Gorillas.data.getCurrentScore()[1]+"\n" +wurfAnzahl + ". Wurf! ";
 		if (turn)
-			buildNameLabel += "Player 1: "+Gorillas.data.getPlayer1();
+			buildNameLabel += "Turn of player: "+Gorillas.data.getPlayer1();
 		else 
-			buildNameLabel += "Player 2: "+Gorillas.data.getPlayer2();
+			buildNameLabel += "Turn of player: "+Gorillas.data.getPlayer2();
 		return buildNameLabel;
 	}
 	
@@ -438,8 +441,8 @@ public class GamePlayState extends BasicTWLGameState {
 		RootPane rp = super.createRootPane();
 		nameLabel = new Label("");
 		// erstelle ein Label mit der Aufschrift "x:"
-		angleLabel1 = new Label("Winkel:");
-		angleLabel2 = new Label("Winkel:");
+		angleLabel1 = new Label("Angle:");
+		angleLabel2 = new Label("Angle:");
 		// erstelle ein EditField. Es dient der Eingabe von Text
 		angleInput1 = new EditField();
 		angleInput2 = new EditField();
