@@ -14,7 +14,7 @@ public class Options {
 	private boolean windEnabled;
 	private boolean spottEnabled;
 	private boolean sfxEnabled;
-	private int g;
+	private float g = 10F;
 	private static final String OPTION_FILE = "settings.ini";
 	ObjectOutputStream outputStream = null;
 	ObjectInputStream inputStream = null;
@@ -73,7 +73,7 @@ public class Options {
 			windEnabled = temp[1].equals("true");
 			spottEnabled = temp[2].equals("true");
 			sfxEnabled = temp[3].equals("true");
-			g = Integer.parseInt(temp[4]);
+			g = Float.parseFloat(temp[4]);
 		} catch (FileNotFoundException e) {
 			System.out.println("[Laad] FNF Error: " + e.getMessage());
 		} catch (IOException e) {
@@ -126,5 +126,13 @@ public class Options {
 
 	public void setSFXEnabled(boolean sfxEnabled) {
 		this.sfxEnabled = sfxEnabled;
+	}
+
+	public float getG() {
+		return g;
+	}
+
+	public void setG(float g) {
+		this.g = g;
 	}
 }

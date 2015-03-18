@@ -647,6 +647,7 @@ public class GamePlayState extends BasicTWLGameState {
 		wurf.startPos = turn?new Vector2f(gorilla1pos.getX()+30,gorilla1pos.getY()-38):new Vector2f(gorilla2pos.getX()-30,gorilla2pos.getY()-38);
 		// solange geworfen bis.... kollision // out of bounce
 		wurf.wind = this.wind;
+		wurf.gravity = Gorillas.options.getG();
 		loop.addAction(wurf);
 		// banana now rotate; infinite!
 		loop.addAction(turn?new RotateRightAction(0.5F):new RotateLeftAction(0.5F));
