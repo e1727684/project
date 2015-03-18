@@ -66,7 +66,6 @@ public class GamePlayState extends BasicTWLGameState {
 	private boolean reset;
 	private int wind = 0;
 	private boolean daneben;
-	Entity sun_astonished;
 
 
 	public GamePlayState(int sid) {
@@ -87,7 +86,7 @@ public class GamePlayState extends BasicTWLGameState {
 		
 		// Benötigte Entitäten
         // <---
-		sun_astonished = new Entity("sun_astonished");
+		Entity sun_astonished = new Entity("sun_astonished");
         Entity escListener = new Entity("ESC_Listener");
         Entity gorilla1 = new Entity("gorilla1");
         Entity gorilla2 = new Entity("gorilla2");
@@ -98,7 +97,7 @@ public class GamePlayState extends BasicTWLGameState {
         // Füge Bilder hinzu
         // <---
     	if (!Gorillas.data.guiDisabled) { // really.... 
-			sun_astonished.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/sun/sun_smiling.png")));
+			sun_astonished.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/sun/sun_astonished.png")));
             sun_smiling.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/sun/sun_smiling.png")));
             arrow_wind.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/pfeil.png")));
             gorilla1.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/gorillas/gorilla.png")));
@@ -122,6 +121,7 @@ public class GamePlayState extends BasicTWLGameState {
         gorilla1.setPosition(gorilla1pos); 
         gorilla2.setPosition(gorilla2pos); 
         sun_smiling.setPosition(new Vector2f((game.getContainer().getWidth() / 2), 30));
+        sun_astonished.setPosition(new Vector2f((game.getContainer().getWidth() / 2), 30));
         arrow_wind.setPosition(new Vector2f(545, 55));
         //arrow_wind.setSize(new Vector2f(this.wind, 20));
         arrow_wind.setScale(0.7F*wind/15);
@@ -147,6 +147,7 @@ public class GamePlayState extends BasicTWLGameState {
         entityManager.addEntity(this.stateID, gorilla2);
         entityManager.addEntity(stateID, escListener);
         entityManager.addEntity(this.stateID, sun_smiling);
+        entityManager.addEntity(this.stateID, sun_astonished);
         if (Gorillas.options != null && Gorillas.options.isWindEnabled())
         	entityManager.addEntity(this.stateID, arrow_wind);
         // --->
@@ -268,10 +269,14 @@ public class GamePlayState extends BasicTWLGameState {
 			switchInputLabel(false);
 		else 
 			switchInputLabel(true);
-		
-		if (Gorillas.data.sunAstonished)
-			entityManager.addEntity(stateID, sun_astonished);
-		
+
+		if (Gorillas.data.sunAstonished) {
+			entityManager.getEntity(stateID, "sun_astonished").setVisible(true);
+			entityManager.getEntity(stateID, "sun_smiling").setVisible(false); 
+		} else {
+			entityManager.getEntity(stateID, "sun_astonished").setVisible(false);
+			entityManager.getEntity(stateID, "sun_smiling").setVisible(true); 
+		}
 		if (reset) {
 			reset = false;
 			entityManager.clearEntitiesFromState(stateID);
@@ -386,7 +391,7 @@ public class GamePlayState extends BasicTWLGameState {
 	
 	private void switchInputLabel(boolean visible) {
 		if (visible)
-			entityManager.removeEntity(stateID, sun_astonished);
+			Gorillas.data.sunAstonished = false;
 		nameLabel.setVisible(visible);
 		if (turn) {
 			angleLabel1.setVisible(visible);
