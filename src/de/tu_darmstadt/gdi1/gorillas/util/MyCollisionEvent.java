@@ -5,6 +5,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
+import de.tu_darmstadt.gdi1.gorillas.main.Gorillas;
 import eea.engine.component.render.ImageRenderComponent;
 import eea.engine.entity.Entity;
 import eea.engine.entity.StateBasedEntityManager;
@@ -57,10 +58,7 @@ public class MyCollisionEvent extends Event {
 		// to perform the action(s)
 		if (entity != null && !em.getEntity(2, "background").equals(entity) && (em.hasEntity(2, "arrow_wind")?!em.getEntity(2, "arrow_wind").equals(entity):true)) {
 			if (em.getEntity(2, "sun_smiling").equals(entity)) {
-				try {
-					em.getEntity(2, "sun_smiling").addComponent(new ImageRenderComponent(new Image("/assets/gorillas/sun/sun_astonished.png")));
-				} catch (SlickException e) {
-				}
+				Gorillas.data.sunAstonished = true;
 			} else {
 				collidedEntity = entity;
 				return true;

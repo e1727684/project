@@ -142,6 +142,8 @@ public class GorillasTestAdapterMinimal {
 	public void rememberGameData() {
 		if (TestGorillas.data == null) TestGorillas.data = new GameData(); // eh.... ok. we testing i guess? 
 		TestGorillas.data.save();
+		if (TestGorillas.options == null) TestGorillas.options = new Options(); // eh.... ok. we testing i guess? 
+		TestGorillas.options.save();
 	}
 
 	/**
@@ -150,6 +152,7 @@ public class GorillasTestAdapterMinimal {
 	 */
 	public void restoreGameData() {
 		TestGorillas.data.load();
+		TestGorillas.options.load();
 	}
 
 	/**

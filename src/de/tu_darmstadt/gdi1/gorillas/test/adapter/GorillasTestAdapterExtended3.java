@@ -2,6 +2,8 @@ package de.tu_darmstadt.gdi1.gorillas.test.adapter;
 
 import org.newdawn.slick.geom.Vector2f;
 
+import de.tu_darmstadt.gdi1.gorillas.util.Wurf;
+
 public class GorillasTestAdapterExtended3 extends GorillasTestAdapterExtended2 {
 
 	protected int gravity;
@@ -56,7 +58,12 @@ public class GorillasTestAdapterExtended3 extends GorillasTestAdapterExtended2 {
 	public Vector2f getNextShotPosition(Vector2f startPosition, int angle,
 			int speed, int wind, int gravity, boolean fromLeftToRight,
 			int deltaTime) {
-		// TODO: Implement
-		return null;
+			Wurf wurf = new Wurf(speed);
+			wurf.angle = fromLeftToRight?angle:(180-angle);
+			wurf.startPos = startPosition;
+			wurf.timer = deltaTime;
+			wurf.gravity = gravity;
+			wurf.wind = wind;
+			return wurf.getNextPosition(startPosition, speed, 0, 0);
 	}
 }

@@ -66,6 +66,7 @@ public class GamePlayState extends BasicTWLGameState {
 	private boolean reset;
 	private int wind = 0;
 	private boolean daneben;
+	Entity sun_astonished;
 
 
 	public GamePlayState(int sid) {
@@ -86,6 +87,7 @@ public class GamePlayState extends BasicTWLGameState {
 		
 		// Benötigte Entitäten
         // <---
+		sun_astonished = new Entity("sun_astonished");
         Entity escListener = new Entity("ESC_Listener");
         Entity gorilla1 = new Entity("gorilla1");
         Entity gorilla2 = new Entity("gorilla2");
@@ -96,6 +98,7 @@ public class GamePlayState extends BasicTWLGameState {
         // Füge Bilder hinzu
         // <---
     	if (!Gorillas.data.guiDisabled) { // really.... 
+			sun_astonished.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/sun/sun_smiling.png")));
             sun_smiling.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/sun/sun_smiling.png")));
             arrow_wind.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/pfeil.png")));
             gorilla1.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/gorillas/gorilla.png")));
@@ -266,6 +269,9 @@ public class GamePlayState extends BasicTWLGameState {
 		else 
 			switchInputLabel(true);
 		
+		if (Gorillas.data.sunAstonished)
+			entityManager.addEntity(stateID, sun_astonished);
+		
 		if (reset) {
 			reset = false;
 			entityManager.clearEntitiesFromState(stateID);
@@ -380,11 +386,7 @@ public class GamePlayState extends BasicTWLGameState {
 	
 	private void switchInputLabel(boolean visible) {
 		if (visible)
-			try {
-				if (!Gorillas.data.guiDisabled)
-					entityManager.getEntity(2, "sun_smiling").addComponent(new ImageRenderComponent(new Image("/assets/gorillas/sun/sun_smiling.png")));
-			} catch (SlickException e) { // shouldn't....
-			}
+			entityManager.removeEntity(stateID, sun_astonished);
 		nameLabel.setVisible(visible);
 		if (turn) {
 			angleLabel1.setVisible(visible);

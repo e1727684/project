@@ -23,6 +23,7 @@ public class GameData {
 	private int playTillScore;
 	private int[] currentScore;
 	public boolean musicIsPlaying;
+	public boolean sunAstonished;
 
 	public GameData() {// ONE call in Gorillas, then getter&setters!
 		init();
@@ -39,6 +40,7 @@ public class GameData {
 		setPlayTillScore(0);
 		currentScore = new int[2];
 		musicIsPlaying = false;
+		sunAstonished = false;
 		load();
 		// more?
 	}

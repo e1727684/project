@@ -282,8 +282,7 @@ public class GorillasTestAdapterExtended1 extends GorillasTestAdapterMinimal {
 	 *         GamePlayState
 	 */
 	public int getPlayer1Score() {
-		// TODO: Implement
-		return -1;
+		return gorillas.data.getCurrentScore()[0];
 	}
 
 	/**
@@ -294,8 +293,7 @@ public class GorillasTestAdapterExtended1 extends GorillasTestAdapterMinimal {
 	 *         GamePlayState
 	 */
 	public int getPlayer2Score() {
-		// TODO: Implement
-		return -1;
+		return gorillas.data.getCurrentScore()[1];
 	}
 
 	/**

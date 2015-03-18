@@ -2,6 +2,10 @@ package de.tu_darmstadt.gdi1.gorillas.test.adapter;
 
 import org.newdawn.slick.geom.Vector2f;
 
+import de.tu_darmstadt.gdi1.gorillas.main.Gorillas;
+import de.tu_darmstadt.gdi1.gorillas.ui.states.GamePlayState;
+import de.tu_darmstadt.gdi1.gorillas.util.Wurf;
+
 public class GorillasTestAdapterExtended2 extends GorillasTestAdapterExtended1 {
 
 	public GorillasTestAdapterExtended2() {
@@ -51,9 +55,12 @@ public class GorillasTestAdapterExtended2 extends GorillasTestAdapterExtended1 {
 	 */
 	public Vector2f getNextShotPosition(Vector2f startPosition, int angle,
 			int speed, int wind, boolean fromLeftToRight, int deltaTime) {
-
-		// TODO: Implement
-		return null;
+		Wurf wurf = new Wurf(speed);
+		wurf.angle = fromLeftToRight?angle:(180-angle);
+		wurf.startPos = startPosition;
+		wurf.timer = deltaTime;
+		wurf.wind = wind;
+		return wurf.getNextPosition(startPosition, speed, 0, 0);
 	}
 
 	/**
@@ -64,7 +71,7 @@ public class GorillasTestAdapterExtended2 extends GorillasTestAdapterExtended1 {
 	 * @return the wind scaling factor for the parabolic flight calculation
 	 */
 	public float getWindScalingFactor() {
-		return -1;
+		return 0.5F;
 	}
 
 	/**
@@ -74,8 +81,7 @@ public class GorillasTestAdapterExtended2 extends GorillasTestAdapterExtended1 {
 	 *         otherwise false
 	 */
 	public boolean isSunAstonished() {
-		// TODO: Implement
-		return false;
+		return super.gorillas.data.sunAstonished;
 	}
 
 }
