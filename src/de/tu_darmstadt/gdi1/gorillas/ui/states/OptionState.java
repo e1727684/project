@@ -8,7 +8,12 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
 
+import de.matthiasmann.twl.Button;
+import de.matthiasmann.twl.EditField;
+import de.matthiasmann.twl.Label;
+import de.matthiasmann.twl.EditField.Callback;
 import de.matthiasmann.twl.slick.BasicTWLGameState;
+import de.matthiasmann.twl.slick.RootPane;
 import de.tu_darmstadt.gdi1.gorillas.main.Gorillas;
 import de.tu_darmstadt.gdi1.gorillas.util.MusicPlayer;
 import eea.engine.action.Action;
@@ -29,6 +34,9 @@ public class OptionState extends BasicTWLGameState {
 	private StateBasedEntityManager entityManager;
 	private final int distance = 80;
     private final int start_Position = 80;
+    private Label g_Label;
+    EditField g_Input;
+    Button gButton;
 	
 	public OptionState(int sid) {
 		stateID = sid;
@@ -136,6 +144,7 @@ public class OptionState extends BasicTWLGameState {
 		g.drawString("Sfx: "+Gorillas.options.isSFXEnabled(), 160, start_Position+distance);
 		g.drawString("Wind: "+Gorillas.options.isWindEnabled(), 160, start_Position+2*distance);
 		g.drawString("Spott: "+Gorillas.options.isSpottEnabled(), 160, start_Position+3*distance); 
+		g.drawString("Custom Gravity: ", 160, start_Position+4*distance - distance/4); 
 		g.drawString("Zurück", 160, start_Position+5*distance);
 		
 	}
@@ -150,4 +159,61 @@ public class OptionState extends BasicTWLGameState {
 	public int getID() {
 		return stateID;
 	} 
+    @Override
+    protected RootPane createRootPane() {
+        RootPane rp = super.createRootPane();
+        g_Input = new EditField();
+        g_Input.setText(""+Gorillas.options.getG());
+        g_Input.addCallback(new Callback() {
+                public void callback(int key) {
+                        handleEditFieldInput(key, g_Input, this, 15, g_Input.getText());
+                }
+        });
+        gButton = new Button("Save gravity!");
+        gButton.addCallback(new Runnable() {
+                @Override
+                public void run() {
+                       Gorillas.options.setG(Float.parseFloat(g_Input.getText()));
+                }
+        });
+        rp.add(gButton);
+        rp.add(g_Input);
+        return rp;
+    }
+    
+    /**
+     * RootPane-Layout
+     */
+    @Override
+    protected void layoutRootPane() {
+        g_Input.setSize(40, 20);
+        g_Input.setPosition(160, start_Position+4*distance+10);
+        gButton.adjustSize();
+        gButton.setPosition(200, start_Position+4*distance+10);
+    }
+    
+    /**
+     * Sichert das nur Buchstaben eingegeben werden können und der Name höchstens 15 Zeichen lang ist
+     * @param key
+     * @param editField
+     * @param callback
+     * @param maxLength
+     */
+    void handleEditFieldInput(int key, EditField editField, Callback callback,
+                    int maxLength, String secName) {
+
+            if (key == de.matthiasmann.twl.Event.KEY_NONE) {
+                    String inputText = editField.getText();
+                   
+                    // Name darf höchsten 10 Zeichen lang sein
+                    if (inputText.length() > maxLength) {
+                            // a call of setText on an EditField triggers the callback, so
+                            // remove callback before and add it again after the call
+                            editField.removeCallback(callback);
+                            editField
+                                            .setText(inputText.substring(0, inputText.length() - 1));
+                            editField.addCallback(callback);
+                    }
+            }
+    }
 }
