@@ -28,6 +28,12 @@ import eea.engine.event.basicevents.MouseClickedEvent;
 import eea.engine.event.basicevents.MouseEnteredEvent;
 import eea.engine.event.basicevents.TimeEvent;
 
+/**
+ * AboutState
+ * 
+ * @author Deniz Tobias Buruncuk, Dennis Hasenstab, Philip Stauder, Marcel Dieter
+ * @version 1.0
+ */
 public class MainMenuState extends BasicTWLGameState {
 
 	private int stateID;

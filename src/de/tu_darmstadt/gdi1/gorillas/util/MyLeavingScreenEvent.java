@@ -12,6 +12,8 @@ import eea.engine.event.Event;
  * 
  * @author Alexander Jandousek, Timo B&auml;hr
  * @version 1.0
+ * 
+ * Adjusted by Dennis Hasenstab
  */
 public class MyLeavingScreenEvent extends Event {
 

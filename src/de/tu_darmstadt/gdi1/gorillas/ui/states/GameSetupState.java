@@ -1,6 +1,4 @@
 package de.tu_darmstadt.gdi1.gorillas.ui.states;
- 
-
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -19,7 +17,13 @@ import de.tu_darmstadt.gdi1.gorillas.main.Gorillas;
 import eea.engine.component.render.ImageRenderComponent;
 import eea.engine.entity.Entity;
 import eea.engine.entity.StateBasedEntityManager;
- 
+
+/**
+ * AboutState
+ * 
+ * @author Deniz Tobias Buruncuk, Dennis Hasenstab, Philip Stauder, Marcel Dieter
+ * @version 1.0
+ */
 public class GameSetupState extends BasicTWLGameState {
  
         private int stateID;

@@ -28,6 +28,12 @@ import eea.engine.event.basicevents.KeyPressedEvent;
 import eea.engine.event.basicevents.MouseClickedEvent;
 import eea.engine.event.basicevents.MouseEnteredEvent;
 
+/**
+ * AboutState
+ * 
+ * @author Deniz Tobias Buruncuk, Dennis Hasenstab, Philip Stauder, Marcel Dieter
+ * @version 1.0
+ */
 public class OptionState extends BasicTWLGameState {
 	
 	private int stateID;

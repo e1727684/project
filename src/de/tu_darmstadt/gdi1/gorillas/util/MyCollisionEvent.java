@@ -8,6 +8,14 @@ import eea.engine.entity.Entity;
 import eea.engine.entity.StateBasedEntityManager;
 import eea.engine.event.Event;
 
+/**
+ * AboutState
+ * 
+ * @author Deniz Tobias Buruncuk, Dennis Hasenstab, Philip Stauder, Marcel Dieter
+ * @version 1.0
+ * 
+ * Adjusted by Dennis Hasenstab
+ */
 public class MyCollisionEvent extends Event {
 
 	/**

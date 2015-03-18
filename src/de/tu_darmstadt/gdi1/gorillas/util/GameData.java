@@ -8,6 +8,12 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
+/**
+ * AboutState
+ * 
+ * @author Deniz Tobias Buruncuk, Dennis Hasenstab, Philip Stauder, Marcel Dieter
+ * @version 1.0
+ */
 public class GameData {
 	private String player1;
 	private String player2;

@@ -5,6 +5,12 @@ import org.newdawn.slick.geom.Vector2f;
 import eea.engine.action.Action;
 import eea.engine.action.basicactions.Movement;
 
+/**
+ * AboutState
+ * 
+ * @author Deniz Tobias Buruncuk, Dennis Hasenstab, Philip Stauder, Marcel Dieter
+ * @version 1.0
+ */
 public class Jubel extends Movement implements Action {
 	public float timer;
 	public Jubel(float speed) {

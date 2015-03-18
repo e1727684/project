@@ -8,6 +8,12 @@ import javax.sound.sampled.Clip;
 
 import de.tu_darmstadt.gdi1.gorillas.main.Gorillas;
 
+/**
+ * AboutState
+ * 
+ * @author Deniz Tobias Buruncuk, Dennis Hasenstab, Philip Stauder, Marcel Dieter
+ * @version 1.0
+ */
 public class MusicPlayer {
 	public static Clip clip;
 	public static void playBg() {

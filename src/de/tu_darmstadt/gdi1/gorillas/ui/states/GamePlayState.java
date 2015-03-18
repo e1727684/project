@@ -43,6 +43,12 @@ import eea.engine.event.basicevents.LoopEvent;
 import eea.engine.event.basicevents.TimeEvent;
 import eea.engine.interfaces.IDestructible;
 
+/**
+ * AboutState
+ * 
+ * @author Deniz Tobias Buruncuk, Dennis Hasenstab, Philip Stauder, Marcel Dieter
+ * @version 1.0
+ */
 public class GamePlayState extends BasicTWLGameState {
 
 	private int stateID;
