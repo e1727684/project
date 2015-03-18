@@ -110,7 +110,7 @@ public class GamePlayState extends BasicTWLGameState {
         int houseWidth = 100, startPointHouses = 0, housesIndex = 0;
         houseHeights = randomizeHouses(houseHeights, houseWidth, startPointHouses, housesIndex, game.getContainer().getHeight());
         randomizeGorillaPositions(game.getContainer().getHeight(), game.getContainer().getWidth(), houseHeights, gorilla1, gorilla2);
-        if (Gorillas.options.isWindEnabled())
+        if (Gorillas.options != null && Gorillas.options.isWindEnabled())
         	makeWind();
         // --->
         
@@ -144,7 +144,7 @@ public class GamePlayState extends BasicTWLGameState {
         entityManager.addEntity(this.stateID, gorilla2);
         entityManager.addEntity(stateID, escListener);
         entityManager.addEntity(this.stateID, sun_smiling);
-        if (Gorillas.options.isWindEnabled())
+        if (Gorillas.options != null && Gorillas.options.isWindEnabled())
         	entityManager.addEntity(this.stateID, arrow_wind);
         // --->
         
@@ -480,7 +480,7 @@ public class GamePlayState extends BasicTWLGameState {
 		});
 		// am Schluss der Methode mï¿½ssen alle GUI-Elemente der Rootpane
 		// hinzugefï¿½gt werden
-		if (Gorillas.options.isWindEnabled()) {
+		if (Gorillas.options != null && Gorillas.options.isWindEnabled()) {
 			Label windLabel = new Label("Windstärke");
 			windLabel.setPosition(515, 37);
 			rp.add(windLabel);

@@ -12,8 +12,8 @@ import de.tu_darmstadt.gdi1.gorillas.main.Gorillas;
 public class Options {
 	private boolean musicEnabled;
 	private boolean windEnabled;
-
 	private boolean spottEnabled;
+	private boolean sfxEnabled;
 	private int g;
 	private static final String OPTION_FILE = "settings.ini";
 	ObjectOutputStream outputStream = null;
@@ -72,7 +72,8 @@ public class Options {
 			musicEnabled = temp[0].equals("true");
 			windEnabled = temp[1].equals("true");
 			spottEnabled = temp[2].equals("true");
-			g = Integer.parseInt(temp[3]);
+			sfxEnabled = temp[3].equals("true");
+			g = Integer.parseInt(temp[4]);
 		} catch (FileNotFoundException e) {
 			System.out.println("[Laad] FNF Error: " + e.getMessage());
 		} catch (IOException e) {
@@ -99,7 +100,8 @@ public class Options {
 			temp[0] = musicEnabled?"true":"false";
 			temp[1] = windEnabled?"true":"false";
 			temp[2] = spottEnabled?"true":"false";
-			temp[3] = ""+g;
+			temp[3] = sfxEnabled?"true":"false";
+			temp[4] = ""+g;
 			outputStream.writeObject(temp);
 		} catch (FileNotFoundException e) {
 			System.out.println("[Update] FNF Error: " + e.getMessage()
@@ -116,5 +118,13 @@ public class Options {
 				System.out.println("[Update] Error: " + e.getMessage());
 			}
 		}
+	}
+
+	public boolean isSFXEnabled() {
+		return sfxEnabled;
+	}
+
+	public void setSFXEnabled(boolean sfxEnabled) {
+		this.sfxEnabled = sfxEnabled;
 	}
 }

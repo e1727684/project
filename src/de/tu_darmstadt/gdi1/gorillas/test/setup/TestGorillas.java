@@ -14,6 +14,7 @@ import de.tu_darmstadt.gdi1.gorillas.ui.states.InstructionState;
 import de.tu_darmstadt.gdi1.gorillas.ui.states.MainMenuState;
 import de.tu_darmstadt.gdi1.gorillas.ui.states.OptionState;
 import de.tu_darmstadt.gdi1.gorillas.util.GameData;
+import de.tu_darmstadt.gdi1.gorillas.util.Options;
 import eea.engine.entity.StateBasedEntityManager;
 
 /**
@@ -40,6 +41,7 @@ public class TestGorillas extends TWLTestStateBasedGame {
 
 	public static boolean debug = false;
 	public static GameData data;
+	public static Options options;
 	public TestGorillas(boolean debug) {
 		super("Gorillas");
 		setDebug(debug);

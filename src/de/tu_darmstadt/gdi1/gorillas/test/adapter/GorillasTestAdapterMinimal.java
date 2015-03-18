@@ -18,6 +18,7 @@ import de.tu_darmstadt.gdi1.gorillas.ui.states.InstructionState;
 import de.tu_darmstadt.gdi1.gorillas.ui.states.MainMenuState;
 import de.tu_darmstadt.gdi1.gorillas.ui.states.OptionState;
 import de.tu_darmstadt.gdi1.gorillas.util.GameData;
+import de.tu_darmstadt.gdi1.gorillas.util.Options;
 import de.tu_darmstadt.gdi1.gorillas.util.Wurf;
 import eea.engine.entity.StateBasedEntityManager;
 
@@ -28,6 +29,7 @@ public class GorillasTestAdapterMinimal {
 	
 	// werden gebraucht:
 	public GameData data;
+	public Options options;
 	public static final int MAINMENUSTATE = 0;
 	public static final int GAMESETUPSTATE = 1;
 	public static final int GAMEPLAYSTATE = 2;
@@ -85,6 +87,7 @@ public class GorillasTestAdapterMinimal {
 				+ System.getProperty("org.lwjgl.librarypath"));
 		// @formatter:on
 		TestGorillas.data = new GameData(); // eh.... ok. we testing i guess? 
+		TestGorillas.options = new Options(); // eh.... ok. we testing i guess? 
 
 		// Initialisiere das Spiel Tanks im Debug-Modus (ohne UI-Ausgabe)
 		gorillas = new TestGorillas(true);

@@ -43,6 +43,7 @@ public class OptionState extends BasicTWLGameState {
 		int offset = 90;
 		Entity mbackground = new Entity("menubackground");// Entität für Hintergrund
     	Entity musicButton = new Entity("music");
+    	Entity sfxButton = new Entity("sfx");
     	Entity windButton = new Entity("wind");
     	Entity spottButton = new Entity("spott");
 		mbackground.setPosition(new Vector2f(400,300));		
@@ -55,6 +56,7 @@ public class OptionState extends BasicTWLGameState {
     	if (!Gorillas.data.guiDisabled) { // really.... 
     	mbackground.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/backgrounds/backgroundMain.png")));
     	musicButton.addComponent(new ImageRenderComponent(new Image("assets/gorillas/button.png")));
+    	sfxButton.addComponent(new ImageRenderComponent(new Image("assets/gorillas/button.png")));
     	windButton.addComponent(new ImageRenderComponent(new Image("assets/gorillas/button.png")));
     	spottButton.addComponent(new ImageRenderComponent(new Image("assets/gorillas/button.png")));
     	zurück_Entity.addComponent(new ImageRenderComponent(new Image("assets/gorillas/button.png")));
@@ -65,16 +67,19 @@ public class OptionState extends BasicTWLGameState {
     	mainEvents_z.addAction(buttonPressed);
     	mainEvents_z.addAction(zurück_Action);
     	zurück_Entity.addComponent(mainEvents_z);
-    	
+
     	musicButton.setPosition(new Vector2f(218, offset));
-    	windButton.setPosition(new Vector2f(218, offset+distance));
-    	spottButton.setPosition(new Vector2f(218, offset+distance*2));
+    	sfxButton.setPosition(new Vector2f(218, offset+distance));
+    	windButton.setPosition(new Vector2f(218, offset+distance*2));
+    	spottButton.setPosition(new Vector2f(218, offset+distance*3));
     	zurück_Entity.setPosition(new Vector2f(218, offset+distance*5));
     	musicButton.setScale(scale);
+    	sfxButton.setScale(scale);
     	windButton.setScale(scale);
     	spottButton.setScale(scale);
     	zurück_Entity.setScale(scale);
     	ANDEvent mButton = new ANDEvent(new MouseEnteredEvent(), new MouseClickedEvent());
+    	ANDEvent seButton = new ANDEvent(new MouseEnteredEvent(), new MouseClickedEvent());
     	ANDEvent wButton = new ANDEvent(new MouseEnteredEvent(), new MouseClickedEvent());
     	ANDEvent sButton = new ANDEvent(new MouseEnteredEvent(), new MouseClickedEvent());
     	mButton.addAction(buttonPressed);
@@ -87,6 +92,13 @@ public class OptionState extends BasicTWLGameState {
 					MusicPlayer.playBg();
 				if (!Gorillas.options.isMusicEnabled())
 					MusicPlayer.stopBg();
+			}});
+    	seButton.addAction(buttonPressed);;
+    	seButton.addAction(new Action() {
+			@Override
+			public void update(GameContainer gc, StateBasedGame sb, int delta,
+					Component event) {
+				Gorillas.options.setSFXEnabled(!Gorillas.options.isSFXEnabled());
 			}});
     	wButton.addAction(buttonPressed);
     	wButton.addAction(new Action() {
@@ -103,9 +115,11 @@ public class OptionState extends BasicTWLGameState {
 				Gorillas.options.setSpottEnabled(!Gorillas.options.isSpottEnabled());
 			}});
     	musicButton.addComponent(mButton);
+    	sfxButton.addComponent(seButton);
     	windButton.addComponent(wButton);
     	spottButton.addComponent(sButton);
     	entityManager.addEntity(stateID, musicButton);
+    	entityManager.addEntity(stateID, sfxButton);
     	entityManager.addEntity(stateID, windButton);
     	entityManager.addEntity(stateID, spottButton);
 		entityManager.addEntity(stateID, escListener);
@@ -119,8 +133,9 @@ public class OptionState extends BasicTWLGameState {
 		entityManager.renderEntities(container, game, g);
 
 		g.drawString("Music: "+Gorillas.options.isMusicEnabled(), 160, start_Position);
-		g.drawString("Wind: "+Gorillas.options.isWindEnabled(), 160, start_Position+1*distance);
-		g.drawString("Spott: "+Gorillas.options.isSpottEnabled(), 160, start_Position+2*distance); 
+		g.drawString("Sfx: "+Gorillas.options.isSFXEnabled(), 160, start_Position+distance);
+		g.drawString("Wind: "+Gorillas.options.isWindEnabled(), 160, start_Position+2*distance);
+		g.drawString("Spott: "+Gorillas.options.isSpottEnabled(), 160, start_Position+3*distance); 
 		g.drawString("Zurück", 160, start_Position+5*distance);
 		
 	}

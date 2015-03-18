@@ -31,6 +31,7 @@ public class MusicPlayer {
 	}
 	
 	public static void playButton() {
+    	if (!Gorillas.data.guiDisabled && Gorillas.options.isSFXEnabled()) { // really.... 
 		try {
 			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("sounds/button.wav").getAbsoluteFile());
 			Clip clip = AudioSystem.getClip();
@@ -40,9 +41,11 @@ public class MusicPlayer {
     		System.out.println("Error with playing sound.");
     		ex.printStackTrace();
     	}
+    	}
 	}
 	
 	public static void playApplause() {
+    	if (!Gorillas.data.guiDisabled && Gorillas.options.isSFXEnabled()) { // really.... 
 		try {
 			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("sounds/applause.wav").getAbsoluteFile());
 			Clip clip = AudioSystem.getClip();
@@ -51,6 +54,7 @@ public class MusicPlayer {
     	} catch(Exception ex) {
     		System.out.println("Error with playing sound.");
     		ex.printStackTrace();
+    	}
     	}
 	}
 }
