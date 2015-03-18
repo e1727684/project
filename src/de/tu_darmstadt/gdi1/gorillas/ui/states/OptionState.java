@@ -143,9 +143,9 @@ public class OptionState extends BasicTWLGameState {
 		g.drawString("Music: "+Gorillas.options.isMusicEnabled(), 160, start_Position);
 		g.drawString("Sfx: "+Gorillas.options.isSFXEnabled(), 160, start_Position+distance);
 		g.drawString("Wind: "+Gorillas.options.isWindEnabled(), 160, start_Position+2*distance);
-		g.drawString("Spott: "+Gorillas.options.isSpottEnabled(), 160, start_Position+3*distance); 
+		g.drawString("Sarcasm: "+Gorillas.options.isSpottEnabled(), 160, start_Position+3*distance); 
 		g.drawString("Custom Gravity: ", 160, start_Position+4*distance - distance/4); 
-		g.drawString("Zurück", 160, start_Position+5*distance);
+		g.drawString("Back", 160, start_Position+5*distance);
 		
 	}
 

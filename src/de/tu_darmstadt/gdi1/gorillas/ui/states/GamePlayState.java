@@ -123,7 +123,7 @@ public class GamePlayState extends BasicTWLGameState {
         gorilla2.setPosition(gorilla2pos); 
         sun_smiling.setPosition(new Vector2f((game.getContainer().getWidth() / 2), 30));
         sun_astonished.setPosition(new Vector2f((game.getContainer().getWidth() / 2), 30));
-        arrow_wind.setPosition(new Vector2f(545, 55));
+        arrow_wind.setPosition(new Vector2f(550, 55));
         //arrow_wind.setSize(new Vector2f(this.wind, 20));
         arrow_wind.setScale(0.7F*wind/15);
         // --->
@@ -507,9 +507,12 @@ public class GamePlayState extends BasicTWLGameState {
         // am Schluss der Methode mï¿½ssen alle GUI-Elemente der Rootpane
 		// hinzugefï¿½gt werden
 		if (Gorillas.options != null && Gorillas.options.isWindEnabled()) {
-			Label windLabel = new Label("Windstärke");
-			windLabel.setPosition(515, 37);
-			rp.add(windLabel);
+			Label windLabel1 = new Label("wind");
+			Label windLabel2 = new Label("strength");
+			windLabel1.setPosition(530, 27);
+			windLabel2.setPosition(525, 37);
+			rp.add(windLabel1);
+			rp.add(windLabel2);
 		}
 		rp.add(nameLabel);
 		rp.add(angleLabel1);

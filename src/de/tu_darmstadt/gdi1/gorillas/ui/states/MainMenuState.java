@@ -205,12 +205,12 @@ public class MainMenuState extends BasicTWLGameState {
         g.setColor(new Color(0, 0, 0));
 		
 		int counter = 0;
-		g.drawString("Neues Spiel starten", 160, start_Position+counter*distance); counter++;
+		g.drawString("Start New Game", 160, start_Position+counter*distance); counter++;
 		g.drawString("Instructions", 160, start_Position+counter*distance); counter++;
 		g.drawString("Highscore", 160, start_Position+counter*distance); counter++;
 		g.drawString("Options", 160, start_Position+counter*distance); counter++;
 		g.drawString("About", 160, start_Position+counter*distance); counter++;
-		g.drawString("Beenden", 160, start_Position+counter*distance); counter++;
+		g.drawString("Quit", 160, start_Position+counter*distance); counter++;
 		
 		//GamePaused-Message
 		if (Gorillas.data.getPaused()) {

@@ -73,11 +73,11 @@ public class GameSetupState extends BasicTWLGameState {
                 //Fehlermeldungen bei falscher Eingabe (wenn leer, dann bei passendem EditField)
                 
                 if(oneIsEmpty)
-                        g.drawString("Bitte Name eingeben!", player1_Input.getX(), 380);
+                        g.drawString("Please enter your name!", player1_Input.getX(), 380);
                 if(twoIsEmpty)
-                        g.drawString("Bitte Name eingeben!", player2_Input.getX(), 380);
+                        g.drawString("Please enter your name!", player2_Input.getX(), 380);
                 if(isEqual)
-                        g.drawString("Spielernamen dürfen nicht gleich sein!", 230, 380);
+                        g.drawString("Playernames must not be the same!", 230, 380);
         }
        
  
@@ -104,7 +104,7 @@ public class GameSetupState extends BasicTWLGameState {
                 RootPane rp = super.createRootPane();
                
                 //Label & EditField & Überwachung von Editfield für Player1
-                round_Label = new Label("Pos num. for score \nNeg num. for rounds!");
+                round_Label = new Label("positive number for score \n\nnegative number for rounds!");
                 round_Input = new EditField();
                 round_Input.setText(""+1);
                 round_Input.addCallback(new Callback() {
@@ -208,13 +208,13 @@ public class GameSetupState extends BasicTWLGameState {
                 int xOffset = 120;
                 int yOffset = 300;
 
-                round_Input.setSize(40, 40);
+                round_Input.setSize(40, 20);
                 player1_Input.setSize(250, 40);
                 player2_Input.setSize(250, 40);
  
                 //Position von Label & Editfield Player1
-                round_Label.setPosition(50, 120);
-                round_Input.setPosition(50, 150);
+                round_Label.setPosition(50, 450);
+                round_Input.setPosition(110, 440);
                 player1_Label.setPosition(xOffset, yOffset);
                 player1_Input.setPosition(xOffset, yOffset + 30);
                
