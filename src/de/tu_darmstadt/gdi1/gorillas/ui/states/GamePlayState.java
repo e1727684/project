@@ -382,7 +382,7 @@ public class GamePlayState extends BasicTWLGameState {
 					} else {
 						score[1] = score[1]+1;
 					}
-					Gorillas.data.setCurrentScore(score);
+					Gorillas.data.setCurrentScore(score[0], score[1]);
 					reset = true;
 				}
 			}

@@ -318,8 +318,9 @@ public class GameData {
 		return currentScore;
 	}
 
-	public void setCurrentScore(int[] currentScore) {
-		this.currentScore = currentScore;
+	public void setCurrentScore(int score1, int score2) {
+		this.currentScore[0] = score1;
+		this.currentScore[1] = score2;
 	}
 
 	public int getPlayTillScore() {

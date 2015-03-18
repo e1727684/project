@@ -163,15 +163,20 @@ public class GameSetupState extends BasicTWLGameState {
                                 if(!oneIsEmpty && !twoIsEmpty && !isEqual){
                                        
                                 		if (!round_Input.getText().equals(""))
-                                			if (Integer.parseInt(round_Input.getText()) < 0)
+                                			if (Integer.parseInt(round_Input.getText()) < 0) {
+                                				Gorillas.data.setPlayTillScore(0);
                                 				Gorillas.data.setRemainingRounds(-Integer.parseInt(round_Input.getText()));
-                                			else
+                                			} else {
                                 				Gorillas.data.setPlayTillScore(Integer.parseInt(round_Input.getText()));
+                                				Gorillas.data.setRemainingRounds(0);
+                                			}
                                 			
                                         //Namen werden gespeichert
                                         Gorillas.data.setPlayer1(playerName1);
                                         Gorillas.data.setPlayer2(playerName2);
                                        
+                                        Gorillas.data.setCurrentScore(0, 0);
+                                        
                                         //State wird gewechselt
                                         sb.enterState(Gorillas.GAMEPLAYSTATE);
                                    
