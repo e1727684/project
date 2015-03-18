@@ -42,6 +42,12 @@ public class MainMenuState extends BasicTWLGameState {
 	private final int distance = 80;
     private final int start_Position = 80;
 
+	/**
+	 * The constructor. Creates a new state.
+	 * 
+	 * @param sid  
+	 * 				this state's id. it can be identified by it and is unique!
+	 */
 	public MainMenuState(int sid) {
 		stateID = sid;
 		entityManager = StateBasedEntityManager.getInstance();

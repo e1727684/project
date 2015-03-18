@@ -37,7 +37,13 @@ public class InstructionState extends BasicTWLGameState {
 	private StateBasedEntityManager entityManager;
 	
 	private Label instruction_Label;
-	
+
+	/**
+	 * The constructor. Creates a new state.
+	 * 
+	 * @param sid  
+	 * 				this state's id. it can be identified by it and is unique!
+	 */
 	public InstructionState(int sid) {
 		stateID = sid;
 		entityManager = StateBasedEntityManager.getInstance();

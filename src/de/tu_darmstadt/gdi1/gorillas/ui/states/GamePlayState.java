@@ -74,6 +74,12 @@ public class GamePlayState extends BasicTWLGameState {
 	private boolean daneben;
 
 
+	/**
+	 * The constructor. Creates a new state.
+	 * 
+	 * @param sid  
+	 * 				this state's id. it can be identified by it and is unique!
+	 */
 	public GamePlayState(int sid) {
 		stateID = sid;
 		entityManager = StateBasedEntityManager.getInstance();
@@ -592,18 +598,16 @@ public class GamePlayState extends BasicTWLGameState {
 	}
 
 	/**
-	 * Diese Methode wird aufgerufen, wenn ein Zeichen in ein EditField
-	 * eingegeben wurde.
+     * Method gets called if you type something into the input field.
 	 * 
-	 * @param key
-	 *            die gedr�ckte Taste
-	 * @param editField
-	 *            das EditField, in das ein Zeichen eingef�gt wurde
-	 * @param callback
-	 *            der CallBack, der dem EditField hinzugef�gt wurde
+     * @param key 
+     * 				the pressed button
+     * @param editField 
+     * 				which field to edit
+     * @param callback
+	 *				the callback on the field
 	 * @param maxValue
-	 *            die gr��te Zahl, die in das <code>editField</code>
-	 *            eingegeben werden kann
+	 * 				biggest number that you may type into the <code>editField</code>
 	 */
 	void handleEditFieldInput(int key, EditField editField, Callback callback,
 			int maxValue) {

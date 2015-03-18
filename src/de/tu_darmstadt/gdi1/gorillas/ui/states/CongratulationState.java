@@ -33,7 +33,13 @@ public class CongratulationState extends BasicTWLGameState {
 	
 	private int stateID;
 	private StateBasedEntityManager entityManager;
-	
+
+	/**
+	 * The constructor. Creates a new state.
+	 * 
+	 * @param sid  
+	 * 				this state's id. it can be identified by it and is unique!
+	 */
 	public CongratulationState(int sid) {
 		stateID = sid;
 		entityManager = StateBasedEntityManager.getInstance();

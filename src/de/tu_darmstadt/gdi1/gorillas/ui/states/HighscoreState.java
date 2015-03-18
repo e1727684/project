@@ -43,7 +43,13 @@ public class HighscoreState extends BasicTWLGameState {
 	private Label scores4_Label;
 	private Label scores5_Label;
 	private Label scores6_Label;
-	
+
+	/**
+	 * The constructor. Creates a new state.
+	 * 
+	 * @param sid  
+	 * 				this state's id. it can be identified by it and is unique!
+	 */
 	public HighscoreState(int sid) {
 		stateID = sid;
 		entityManager = StateBasedEntityManager.getInstance();

@@ -43,7 +43,13 @@ public class GameSetupState extends BasicTWLGameState {
         boolean oneIsEmpty;                     //ist das erste EditField leer
         boolean twoIsEmpty;                     //ist das zweite EditField leer
         int errorMesPos;                        //Position der Fehlermeldung
-       
+
+    	/**
+    	 * The constructor. Creates a new state.
+    	 * 
+    	 * @param sid  
+	 * 				this state's id. it can be identified by it and is unique!
+    	 */
         public GameSetupState(int sid) {
                 stateID = sid;
                 entityManager = StateBasedEntityManager.getInstance();

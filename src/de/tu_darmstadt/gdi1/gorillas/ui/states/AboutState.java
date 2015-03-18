@@ -35,6 +35,12 @@ public class AboutState extends BasicTWLGameState {
 	private int stateID;
 	private StateBasedEntityManager entityManager;
 	
+	/**
+	 * The constructor. Creates a new state.
+	 * 
+	 * @param sid  
+	 * 				this state's id. it can be identified by it and is unique!
+	 */
 	public AboutState(int sid) {
 		stateID = sid;
 		entityManager = StateBasedEntityManager.getInstance();
@@ -54,7 +60,7 @@ public class AboutState extends BasicTWLGameState {
 		
 		/* Spiel zurück-Entitaet */
 		//-------------------------------------------------------
-    	Entity zurück_Entity = new Entity("Back");
+    	Entity zurück_Entity = new Entity("Zurück");
     	
     	// Setze Position und Bildkomponente
     	zurück_Entity.setPosition(new Vector2f(400, 450));
@@ -84,7 +90,7 @@ public class AboutState extends BasicTWLGameState {
 		
 		entityManager.renderEntities(container, game, g);
 		
-		g.drawString("Zurück", 370, 445); 
+		g.drawString("Back", 370, 445); 
 	}
 
 	@Override
@@ -98,23 +104,4 @@ public class AboutState extends BasicTWLGameState {
 	public int getID() {
 		return stateID;
 	}
-	
-	@Override
-	protected RootPane createRootPane() {
-		
-		// erstelle die RootPane
-		RootPane rp = super.createRootPane();
-		
-		/*Intruktion-Label*/
-		//about_Label = new Label("13. Januar 2015.\nDie Projektgruppe trifft sich zum allerersten Mal.\nDas Thema? Unbekannt.\nDas Ziel? Unbekannt.\nDie Java-Kentnisse der Gruppenmitglieder? Unbekannt.\n\n\n04. Februar 2015.\nDas Thema wird bekanntgegeben!\nDas Abenteuer kann beginnen. Es ist... \nEine Hommage auf das Spiel Gorillas von 1991.\n\nEntwickler:\n ~ Deniz Tobias Buruncuk\n ~ Dennis Hasenstab\n ~ Marcel Dieter\n ~ Philip Stauder");
-    	//rp.add(about_Label);
-    	
-    	return rp;
-	}
-	
-	@Override
-	protected void layoutRootPane() {
-		//about_Label.setPosition(50, 220);
-	}
-
 }

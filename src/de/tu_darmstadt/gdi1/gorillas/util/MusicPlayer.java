@@ -11,7 +11,7 @@ import de.tu_darmstadt.gdi1.gorillas.main.Gorillas;
 /**
  * AboutState
  * 
- * @author Deniz Tobias Buruncuk, Dennis Hasenstab, Philip Stauder, Marcel Dieter
+ * @author Dennis Hasenstab
  * @version 1.0
  */
 public class MusicPlayer {
