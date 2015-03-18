@@ -142,16 +142,13 @@ public class GameData {
 			return true;
 		} else if (!nameExist) {
 			i = 0;
-			while (i < getHighscoreCount() // falls schlechter als alle andern,
-											// hänge hinten an
-					&& (float) roundsWon / numberOfRounds < (float) getRoundsWonAtHighscorePosition(i)
-							/ getRoundsPlayedAtHighscorePosition(i)) {
-				if (getMeanAccuracyAtHighscorePosition(i) <  (int) Math.round((double) bananasThrown / roundsWon))
-					i++;
-			}
-			for (int j = getHighscoreCount(); j >= i; j--) { // have to move all
-																// from end to
-																// index i
+			while (i < getHighscoreCount() // falls schlechter als alle andern, hänge hinten an
+					&& (((float)roundsWon/numberOfRounds) < ((float)getRoundsWonAtHighscorePosition(i)/getRoundsPlayedAtHighscorePosition(i)))) 
+				{i++;}
+			while (i < getHighscoreCount()
+					&& getMeanAccuracyAtHighscorePosition(i) < Math.round((double) bananasThrown / roundsWon))
+				{i++;}
+			for (int j = getHighscoreCount(); j >= i; j--) { // have to move all from end to index i
 				highscore[j + 1][0] = highscore[j][0];
 				highscore[j + 1][1] = highscore[j][1];
 				highscore[j + 1][2] = highscore[j][2];
