@@ -126,7 +126,7 @@ public class OptionState extends BasicTWLGameState {
 				if (!Gorillas.options.isMusicEnabled())
 					MusicPlayer.stopBg();
 			}});
-    	seButton.addAction(buttonPressed);;
+    	seButton.addAction(buttonPressed);
     	// Switches SFX on/off
     	seButton.addAction(new Action() { @Override public void update(GameContainer gc, StateBasedGame sb, int delta, Component event) { Gorillas.options.setSFXEnabled(!Gorillas.options.isSFXEnabled()); }});
     	wButton.addAction(buttonPressed);
