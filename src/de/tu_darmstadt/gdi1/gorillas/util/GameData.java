@@ -146,7 +146,8 @@ public class GameData {
 											// hänge hinten an
 					&& (float) roundsWon / numberOfRounds < (float) getRoundsWonAtHighscorePosition(i)
 							/ getRoundsPlayedAtHighscorePosition(i)) {
-				i++;
+				if (getMeanAccuracyAtHighscorePosition(i) <  (int) Math.round((double) bananasThrown / roundsWon))
+					i++;
 			}
 			for (int j = getHighscoreCount(); j >= i; j--) { // have to move all
 																// from end to

@@ -39,7 +39,7 @@ public class Wurf extends Movement implements Action {
 	}
 
 	private double getX(int angle, float speed, float delta) {
-		return getVx(angle,speed) * delta + (0.5 * wind * delta * delta);
+		return getVx(angle,speed) * delta + (0.5 * wind * wscale *  timer * timer);
 	}
 
 	private double getY(int angle, float speed, float delta) {
