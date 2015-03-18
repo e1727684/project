@@ -60,6 +60,7 @@ public class GorillasTestAdapterExtended2 extends GorillasTestAdapterExtended1 {
 		wurf.startPos = startPosition;
 		wurf.timer = deltaTime;
 		wurf.wind = wind;
+		wurf.wscale = getWindScalingFactor();
 		return wurf.getNextPosition(startPosition, speed, 0, 0);
 	}
 
@@ -71,7 +72,7 @@ public class GorillasTestAdapterExtended2 extends GorillasTestAdapterExtended1 {
 	 * @return the wind scaling factor for the parabolic flight calculation
 	 */
 	public float getWindScalingFactor() {
-		return 1F;
+		return 0.1F;
 	}
 
 	/**

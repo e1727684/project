@@ -64,6 +64,7 @@ public class GorillasTestAdapterExtended3 extends GorillasTestAdapterExtended2 {
 			wurf.timer = deltaTime;
 			wurf.gravity = gravity;
 			wurf.wind = wind;
+			wurf.wscale = getWindScalingFactor();
 			return wurf.getNextPosition(startPosition, speed, 0, 0);
 	}
 }
