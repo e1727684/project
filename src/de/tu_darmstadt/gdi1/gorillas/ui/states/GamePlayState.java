@@ -88,6 +88,7 @@ public class GamePlayState extends BasicTWLGameState {
         // <---
 		Entity sun_astonished = new Entity("sun_astonished");
         Entity escListener = new Entity("ESC_Listener");
+        Entity returnListener = new Entity("return_Listener");
         Entity gorilla1 = new Entity("gorilla1");
         Entity gorilla2 = new Entity("gorilla2");
         Entity sun_smiling = new Entity("sun_smiling");
@@ -127,7 +128,7 @@ public class GamePlayState extends BasicTWLGameState {
         arrow_wind.setScale(0.7F*wind/15);
         // --->
         
-        // Events und Actions (Hier: Nur ESC -> MainMenu)
+        // Events und Actions
         // <--
         KeyPressedEvent escPressed = new KeyPressedEvent(Input.KEY_ESCAPE);
         escPressed.addAction(new ChangeStateAction(Gorillas.MAINMENUSTATE));
@@ -139,13 +140,27 @@ public class GamePlayState extends BasicTWLGameState {
 			}
         });
         escListener.addComponent(escPressed);
+        KeyPressedEvent returnPressed = new KeyPressedEvent(Input.KEY_RETURN);
+        returnPressed.addAction(new Action(){
+			@Override
+			public void update(GameContainer gc, StateBasedGame sb, int delta,
+					Component event) {
+				try {
+					inputFinished();
+				} catch (NumberFormatException e) {
+					System.out.println("Oy Vey! Please enter numbers!");
+				}		
+			}
+        });
+        returnListener.addComponent(returnPressed);
         // --->
-         
+
         // Entities dem StateBasedEntityManager übergeben
         // <---
         entityManager.addEntity(this.stateID, gorilla1);
         entityManager.addEntity(this.stateID, gorilla2);
         entityManager.addEntity(stateID, escListener);
+        entityManager.addEntity(stateID, returnListener);
         entityManager.addEntity(this.stateID, sun_smiling);
         entityManager.addEntity(this.stateID, sun_astonished);
         if (Gorillas.options != null && Gorillas.options.isWindEnabled())
@@ -279,6 +294,7 @@ public class GamePlayState extends BasicTWLGameState {
 		}
 		if (reset) {
 			reset = false;
+			Gorillas.data.setPlayerWon("");
 			entityManager.clearEntitiesFromState(stateID);
 			game.enterState(Gorillas.GAMEPLAYSTATE);
 			init(container, game);
@@ -297,7 +313,7 @@ public class GamePlayState extends BasicTWLGameState {
 	
 	private String buildTheLabel() {
 		String buildNameLabel = "";
-		if (Gorillas.data.getRemainingRounds() > 0 && Gorillas.data.getPlayTillScore() == 0) // display names so the players know whose turn it is!
+		if (Gorillas.data.getRemainingRounds() != 0 && Gorillas.data.getPlayTillScore() == 0) // display names so the players know whose turn it is!
 			if (Gorillas.data.getRemainingRounds() == 1)
 				buildNameLabel += Gorillas.data.getRemainingRounds() + " Runde verbleibend!";
 			else
@@ -485,7 +501,7 @@ public class GamePlayState extends BasicTWLGameState {
 				}
 			}
 		});
-		// am Schluss der Methode mï¿½ssen alle GUI-Elemente der Rootpane
+        // am Schluss der Methode mï¿½ssen alle GUI-Elemente der Rootpane
 		// hinzugefï¿½gt werden
 		if (Gorillas.options != null && Gorillas.options.isWindEnabled()) {
 			Label windLabel = new Label("Windstärke");
@@ -615,8 +631,7 @@ public class GamePlayState extends BasicTWLGameState {
 			banana.setPosition(new Vector2f(gorilla2pos.getX()-15,gorilla2pos.getY()));
 		try {
 			// Bild laden und zuweisen
-			banana.addComponent(new ImageRenderComponent(new Image(
-					"assets/gorillas/banana.png")));
+			banana.addComponent(new ImageRenderComponent(new Image("assets/gorillas/banana.png")));
 		} catch (SlickException e) {
 			System.err.println("Cannot find file assets/gorillas/banana.png!");
 			e.printStackTrace();
