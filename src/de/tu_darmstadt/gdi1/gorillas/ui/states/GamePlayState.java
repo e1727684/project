@@ -4,6 +4,7 @@ import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -65,8 +66,6 @@ public class GamePlayState extends BasicTWLGameState {
 	private Button dropButton;
 	private Label nameLabel;
 	private boolean turn;
-	private Vector2f gorilla1pos;
-	private Vector2f gorilla2pos;
 	private AtomicInteger wurfAnzahl;
 	private boolean goCongratulate;
 	private boolean reset;
@@ -125,17 +124,23 @@ public class GamePlayState extends BasicTWLGameState {
         entityManager.addEntity(this.stateID, entityManager.getEntity(0, "background")); 
         int[] houseHeights = new int[8]; int houseWidth = 100, startPointHouses = 0, housesIndex = 0;
           // creating houses has to be done AFTER adding background and BEFORE randomizing gorilla positions
-        houseHeights = randomizeHouses(houseHeights, houseWidth, startPointHouses, housesIndex, game.getContainer().getHeight());
-          // gorilla positions have to be decided AFTER creating the houses and BEFORE setting their positions
-        randomizeGorillaPositions(game.getContainer().getHeight(), game.getContainer().getWidth(), houseHeights, gorilla1, gorilla2);
+        if (Gorillas.data.getMap() == null || Gorillas.data.getMap().isEmpty()) {
+            houseHeights = randomizeHouses(houseHeights, houseWidth, startPointHouses, housesIndex, game.getContainer().getHeight());
+        }else {
+        	for (int i = 0; i < houseHeights.length; i++) {
+        		houseHeights[i] = (int) Gorillas.data.getMap().get(i).x;
+        	}
+        }
+        // gorilla positions have to be decided AFTER creating the houses and BEFORE setting their positions
+    	randomizeGorillaPositions(game.getContainer().getHeight(), game.getContainer().getWidth(), houseHeights, gorilla1, gorilla2);
         if (Gorillas.options != null && Gorillas.options.isWindEnabled())
         	makeWind(); // wind force has to be decided before setting the arrow.
         // --->
         
         // Setting the Entities positions!
      	// <---
-        gorilla1.setPosition(gorilla1pos); 
-        gorilla2.setPosition(gorilla2pos); 
+        gorilla1.setPosition(Gorillas.data.getGorilla1pos()); 
+        gorilla2.setPosition(Gorillas.data.getGorilla2pos()); 
         sun_smiling.setPosition(new Vector2f((game.getContainer().getWidth() / 2), 30));
         sun_astonished.setPosition(new Vector2f((game.getContainer().getWidth() / 2), 30));
         arrow_wind.setPosition(new Vector2f(550, 55));
@@ -170,19 +175,76 @@ public class GamePlayState extends BasicTWLGameState {
         entityManager.addEntity(stateID, returnListener);
         entityManager.addEntity(this.stateID, sun_smiling);
         entityManager.addEntity(this.stateID, sun_astonished);
-        if (Gorillas.options != null && Gorillas.options.isWindEnabled()) // only need the arrow if we have wind
+        if (Gorillas.options != null && Gorillas.options.isWindEnabled()) // only need the arrow if we have wind, check for null is only for the tests when options may not be initialized
         	entityManager.addEntity(this.stateID, arrow_wind);
         // --->
         
         // left starts the game
         turn = true;
 	}
+	
 	/**
 	 * This method sets a random int from -15 to +15 as wind.
 	 */
 	private void makeWind() {
         Random rand = new Random();
 		this.wind = 15-rand.nextInt(30);
+	}
+	
+	/**
+	 * Creating a (not-so-)random map of houses.
+	 * 
+	 * @param houseHeights
+	 * 						the array to be used. house heights will be stored here
+	 * @param houseWidth
+	 * 						house width
+	 * @param startPointHouses
+	 * 						need offset so we don't have 0 pixel houses
+	 * @param housesIndex
+	 * 						used to count through the houses
+	 * @param heigth
+	 * 						window heigth
+	 * @return
+	 * 						finished array containing the house heights
+	 */
+	public int[] randomizeHouses(int[] houseHeights, int houseWidth, int startPointHouses, int housesIndex, int heigth) {
+        Random rand = new Random(); // such random
+        for (int e = 0; e < 8; e++) {
+
+                houseHeights[housesIndex] = rand.nextInt(380)+60;
+               
+                BufferedImage image = new BufferedImage(houseWidth, houseHeights[housesIndex], BufferedImage.TYPE_INT_ARGB);
+                Graphics2D graphic = image.createGraphics();
+                graphic.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC));
+                graphic.setColor(new Color(rand.nextInt(255), rand.nextInt(255), rand.nextInt(255)));
+                graphic.fillRect(0, 0, houseWidth, houseHeights[housesIndex]);
+
+                graphic.setColor(new Color(0, 0, 0));
+                for (int i = 5; i < houseHeights[housesIndex]; i = i + 20) {
+                        for (int j = 5; j < houseWidth; j = j + 20) {
+                                graphic.fillRect(j, i, 7, 10);
+                        }
+                }
+
+                if (startPointHouses == 0)
+                        startPointHouses = houseWidth / 2;
+                else
+                        startPointHouses = startPointHouses + houseWidth;
+
+            	if (!Gorillas.data.guiDisabled) { // NI NI NI NI NI OPENGL NI NI NI NI NI
+                DestructibleImageEntity house = new DestructibleImageEntity("obstacle", image, "gorillas/destruction.png", false);
+            	
+                house.setPosition(new Vector2f(startPointHouses, heigth - (houseHeights[housesIndex] / 2)));
+                entityManager.addEntity(stateID, house); // add & forget
+            	}
+                housesIndex++;
+        }/*
+        ArrayList<Vector2f> map = new ArrayList<Vector2f>();
+        for (int i = 0; i < houseHeights.length; i++) {
+        	map.add(new Vector2f(50+100*i, houseHeights[i]));
+        }
+        Gorillas.data.setMap(map);*/
+        return houseHeights;
 	}
 	
 	/**
@@ -220,7 +282,7 @@ public class GamePlayState extends BasicTWLGameState {
                 break;
         }
         // who knows? BLACK MAGIC!
-        gorilla1pos = new Vector2f(gorilla1PosX, gorilla1PosY); // set position
+        Gorillas.data.setGorilla1pos(new Vector2f(gorilla1PosX, gorilla1PosY)); // set position
         // positions for gorilla 2
         float gorilla2PosX = 0;
         float gorilla2PosY = 0;
@@ -239,58 +301,7 @@ public class GamePlayState extends BasicTWLGameState {
                 break;
         }
         // still black magic (random = random) BUT we have our gorilla positions!
-        gorilla2pos = new Vector2f(gorilla2PosX, gorilla2PosY); // set position
-	}
-	
-	/**
-	 * Creating a (not-so-)random map of houses.
-	 * 
-	 * @param houseHeights
-	 * 						the array to be used. house heights will be stored here
-	 * @param houseWidth
-	 * 						house width
-	 * @param startPointHouses
-	 * 						need offset so we don't have 0 pixel houses
-	 * @param housesIndex
-	 * 						used to count through the houses
-	 * @param heigth
-	 * 						window heigth
-	 * @return
-	 * 						finished array containing the house heights
-	 */
-	private int[] randomizeHouses(int[] houseHeights, int houseWidth, int startPointHouses, int housesIndex, int heigth) {
-        Random rand = new Random(); // such random
-        for (int e = 0; e < 8; e++) {
-
-                houseHeights[housesIndex] = rand.nextInt(380)+60;
-               
-                BufferedImage image = new BufferedImage(houseWidth, houseHeights[housesIndex], BufferedImage.TYPE_INT_ARGB);
-                Graphics2D graphic = image.createGraphics();
-                graphic.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC));
-                graphic.setColor(new Color(rand.nextInt(255), rand.nextInt(255), rand.nextInt(255)));
-                graphic.fillRect(0, 0, houseWidth, houseHeights[housesIndex]);
-
-                graphic.setColor(new Color(0, 0, 0));
-                for (int i = 5; i < houseHeights[housesIndex]; i = i + 20) {
-                        for (int j = 5; j < houseWidth; j = j + 20) {
-                                graphic.fillRect(j, i, 7, 10);
-                        }
-                }
-
-                if (startPointHouses == 0)
-                        startPointHouses = houseWidth / 2;
-                else
-                        startPointHouses = startPointHouses + houseWidth;
-
-            	if (!Gorillas.data.guiDisabled) { // NI NI NI NI NI OPENGL NI NI NI NI NI
-                DestructibleImageEntity house = new DestructibleImageEntity("obstacle", image, "gorillas/destruction.png", false);
-            	
-                house.setPosition(new Vector2f(startPointHouses, heigth - (houseHeights[housesIndex] / 2)));
-                entityManager.addEntity(stateID, house); // add & forget
-            	}
-                housesIndex++;
-        }
-        return houseHeights;
+        Gorillas.data.setGorilla2pos(new Vector2f(gorilla2PosX, gorilla2PosY)); // set position
 	}
 
 	int clk = 0;
@@ -313,8 +324,7 @@ public class GamePlayState extends BasicTWLGameState {
     }
 
 	@Override
-	public void update(GameContainer container, StateBasedGame game, int delta)
-			throws SlickException {
+	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
 		if (entityManager.hasEntity(stateID, "banana") || !Gorillas.data.getPlayerWon().equals("")) // switch the input label to invisible while the banana is flying AND ROTATING
 			switchInputLabel(false);
 		else 
@@ -327,6 +337,7 @@ public class GamePlayState extends BasicTWLGameState {
 			entityManager.getEntity(stateID, "sun_astonished").setVisible(false);
 			entityManager.getEntity(stateID, "sun_smiling").setVisible(true); 
 		}
+		
 		if (reset) {
 			reset = false;
 			Gorillas.data.setPlayerWon("");
@@ -340,11 +351,13 @@ public class GamePlayState extends BasicTWLGameState {
 		if (goCongratulate) {
 			game.enterState(Gorillas.CONGRATULATIONSTATE);
 		}
+		
 		if (!Gorillas.data.getPlayerWon().equals("")) {
 			someoneWon();
 		}
 		entityManager.updateEntities(container, game, delta);
 	}
+	
 	/**
 	 * Method used to build the label above the input fields.
 	 * 
@@ -363,7 +376,7 @@ public class GamePlayState extends BasicTWLGameState {
 				buildNameLabel += "NEXT HIT WINS!\n";
 			else
 				buildNameLabel += "Score "+Gorillas.data.getPlayTillScore() + " times to win!\n";
-		if ((Gorillas.data.getRemainingRounds() > 1 || Gorillas.data.getPlayTillScore() > 1) 
+		if ((Gorillas.data.getRemainingRounds() > 1 || Gorillas.data.getPlayTillScore() > 1) // display score IF (we play more than 1 round or to 1 score) OR (if 1 round remains to be played AND we have played some before)
 				|| ((Gorillas.data.getRemainingRounds() == 1 || Gorillas.data.getPlayTillScore() == 1) 
 						&& (Gorillas.data.getCurrentScore()[0] != 0 || Gorillas.data.getCurrentScore()[1] != 0)))
 			buildNameLabel += ""+Gorillas.data.getCurrentScore()[0]+">Score<"+Gorillas.data.getCurrentScore()[1]+"\n" +wurfAnzahl + ". Wurf! ";
@@ -444,7 +457,7 @@ public class GamePlayState extends BasicTWLGameState {
 			@Override
 			public void update(GameContainer gc, StateBasedGame sb,
 					int delta, Component event) {
-				MusicPlayer.playApplause();
+				MusicPlayer.playApplause();  // plays applause if a gorilla is kill
 			}
 		});
 		boomTimer.addComponent(timeEvent);
@@ -543,18 +556,8 @@ public class GamePlayState extends BasicTWLGameState {
 		// hinzugefï¿½gt werden
 		// Hier ist es jedoch von Typ Runnable, da keine Parameter (z. B. welche
 		// Taste wurde gedrï¿½ckt) benï¿½tigt werden
-		dropButton.addCallback(new Runnable() {
-			@Override
-			public void run() {
-				// ein Klick auf den Button wird in unserem Fall in der
-				// folgenden Methode verarbeitet
-				try {
-					inputFinished();
-				} catch (NumberFormatException e) {
-					System.out.println("Oy Vey! Please enter numbers!");
-				}
-			}
-		});
+		// TODO
+		dropButton.addCallback(new Runnable() { @Override public void run() {try {inputFinished();} catch (NumberFormatException e) {}}});
         // am Schluss der Methode mï¿½ssen alle GUI-Elemente der Rootpane
 		// hinzugefï¿½gt werden
 		if (Gorillas.options != null && Gorillas.options.isWindEnabled()) {
@@ -634,6 +637,7 @@ public class GamePlayState extends BasicTWLGameState {
 
 	/**
      * Method gets called if you type something into the input field.
+	 * <code>Credits to dropofwater</code>
 	 * 
      * @param key 
      * 				the pressed button
@@ -677,9 +681,9 @@ public class GamePlayState extends BasicTWLGameState {
 		//Entity gorilla1 = entityManager.getEntity(stateID, "gorilla1");
 		//System.out.println(gorilla1.getID() + "  " + gorilla1.getPosition());
 		if (turn)
-			banana.setPosition(new Vector2f(gorilla1pos.getX()+15,gorilla1pos.getY()));
+			banana.setPosition(new Vector2f(Gorillas.data.getGorilla1pos().getX()+30,Gorillas.data.getGorilla1pos().getY()+38));
 		else 
-			banana.setPosition(new Vector2f(gorilla2pos.getX()-15,gorilla2pos.getY()));
+			banana.setPosition(new Vector2f(Gorillas.data.getGorilla2pos().getX()-30,Gorillas.data.getGorilla2pos().getY()+38));
 		try {
 			// Bild laden und zuweisen
 			banana.addComponent(new ImageRenderComponent(new Image("assets/gorillas/banana.png")));
@@ -695,7 +699,7 @@ public class GamePlayState extends BasicTWLGameState {
 		// winkel wird gesetzt
 		wurf.angle = turn?Integer.parseInt(angleInput1.getText()):(180-Integer.parseInt(angleInput2.getText()));
 		// x0 und y0 für newtonsche gleichung..
-		wurf.startPos = turn?new Vector2f(gorilla1pos.getX()+30,gorilla1pos.getY()-38):new Vector2f(gorilla2pos.getX()-30,gorilla2pos.getY()-38);
+		wurf.startPos = turn?new Vector2f(Gorillas.data.getGorilla1pos().getX()+30,Gorillas.data.getGorilla1pos().getY()-38):new Vector2f(Gorillas.data.getGorilla2pos().getX()-30,Gorillas.data.getGorilla2pos().getY()-38);
 		// solange geworfen bis.... kollision // out of bounce
 		wurf.wind = this.wind;
 		wurf.gravity = Gorillas.options.getG();

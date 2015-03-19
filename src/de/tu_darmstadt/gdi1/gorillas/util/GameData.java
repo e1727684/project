@@ -6,7 +6,11 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+
+import org.newdawn.slick.geom.Vector2f;
 
 /**
  * AboutState
@@ -30,6 +34,9 @@ public class GameData {
 	private int[] currentScore;
 	public boolean musicIsPlaying;
 	public boolean sunAstonished;
+	private Vector2f gorilla1pos;
+	private Vector2f gorilla2pos;
+	private ArrayList<Vector2f> map;
 	
 	/**
 	 * Constructor. Creates a new instance of GameData.
@@ -105,20 +112,18 @@ public class GameData {
 			while (temp[i][0] != null
 					&& addHighscore(temp[i][0], Integer.parseInt(temp[i][1]),
 							Integer.parseInt(temp[i][2]),
-							Integer.parseInt(temp[i][3]))) {
-				i++;
-			}
+							Integer.parseInt(temp[i][3]))) 
+				{i++;}
 		} catch (FileNotFoundException e) {
-			System.out.println("[Laad] FNF Error: " + e.getMessage());
+			// File not Found
 		} catch (IOException e) {
 			System.out.println("[Laad] IO Error: " + e.getMessage());
 		} catch (ClassNotFoundException e) {
 			System.out.println("[Laad] CNF Error: " + e.getMessage());
 		} finally {
 			try {
-				if (outputStream != null) {
-					outputStream.flush();
-					outputStream.close();
+				if (inputStream != null) {
+					inputStream.close();
 				}
 			} catch (IOException e) {
 				System.out.println("[Laad] IO Error: " + e.getMessage());
@@ -228,9 +233,8 @@ public class GameData {
 		while (temp[i][0] != null
 				&& addHighscore(temp[i][0], Integer.parseInt(temp[i][1]),
 						Integer.parseInt(temp[i][2]),
-						Integer.parseInt(temp[i][3]))) {
-			i++;
-		}
+						Integer.parseInt(temp[i][3]))) 
+			{i++;}
 		return false;
 	}
 
@@ -251,6 +255,7 @@ public class GameData {
 	/**
 	 * Prints highscore in console
 	 */
+	@Deprecated
 	public void printHighscoreInConsole() {
 		for (int i = 0; i < getHighscoreCount(); i++) {
 			System.out.println(i + ". Player: " + highscore[i][0]
@@ -540,5 +545,57 @@ public class GameData {
 	 */
 	public void setPlayTillScore(int playTillScore) {
 		this.playTillScore = playTillScore;
+	}
+
+	public Vector2f getGorilla1pos() {
+		return gorilla1pos;
+	}
+
+	public void setGorilla1pos(Vector2f gorilla1pos) {
+		this.gorilla1pos = gorilla1pos;
+	}
+
+	public Vector2f getGorilla2pos() {
+		return gorilla2pos;
+	}
+
+	public void setGorilla2pos(Vector2f gorilla2pos) {
+		this.gorilla2pos = gorilla2pos;
+	}
+
+	public ArrayList<Vector2f> getMap() {
+		return map;
+	}
+
+	public void setMap(ArrayList<Vector2f> map) {
+		this.map = map;
+	}
+
+	/**
+	 * creates a map, which is NOT RANDOM based on the given parameters
+	 * 
+	 * @param paneWidth
+	 *            the width of the frame/window/pane of the game
+	 * @param paneHeight
+	 *            the height of the frame/window/pane of the game
+	 * @param yOffsetCity
+	 *            the top y offset of the city
+	 * @param buildingCoordinates
+	 *            the building coordinates of the city skyline
+	 * @param leftGorillaCoordinate
+	 *            the coordinate of the left gorilla
+	 * @param rightGorillaCoordinate
+	 *            the coordinate of the right gorilla
+	 */
+	public void makeMap(int paneWidth, int paneHeight, int yOffsetCity,
+			ArrayList<Vector2f> buildingCoordinates,
+			Vector2f leftGorillaCoordinate, Vector2f rightGorillaCoordinate) {
+		int houseAmount = 8;
+		ArrayList<Vector2f> temp = new ArrayList<Vector2f>();
+		for (int i = 0; i < houseAmount; i++) {
+			temp.add(new Vector2f(0, 0));
+		}
+		map = temp;
+		System.out.println(map.toString());
 	}
 }

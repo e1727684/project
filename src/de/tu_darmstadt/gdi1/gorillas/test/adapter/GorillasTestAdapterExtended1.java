@@ -4,6 +4,10 @@ import java.util.ArrayList;
 
 import org.newdawn.slick.geom.Vector2f;
 
+import de.tu_darmstadt.gdi1.gorillas.main.Gorillas;
+import de.tu_darmstadt.gdi1.gorillas.test.setup.TestGorillas;
+import de.tu_darmstadt.gdi1.gorillas.ui.states.GamePlayState;
+
 public class GorillasTestAdapterExtended1 extends GorillasTestAdapterMinimal {
 
 	public GorillasTestAdapterExtended1() {
@@ -84,8 +88,7 @@ public class GorillasTestAdapterExtended1 extends GorillasTestAdapterMinimal {
 	public void createCustomMap(int paneWidth, int paneHeight, int yOffsetCity,
 			ArrayList<Vector2f> buildingCoordinates,
 			Vector2f leftGorillaCoordinate, Vector2f rightGorillaCoordinate) {
-
-		// TODO: Implement
+		TestGorillas.data.makeMap(paneWidth, paneHeight, yOffsetCity, buildingCoordinates, leftGorillaCoordinate, rightGorillaCoordinate);
 	}
 
 	/**
@@ -104,8 +107,7 @@ public class GorillasTestAdapterExtended1 extends GorillasTestAdapterMinimal {
 	 *         current map, ordered from left to right
 	 */
 	public ArrayList<Vector2f> getBuildingCoordinates() {
-		// TODO: Implement
-		return null;
+		return TestGorillas.data.getMap();
 	}
 
 	/**
@@ -114,8 +116,7 @@ public class GorillasTestAdapterExtended1 extends GorillasTestAdapterMinimal {
 	 * @return the center coordinate of the left gorilla
 	 */
 	public Vector2f getLeftGorillaCoordinate() {
-		// TODO: Implement
-		return null;
+		return TestGorillas.data.getGorilla1pos();
 	}
 
 	/**
@@ -124,8 +125,7 @@ public class GorillasTestAdapterExtended1 extends GorillasTestAdapterMinimal {
 	 * @return the center coordinate of the right gorilla
 	 */
 	public Vector2f getRightGorillaCoordinate() {
-		// TODO: Implement
-		return null;
+		return TestGorillas.data.getGorilla2pos();
 	}
 
 	/**

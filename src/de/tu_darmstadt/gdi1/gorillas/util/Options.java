@@ -32,6 +32,7 @@ public class Options {
 		musicEnabled = true;
 		windEnabled = true;
 		spottEnabled = true;
+		sfxEnabled = true;
 		g = 10;
 		load();
 	}
