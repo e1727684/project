@@ -381,6 +381,7 @@ public class GamePlayState extends BasicTWLGameState {
 	 * or continue into next round.
 	 * 
 	 * @throws SlickException
+	 * 							throws.
 	 */
 	private void someoneWon() throws SlickException {
 		if (!entityManager.hasEntity(stateID, "boomTimer")) {

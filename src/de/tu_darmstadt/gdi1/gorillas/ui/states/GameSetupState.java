@@ -170,13 +170,13 @@ public class GameSetupState extends BasicTWLGameState {
 		// Care: One-line-callbacks are >literally< summarized as one-line-callbacks but given a comment on what they do.
 		// <---
 		  // <--- Fun-fact: Max length of round input is 3 digits. That means you can play a up-to-999-score-game but only 99 rounds...
-			round_Input.addCallback(new Callback() { public void callback(int key) {handleEditFieldInput(key, round_Input, this, 3, round_Input.getText());}});
+			round_Input.addCallback(new Callback() { public void callback(int key) {handleEditFieldInput(key, round_Input, this, 3);}});
 		  // --->
 		  // <---	
-			player1_Input.addCallback(new Callback() { public void callback(int key) {handleEditFieldInput(key, player1_Input, this, 15, player2_Input.getText());}});
+			player1_Input.addCallback(new Callback() { public void callback(int key) {handleEditFieldInput(key, player1_Input, this, 15);}});
 		  // --->
 		  // <---
-			player2_Input.addCallback(new Callback() { public void callback(int key) {handleEditFieldInput(key, player2_Input, this, 15, player1_Input.getText());}});
+			player2_Input.addCallback(new Callback() { public void callback(int key) {handleEditFieldInput(key, player2_Input, this, 15);}});
 		  // --->
 		  // <---
 			startGameButton.addCallback(new Runnable() {
@@ -273,8 +273,7 @@ public class GameSetupState extends BasicTWLGameState {
      * @param maxLength 
      * 				max length of digits that you may type into the <code>editField</code>
 	 */
-	void handleEditFieldInput(int key, EditField editField, Callback callback,
-			int maxLength, String secName) {
+	void handleEditFieldInput(int key, EditField editField, Callback callback, int maxLength) {
 		if (key == de.matthiasmann.twl.Event.KEY_NONE) {
 			String inputText = editField.getText();
 			// Length may only be maxLength
