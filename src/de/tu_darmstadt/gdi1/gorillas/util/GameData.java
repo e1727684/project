@@ -152,7 +152,8 @@ public class GameData {
 					&& (((float)roundsWon/numberOfRounds) < ((float)getRoundsWonAtHighscorePosition(i)/getRoundsPlayedAtHighscorePosition(i)))) 
 				{i++;}
 			while (i < getHighscoreCount()
-					&& getMeanAccuracyAtHighscorePosition(i) < Math.round((double) bananasThrown / roundsWon))
+					&& getMeanAccuracyAtHighscorePosition(i) < Math.round((double) bananasThrown / roundsWon)
+					&& (((float)roundsWon/numberOfRounds) == ((float)getRoundsWonAtHighscorePosition(i)/getRoundsPlayedAtHighscorePosition(i))))
 				{i++;}
 			for (int j = getHighscoreCount(); j >= i; j--) { // have to move all from end to index i
 				highscore[j + 1][0] = highscore[j][0];
