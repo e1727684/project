@@ -25,6 +25,9 @@ public class Options {
 	ObjectOutputStream outputStream = null;
 	ObjectInputStream inputStream = null;
 
+	/**
+	 * Constructor initializes options
+	 */
 	public Options() {
 		musicEnabled = true;
 		windEnabled = true;
@@ -33,18 +36,36 @@ public class Options {
 		load();
 	}
 	
+	/**
+	 * Save option-data
+	 */
 	public void save() {
 		updateOptionsFile();
 	}
 
+	/**
+	 * Load option-data
+	 */
 	public void load() {
 		loadOptionFile();
 	}
-
+	
+	/**
+	 * Tests if music is enabled/disabled
+	 * 
+	 * @return
+	 * 			true if enabled/false if disabled
+	 */
 	public boolean isMusicEnabled() {
 		return musicEnabled;
 	}
 
+	/**
+	 * Enable/Disable music in game
+	 * 
+	 * @param musicEnabled 
+	 * 			enable/disable music
+	 */
 	public void setMusicEnabled(boolean musicEnabled) {
 		if (!musicEnabled) 
 			Gorillas.data.musicIsPlaying = false;
@@ -52,24 +73,51 @@ public class Options {
 		save();
 	}
 
+	/**
+	 * Tests if wind is enabled/disabled
+	 * 
+	 * @return
+	 * 			true if enabled/false if disabled
+	 */
 	public boolean isWindEnabled() {
 		return windEnabled;
 	}
 
+	/**
+	 * Enable/Disable wind in game
+	 * 
+	 * @param windEnabled 
+	 * 			enable/disable wind
+	 */
 	public void setWindEnabled(boolean windEnabled) {
 		this.windEnabled = windEnabled;
 		save();
 	}
-
+	
+	/**
+	 * Tests if mockery is enabled/disabled
+	 * 
+	 * @return
+	 * 			true if enabled/false if disabled
+	 */
 	public boolean isSpottEnabled() {
 		return spottEnabled;
 	}
 
+	/**
+	 * Enable/Disable mockery in game
+	 * 
+	 * @param spottEnabled 
+	 * 			enable/disable mockery
+	 */
 	public void setSpottEnabled(boolean spottEnabled) {
 		this.spottEnabled = spottEnabled;
 		save();
 	}
 	
+	/**
+	 * Load data from the <code>HIGHSCORE_FILE</code>
+	 */
 	public void loadOptionFile() {
 		try {
 			inputStream = new ObjectInputStream(new FileInputStream(
@@ -98,6 +146,9 @@ public class Options {
 		}
 	}
 	
+	/**
+	 * Updates data from the <code>HIGHSCORE_FILE</code>
+	 */
 	public void updateOptionsFile() {
 		try {
 			outputStream = new ObjectOutputStream(new FileOutputStream(
@@ -125,19 +176,43 @@ public class Options {
 			}
 		}
 	}
-
+	
+	/**
+	 * Tests if SFX is enabled or not
+	 * 
+	 * @return
+	 * 			true if enabled/false if disabled
+	 */
 	public boolean isSFXEnabled() {
 		return sfxEnabled;
 	}
 
+	/**
+	 * Enable/Disable SFX in game
+	 * 
+	 * @param sfxEnabled 
+	 * 			enable/disable SFX
+	 */
 	public void setSFXEnabled(boolean sfxEnabled) {
 		this.sfxEnabled = sfxEnabled;
 	}
 
+	/**
+	 * Get value of gravity
+	 * 
+	 * @return
+	 * 			value of gravity
+	 */
 	public float getG() {
 		return g;
 	}
 
+	/**
+	 * Set value of gravity
+	 * 
+	 * @param g 
+	 * 			value of gravity
+	 */
 	public void setG(float g) {
 		this.g = g;
 	}
