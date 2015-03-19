@@ -94,7 +94,7 @@ public class MainMenuState extends BasicTWLGameState {
 			// Sneaking this in here so we get no sound event while testing...
 			// <---
 			Event sound = new TimeEvent(1, false);
-			sound.addAction(new Action() { @Override public void update(GameContainer gc, StateBasedGame sb, int delta, Component event) { MusicPlayer.playBg(); }});
+			sound.addAction(new Action() { @Override public void update(GameContainer gc, StateBasedGame sb, int delta, Component event) { MusicPlayer.playBG(); }});
 			music.addComponent(sound);
 			// --->
 		}
@@ -205,7 +205,7 @@ public class MainMenuState extends BasicTWLGameState {
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta)
 			throws SlickException {
-
+		if (!Gorillas.data.musicIsPlaying) MusicPlayer.playBG();
 		entityManager.updateEntities(container, game, delta);
 	}
 

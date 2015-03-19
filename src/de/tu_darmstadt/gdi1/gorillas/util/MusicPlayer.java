@@ -6,6 +6,9 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 
+import org.newdawn.slick.Music;
+import org.newdawn.slick.SlickException;
+
 import de.tu_darmstadt.gdi1.gorillas.main.Gorillas;
 
 /**
@@ -16,6 +19,9 @@ import de.tu_darmstadt.gdi1.gorillas.main.Gorillas;
  */
 public class MusicPlayer {
 	public static Clip clip;
+	public static Music bg;
+	
+	@Deprecated
 	public static void playBg() {
 		if (!Gorillas.data.musicIsPlaying && Gorillas.options.isMusicEnabled()) {
 		  try {
@@ -31,9 +37,25 @@ public class MusicPlayer {
     	  }
 		}
 	}
-
+	
+	public static void playBG() {
+			try {
+			    bg = new Music("sounds/bg.xm");
+			    bg.loop();
+				Gorillas.data.musicIsPlaying = true;
+			} catch (SlickException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	}
+	
+	@Deprecated
 	public static void stopBg() {
 		clip.stop();
+	}
+	
+	public static void stopBG() {
+		bg.stop();
 	}
 	
 	public static void playButton() {

@@ -4,7 +4,6 @@ import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -94,6 +93,8 @@ public class GamePlayState extends BasicTWLGameState {
 		wurfAnzahl = new AtomicInteger(1);
 		goCongratulate = false;
 		daneben = false;
+		cont = container;
+		sb = game;
         // --->
 
         // Creating required Entities
@@ -122,7 +123,8 @@ public class GamePlayState extends BasicTWLGameState {
         // <---
     	  // has to be added BEFORE doing houses
         entityManager.addEntity(this.stateID, entityManager.getEntity(0, "background")); 
-        Gorillas.data.makeRandomMap();
+        if (Gorillas.data.getMap().size() == 0)
+        	Gorillas.data.makeRandomMap(800, 600, (int)gorilla1.getShape().getWidth(), (int)gorilla1.getShape().getHeight());
         int[] houseHeights = drawHouses();
         // gorilla positions have to be decided AFTER creating the houses and BEFORE setting their positions
     	randomizeGorillaPositions(game.getContainer().getHeight(), game.getContainer().getWidth(), houseHeights, gorilla1, gorilla2);
@@ -276,6 +278,14 @@ public class GamePlayState extends BasicTWLGameState {
         }
         // still black magic (random = random) BUT we have our gorilla positions!
         Gorillas.data.setGorilla2pos(new Vector2f(gorilla2PosX, gorilla2PosY)); // set position
+	}
+
+	StateBasedGame sb;
+	GameContainer cont;
+	public void changeMap() throws SlickException {
+		entityManager.clearEntitiesFromState(stateID);
+		sb.enterState(Gorillas.GAMEPLAYSTATE);
+		init(cont, sb);
 	}
 
 	int clk = 0;

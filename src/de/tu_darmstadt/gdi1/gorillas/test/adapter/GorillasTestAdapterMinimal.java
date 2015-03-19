@@ -126,8 +126,8 @@ public class GorillasTestAdapterMinimal {
 	 * player names).
 	 */
 	public void rememberGameData() {
-		if (TestGorillas.data == null) TestGorillas.data = new GameData(); // eh.... ok. we testing i guess? 
-		if (TestGorillas.options == null) TestGorillas.options = new Options(); // eh.... ok. we testing i guess? 
+		if (gorillas.data == null) gorillas.data = new GameData(); // eh.... ok. we testing i guess? 
+		if (gorillas.options == null) gorillas.options = new Options(); // eh.... ok. we testing i guess? 
 	}
 
 	/**
@@ -135,8 +135,8 @@ public class GorillasTestAdapterMinimal {
 	 * should make sure that
 	 */
 	public void restoreGameData() {
-		TestGorillas.data.load();
-		TestGorillas.options.load();
+		gorillas.data.load();
+		gorillas.options.load();
 	}
 
 	/**

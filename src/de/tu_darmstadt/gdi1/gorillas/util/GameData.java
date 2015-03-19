@@ -63,7 +63,6 @@ public class GameData {
 		musicIsPlaying = false;
 		sunAstonished = false;
         this.map = new ArrayList<Vector2f>();
-        this.makeRandomMap();
 		load();
 		// more?
 	}
@@ -594,19 +593,17 @@ public class GameData {
 	public void makeMap(int paneWidth, int paneHeight, int yOffsetCity,
 			ArrayList<Vector2f> buildingCoordinates,
 			Vector2f leftGorillaCoordinate, Vector2f rightGorillaCoordinate) {
+		flushMap();
 		this.setGorilla1pos(leftGorillaCoordinate);
 		this.setGorilla2pos(rightGorillaCoordinate);
-        Random rand = new Random(); // such random
-		for (int i = 0; i < getHouseAmount(); i++) {
-			map.add(new Vector2f(paneWidth*i/getHouseAmount(), rand.nextInt(yOffsetCity)+60));
-		}
+		map.addAll(buildingCoordinates);
 	}
 
-	public void makeRandomMap() {
+	public void makeRandomMap(int frameWidth, int frameHeight, int gorillaWidth, int gorillaHeight) {
 		flushMap();
         Random rand = new Random(); // such random
 		for (int i = 0; i < getHouseAmount(); i++) {
-			map.add(new Vector2f(800*i/getHouseAmount(), rand.nextInt(380)+60));
+			map.add(new Vector2f(frameWidth*i/getHouseAmount(), rand.nextInt(frameHeight/2)+60));
 		}
 	}
 	

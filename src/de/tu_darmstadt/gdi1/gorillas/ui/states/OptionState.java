@@ -7,6 +7,7 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
+
 import de.matthiasmann.twl.Button;
 import de.matthiasmann.twl.EditField;
 import de.matthiasmann.twl.EditField.Callback;
@@ -16,7 +17,6 @@ import de.tu_darmstadt.gdi1.gorillas.main.Gorillas;
 import de.tu_darmstadt.gdi1.gorillas.util.MusicPlayer;
 import eea.engine.action.Action;
 import eea.engine.action.basicactions.ChangeStateAction;
-import eea.engine.action.basicactions.ChangeStateInitAction;
 import eea.engine.component.Component;
 import eea.engine.component.render.ImageRenderComponent;
 import eea.engine.entity.Entity;
@@ -125,9 +125,9 @@ public class OptionState extends BasicTWLGameState {
     		public void update(GameContainer gc, StateBasedGame sb, int delta, Component event) {
 				Gorillas.options.setMusicEnabled(!Gorillas.options.isMusicEnabled());
 				if (Gorillas.options.isMusicEnabled())
-					MusicPlayer.playBg();
+					MusicPlayer.playBG();
 				if (!Gorillas.options.isMusicEnabled())
-					MusicPlayer.stopBg();
+					MusicPlayer.stopBG();
 			}});
     	seButton.addAction(buttonPressed);
     	// Switches SFX on/off

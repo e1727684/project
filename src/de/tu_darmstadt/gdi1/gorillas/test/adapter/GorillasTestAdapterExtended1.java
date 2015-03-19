@@ -7,6 +7,7 @@ import org.newdawn.slick.geom.Vector2f;
 import de.tu_darmstadt.gdi1.gorillas.main.Gorillas;
 import de.tu_darmstadt.gdi1.gorillas.test.setup.TestGorillas;
 import de.tu_darmstadt.gdi1.gorillas.ui.states.GamePlayState;
+import eea.engine.entity.StateBasedEntityManager;
 
 public class GorillasTestAdapterExtended1 extends GorillasTestAdapterMinimal {
 
@@ -65,8 +66,7 @@ public class GorillasTestAdapterExtended1 extends GorillasTestAdapterMinimal {
 	 */
 	public void createRandomMap(int frameWidth, int frameHeight,
 			int gorillaWidth, int gorillaHeight) {
-
-		// TODO: Implement
+			gorillas.data.makeRandomMap(frameWidth, frameHeight, gorillaWidth, gorillaHeight);
 	}
 
 	/**
@@ -155,7 +155,7 @@ public class GorillasTestAdapterExtended1 extends GorillasTestAdapterMinimal {
 	 * @return the gorillaHeight which was used to create the current map
 	 */
 	public float getGorillaHeight() {
-		return getStateBasedGame();
+		return StateBasedEntityManager.getInstance().getEntity(GAMEPLAYSTATE, "gorilla1").getSize().y;
 	}
 
 	/**
@@ -164,8 +164,7 @@ public class GorillasTestAdapterExtended1 extends GorillasTestAdapterMinimal {
 	 * @return the gorillaWidth which was used to create the current map
 	 */
 	public float getGorillaWidth() {
-		// TODO: Implement
-		return -1;
+		return StateBasedEntityManager.getInstance().getEntity(GAMEPLAYSTATE, "gorilla1").getSize().x;
 	}
 
 	/**
