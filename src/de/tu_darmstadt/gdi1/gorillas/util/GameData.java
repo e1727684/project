@@ -316,7 +316,7 @@ public class GameData {
 	/**
 	 * Returns the roundsPlayed at the specified position in our highscore-matrix.
 	 * 
-	 * @param row 
+	 * @param position
 	 * 			the row we want the roundsPlayed of
 	 * 
 	 * @return 
@@ -332,7 +332,7 @@ public class GameData {
 	/**
 	 * Returns the roundsWon at the specified position in our highscore-matrix.
 	 * 
-	 * @param row 
+	 * @param position 
 	 * 			the row we want the roundsWon of
 	 * 
 	 * @return 
@@ -348,7 +348,7 @@ public class GameData {
 	/**
 	 * Returns the bananasThrown at the specified position in our highscore-matrix.
 	 * 
-	 * @param row 
+	 * @param position 
 	 * 			the row we want the bananasThrown of
 	 * 
 	 * @return 
@@ -364,7 +364,7 @@ public class GameData {
 	/**
 	 * Returns the percentage of won games at the specified position in our highscore-matrix.
 	 * 
-	 * @param row 
+	 * @param position 
 	 * 			the row we want the percentage won of
 	 * 
 	 * @return 
@@ -382,7 +382,7 @@ public class GameData {
 	/**
 	 * Returns the mean accuracy at the specified position in our highscore-matrix.
 	 * 
-	 * @param row 
+	 * @param position 
 	 * 			the row we want the mean accuracy of
 	 * 
 	 * @return 

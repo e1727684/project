@@ -25,6 +25,7 @@ public class TWLTestAppGameContainer extends AppGameContainer {
 	 *            Verzoegerung zwischen Frames
 	 * 
 	 * @throws SlickException
+	 * 			  throws.
 	 */
 	public void start(int delta) throws SlickException {
 

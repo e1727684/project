@@ -54,6 +54,10 @@ public class GorillasTestAdapterExtended1 extends GorillasTestAdapterMinimal {
 	 *            the width of the frame/screen of the gorillas game
 	 * @param frameHeight
 	 *            the height of the frame/screen of the gorillas game
+	 * @param gorillaWidth
+	 * 			  gorilla width
+	 * @param gorillaHeight
+	 * 			  gorilla height
 	 */
 	public void createRandomMap(int frameWidth, int frameHeight,
 			int gorillaWidth, int gorillaHeight) {
