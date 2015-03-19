@@ -5,18 +5,9 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Vector2f;
 
 import de.matthiasmann.twl.EditField;
-import de.tu_darmstadt.gdi1.gorillas.main.Gorillas;
 import de.tu_darmstadt.gdi1.gorillas.test.setup.TWLTestAppGameContainer;
 import de.tu_darmstadt.gdi1.gorillas.test.setup.TWLTestStateBasedGame;
 import de.tu_darmstadt.gdi1.gorillas.test.setup.TestGorillas;
-import de.tu_darmstadt.gdi1.gorillas.ui.states.AboutState;
-import de.tu_darmstadt.gdi1.gorillas.ui.states.CongratulationState;
-import de.tu_darmstadt.gdi1.gorillas.ui.states.GamePlayState;
-import de.tu_darmstadt.gdi1.gorillas.ui.states.GameSetupState;
-import de.tu_darmstadt.gdi1.gorillas.ui.states.HighscoreState;
-import de.tu_darmstadt.gdi1.gorillas.ui.states.InstructionState;
-import de.tu_darmstadt.gdi1.gorillas.ui.states.MainMenuState;
-import de.tu_darmstadt.gdi1.gorillas.ui.states.OptionState;
 import de.tu_darmstadt.gdi1.gorillas.util.GameData;
 import de.tu_darmstadt.gdi1.gorillas.util.Options;
 import de.tu_darmstadt.gdi1.gorillas.util.Wurf;
