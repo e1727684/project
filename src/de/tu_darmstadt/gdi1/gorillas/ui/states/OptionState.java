@@ -114,7 +114,7 @@ public class OptionState extends BasicTWLGameState {
 		// Creating and adding the Actions!
 		// Care: One-line-actions are >literally< summarized as one-line-actions but given a comment on what they do.
 		// <--- Creating
-    	Action zurück_Action = new ChangeStateInitAction(Gorillas.MAINMENUSTATE);
+    	Action zurück_Action = new ChangeStateAction(Gorillas.MAINMENUSTATE);
 			// Sound-action when a button is pressed :: SFX
     	Action buttonPressed = new Action() {@Override public void update(GameContainer gc, StateBasedGame sb, int delta, Component event) {MusicPlayer.playButton();}};
     	// --->
