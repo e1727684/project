@@ -48,42 +48,66 @@ public class CongratulationState extends BasicTWLGameState {
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
-
+        // Creating required Entities
+		// <---
 		Entity background = new Entity("aboutBack");
-		background.setPosition(new Vector2f(400,300));
+		Entity escListener = new Entity("ESC_Listener");
+    	Entity zurück_Entity = new Entity("Zurück");
+		// --->
+
+		// Giving the Entities a picture.... If we aren't testing!
+		// <---
     	if (!Gorillas.data.guiDisabled) { // really.... 
         	background.addComponent(new ImageRenderComponent(new Image("assets/gorillas/backgrounds/backgroundCongrats.png")));
+        	zurück_Entity.addComponent(new ImageRenderComponent(new Image("assets/gorillas/button.png")));
     	}
-        entityManager.addEntity(this.stateID, background);
-        Action buttonPressed = new Action() {@Override public void update(GameContainer gc, StateBasedGame sb, int delta, Component event) {MusicPlayer.playButton();}};
-		
-		// Bei Druecken der ESC-Taste zurueck ins Hauptmenue wechseln
-		Entity escListener = new Entity("ESC_Listener");
-		KeyPressedEvent escPressed = new KeyPressedEvent(Input.KEY_ESCAPE);
-		escPressed.addAction(new ChangeStateAction(Gorillas.MAINMENUSTATE)); //
-		escListener.addComponent(escPressed);
-		entityManager.addEntity(stateID, escListener);
-		
-		/* Spiel zurück-Entitaet */
-		//-------------------------------------------------------
-    	Entity zurück_Entity = new Entity("Zurück");
-    	
-    	// Setze Position und Bildkomponente
+		// --->
+
+		// Setting the Entities positions!
+		// <---
+		background.setPosition(new Vector2f(400,300));
     	zurück_Entity.setPosition(new Vector2f(400, 450));
+		// --->
+
+		// Scaling the Entities pictures!
+		// <---
     	zurück_Entity.setScale(0.18f);
-    	if (!Gorillas.data.guiDisabled) { // really.... 
-    	zurück_Entity.addComponent(new ImageRenderComponent(new Image("assets/gorillas/button.png")));
-    	}
-    	// Erstelle das Ausloese-Event und die zugehoerige Action
+		// --->
+
+		// Creating the Events for all buttons and keylisteners!
+		// <---
+    	KeyPressedEvent escPressed = new KeyPressedEvent(Input.KEY_ESCAPE);
     	ANDEvent mainEvents_z = new ANDEvent(new MouseEnteredEvent(), new MouseClickedEvent());
+    	// --->
+
+    	// Creating and adding the Actions!
+    	// Care: One-line-actions are >literally< summarized as one-line-actions but given a comment on what they do.
+    	// <--- Creating
     	Action zurück_Action = new ChangeStateInitAction(Gorillas.MAINMENUSTATE);
+    		// Sound-action when a button is pressed :: SFX
+    	Action buttonPressed = new Action() {@Override public void update(GameContainer gc, StateBasedGame sb, int delta, Component event) {MusicPlayer.playButton();}};
+    	// ---> 
+    	// <--- Adding
+		escPressed.addAction(new ChangeStateAction(Gorillas.MAINMENUSTATE)); //
     	mainEvents_z.addAction(zurück_Action);
     	mainEvents_z.addAction(buttonPressed);
-    	zurück_Entity.addComponent(mainEvents_z);
-    	
-    	// Fuege die Entity zum StateBasedEntityManager hinzu
-    	entityManager.addEntity(this.stateID, zurück_Entity);
+		// --->
 
+		// Assigning the previously created Events to our Entities!
+		// Note: A game would be very boring without events..
+		// <---
+		escListener.addComponent(escPressed);
+    	zurück_Entity.addComponent(mainEvents_z);
+    	// --->
+
+    	// Finally: Adding all local created Entities into our game-wide entity manager!
+    	// <---
+        entityManager.addEntity(this.stateID, background);
+		entityManager.addEntity(stateID, escListener);
+    	entityManager.addEntity(this.stateID, zurück_Entity);
+    	// --->
+
+    	// Fun-fact: This is identical to About, Instruction and Highscore init but with another background picture...
 	}
 	
 	@Override
@@ -92,10 +116,12 @@ public class CongratulationState extends BasicTWLGameState {
 		
 		entityManager.renderEntities(container, game, g);
 
+		// Draw our menu and draw our menu and draw our menu and draw our menu and ...
+		// <---
 		g.drawString("Congratulations Player " + (Gorillas.data.getPlayerWon().equals("player1")?Gorillas.data.getPlayer1():Gorillas.data.getPlayer2()) + "!",
 				250, 80);
 		g.drawString("Back", 370, 445);
-		
+		// --->
 	}
 
 	@Override

@@ -181,7 +181,6 @@ public class OptionState extends BasicTWLGameState {
 		g.drawString("Custom Gravity: ", 160, start_Position+4*distance - distance/4); 
 		g.drawString("Back", 160, start_Position+5*distance);
 		// --->
-		
 	}
 
 	@Override
@@ -200,7 +199,7 @@ public class OptionState extends BasicTWLGameState {
     	// Custom rootpane
         RootPane rp = super.createRootPane();
         
-        // Creating input field and buttons ...
+        // Creating input field and buttons + assigning callbacks ...
         // <---
         g_Input = new EditField();
         g_Input.setText(""+Gorillas.options.getG());
@@ -256,7 +255,6 @@ public class OptionState extends BasicTWLGameState {
      */
     void handleEditFieldInput(int key, EditField editField, Callback callback,
                     int maxLength) {
-
             if (key == de.matthiasmann.twl.Event.KEY_NONE) {
                     String inputText = editField.getText();
                    

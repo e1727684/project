@@ -50,45 +50,67 @@ public class InstructionState extends BasicTWLGameState {
 	}
 
 	@Override
-	public void init(GameContainer container, StateBasedGame game)
-			throws SlickException {
-
-
+	public void init(GameContainer container, StateBasedGame game) throws SlickException {
+		// Creating required Entities
+		// <---
 		Entity background = new Entity("aboutBack");
-		background.setPosition(new Vector2f(400,300));
+		Entity escListener = new Entity("ESC_Listener");
+    	Entity zurück_Entity = new Entity("Zurück");
+		// --->
+
+		// Giving the Entities a picture.... If we aren't testing!
+		// <---
     	if (!Gorillas.data.guiDisabled) { // really.... 
         	background.addComponent(new ImageRenderComponent(new Image("assets/gorillas/backgrounds/backgroundInstruction.png")));
+        	zurück_Entity.addComponent(new ImageRenderComponent(new Image("assets/gorillas/button.png")));
     	}
-        entityManager.addEntity(this.stateID, background);
-        Action buttonPressed = new Action() {@Override public void update(GameContainer gc, StateBasedGame sb, int delta, Component event) {MusicPlayer.playButton();}};
-		
-		// Bei Druecken der ESC-Taste zurueck ins Hauptmenue wechseln
-		Entity escListener = new Entity("ESC_Listener");
-		KeyPressedEvent escPressed = new KeyPressedEvent(Input.KEY_ESCAPE);
-		escPressed.addAction(new ChangeStateAction(Gorillas.MAINMENUSTATE)); //
-		escListener.addComponent(escPressed);
-		entityManager.addEntity(stateID, escListener);
-		
-		/* Spiel zurück-Entitaet */
-		//-------------------------------------------------------
-    	Entity zurück_Entity = new Entity("Zurück");
-    	
-    	// Setze Position und Bildkomponente
+		// --->
+
+		// Setting the Entities positions!
+		// <---
+		background.setPosition(new Vector2f(400,300));
     	zurück_Entity.setPosition(new Vector2f(400, 450));
+		// --->
+
+		// Scaling the Entities pictures!
+		// <---
     	zurück_Entity.setScale(0.18f);
-    	if (!Gorillas.data.guiDisabled) { // really.... 
-    	zurück_Entity.addComponent(new ImageRenderComponent(new Image("assets/gorillas/button.png")));
-    	}
-    	// Erstelle das Ausloese-Event und die zugehoerige Action
+		// --->
+
+		// Creating the Events for all buttons and keylisteners!
+		// <---
+    	KeyPressedEvent escPressed = new KeyPressedEvent(Input.KEY_ESCAPE);
     	ANDEvent mainEvents_z = new ANDEvent(new MouseEnteredEvent(), new MouseClickedEvent());
+    	// --->
+
+    	// Creating and adding the Actions!
+    	// Care: One-line-actions are >literally< summarized as one-line-actions but given a comment on what they do.
+    	// <--- Creating
     	Action zurück_Action = new ChangeStateInitAction(Gorillas.MAINMENUSTATE);
+    		// Sound-action when a button is pressed :: SFX
+    	Action buttonPressed = new Action() {@Override public void update(GameContainer gc, StateBasedGame sb, int delta, Component event) {MusicPlayer.playButton();}};
+    	// ---> 
+    	// <--- Adding
+		escPressed.addAction(new ChangeStateAction(Gorillas.MAINMENUSTATE)); //
     	mainEvents_z.addAction(zurück_Action);
     	mainEvents_z.addAction(buttonPressed);
-    	zurück_Entity.addComponent(mainEvents_z);
-    	
-    	// Fuege die Entity zum StateBasedEntityManager hinzu
-    	entityManager.addEntity(this.stateID, zurück_Entity);
+		// --->
 
+		// Assigning the previously created Events to our Entities!
+		// Note: A game would be very boring without events..
+		// <---
+		escListener.addComponent(escPressed);
+    	zurück_Entity.addComponent(mainEvents_z);
+    	// --->
+
+    	// Finally: Adding all local created Entities into our game-wide entity manager!
+    	// <---
+        entityManager.addEntity(this.stateID, background);
+		entityManager.addEntity(stateID, escListener);
+    	entityManager.addEntity(this.stateID, zurück_Entity);
+    	// --->
+    	
+    	// Fun-fact: This is identical to About, Congratulation and Highscore init but with another background picture...
 	}
 	
 	@Override
@@ -96,9 +118,11 @@ public class InstructionState extends BasicTWLGameState {
 			throws SlickException {
 		
 		entityManager.renderEntities(container, game, g);
-		
-		g.drawString("Zurück", 370, 445);
-		
+
+		// Draw our menu and draw our menu and draw our menu and draw our menu and ...
+		// <---
+		g.drawString("Back", 370, 445);
+		// --->
 	}
 
 	@Override
@@ -115,20 +139,28 @@ public class InstructionState extends BasicTWLGameState {
 	
 	@Override
 	protected RootPane createRootPane() {
-		
-		// erstelle die RootPane
+    	// Custom rootpane
 		RootPane rp = super.createRootPane();
-		
-		/*Intruktion-Label*/
+
+        // Creating label ...
+        // <---
     	instruction_Label = new Label("Erinnerst Du Dich noch an das QBasic-Spiel Gorilla? \n\nEs war das klassische Spiel, in dem hoch oben auf Wolkenkratzern zwei Gorillas gegen den Tod kämpften. \n\nBeschieße Deinen Gegner mit hochexplosiven Bananen. \n\nDu musst jedoch den richtigen Schusswinkel sowie die Geschwindigkeit herausfinden, \num ihn zu treffen und zu verletzen. \nAuch Wind spielt eine Rolle und muss beachtet werden. \n\nDas Spiel kann nur zu zweit gespielt werden. \n\nWenn man im ''Neues Spiel Starten''-Fenster eine positive Zahl eingibt,\ndann spielt man bis einer die eingegebene Punktzahl erreicht. \nGibt man eine negative Zahl ein, spielt man eine feste Anzahl an Runden. \n\nDuelliere dich gegen Deinen Freund oder Kollegen und sei der bessere Gorilla.");
+        // --->
+        
+        // Finally: Adding the label to our rootpane ...
+        // <---
     	rp.add(instruction_Label);
+        // --->
     	
     	return rp;
 	}
 	
 	@Override
 	protected void layoutRootPane() {
+        // Literally layout-ing our rootpane!
+        // <---
 		instruction_Label.setPosition(50, 200);
+        // --->
 	}
 
 }

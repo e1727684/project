@@ -58,42 +58,66 @@ public class HighscoreState extends BasicTWLGameState {
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
-
+		// Creating required Entities
+		// <---
 		Entity background = new Entity("aboutBack");
-		background.setPosition(new Vector2f(400,300));
+		Entity escListener = new Entity("ESC_Listener");
+    	Entity zurück_Entity = new Entity("Zurück");
+		// --->
+
+		// Giving the Entities a picture.... If we aren't testing!
+		// <---
     	if (!Gorillas.data.guiDisabled) { // really.... 
         	background.addComponent(new ImageRenderComponent(new Image("assets/gorillas/backgrounds/backgroundHighscore.png")));
+        	zurück_Entity.addComponent(new ImageRenderComponent(new Image("assets/gorillas/button.png")));
     	}
-        entityManager.addEntity(this.stateID, background);
-        Action buttonPressed = new Action() {@Override public void update(GameContainer gc, StateBasedGame sb, int delta, Component event) {MusicPlayer.playButton();}};
-		
-		// Bei Druecken der ESC-Taste zurueck ins Hauptmenue wechseln
-		Entity escListener = new Entity("ESC_Listener");
-		KeyPressedEvent escPressed = new KeyPressedEvent(Input.KEY_ESCAPE);
-		escPressed.addAction(new ChangeStateAction(Gorillas.MAINMENUSTATE)); //
-		escListener.addComponent(escPressed);
-		entityManager.addEntity(stateID, escListener);
-		
-		/* Spiel zurück-Entitaet */
-		//-------------------------------------------------------
-    	Entity zurück_Entity = new Entity("Zurück");
-    	
-    	// Setze Position und Bildkomponente
+		// --->
+
+		// Setting the Entities positions!
+		// <---
+		background.setPosition(new Vector2f(400,300));
     	zurück_Entity.setPosition(new Vector2f(400, 450));
+		// --->
+
+		// Scaling the Entities pictures!
+		// <---
     	zurück_Entity.setScale(0.18f);
-    	if (!Gorillas.data.guiDisabled) { // really.... 
-    	zurück_Entity.addComponent(new ImageRenderComponent(new Image("assets/gorillas/button.png")));
-    	}
-    	// Erstelle das Ausloese-Event und die zugehoerige Action
+		// --->
+
+		// Creating the Events for all buttons and keylisteners!
+		// <---
+    	KeyPressedEvent escPressed = new KeyPressedEvent(Input.KEY_ESCAPE);
     	ANDEvent mainEvents_z = new ANDEvent(new MouseEnteredEvent(), new MouseClickedEvent());
+    	// --->
+
+    	// Creating and adding the Actions!
+    	// Care: One-line-actions are >literally< summarized as one-line-actions but given a comment on what they do.
+    	// <--- Creating
     	Action zurück_Action = new ChangeStateInitAction(Gorillas.MAINMENUSTATE);
+    		// Sound-action when a button is pressed :: SFX
+    	Action buttonPressed = new Action() {@Override public void update(GameContainer gc, StateBasedGame sb, int delta, Component event) {MusicPlayer.playButton();}};
+    	// ---> 
+    	// <--- Adding
+		escPressed.addAction(new ChangeStateAction(Gorillas.MAINMENUSTATE)); //
     	mainEvents_z.addAction(zurück_Action);
     	mainEvents_z.addAction(buttonPressed);
-    	zurück_Entity.addComponent(mainEvents_z);
-    	
-    	// Fuege die Entity zum StateBasedEntityManager hinzu
-    	entityManager.addEntity(this.stateID, zurück_Entity);
+		// --->
 
+		// Assigning the previously created Events to our Entities!
+		// Note: A game would be very boring without events..
+		// <---
+		escListener.addComponent(escPressed);
+    	zurück_Entity.addComponent(mainEvents_z);
+    	// --->
+
+    	// Finally: Adding all local created Entities into our game-wide entity manager!
+    	// <---
+        entityManager.addEntity(this.stateID, background);
+		entityManager.addEntity(stateID, escListener);
+    	entityManager.addEntity(this.stateID, zurück_Entity);
+    	// --->
+    	
+    	// Fun-fact: This is identical to About, Congratulation and Instruction init but with another background picture...
 	}
 	
 	@Override
@@ -101,9 +125,11 @@ public class HighscoreState extends BasicTWLGameState {
 			throws SlickException {
 		
 		entityManager.renderEntities(container, game, g);
-		
-		g.drawString("Zurück", 370, 445);
-		
+
+		// Draw our menu and draw our menu and draw our menu and draw our menu and ...
+		// <---
+		g.drawString("Back", 370, 445);
+		// --->
 	}
 
 	@Override
@@ -120,11 +146,11 @@ public class HighscoreState extends BasicTWLGameState {
 	
 	@Override
 	protected RootPane createRootPane() {
-		
-		// erstelle die RootPane
+    	// Custom rootpane
 		RootPane rp = super.createRootPane();
-		
-		/*Intruktion-Label*/
+
+        // Creating labels ...
+        // <--- (If it looks stupid but works it ain't stupid)
     	scores_Label = new Label("Place   Player              Rounds              Won                               Mean accuracy \n");
     	scores1_Label = new Label(Gorillas.data.giveHighscoreAsString(0));
     	scores2_Label = new Label(Gorillas.data.giveHighscoreAsString(1));
@@ -132,6 +158,10 @@ public class HighscoreState extends BasicTWLGameState {
     	scores4_Label = new Label(Gorillas.data.giveHighscoreAsString(3));
     	scores5_Label = new Label(Gorillas.data.giveHighscoreAsString(4));
     	scores6_Label = new Label(Gorillas.data.giveHighscoreAsString(5));
+    	// --->
+        
+        // Finally: Adding the labels to our rootpane ...
+        // <---
     	rp.add(scores_Label);
     	rp.add(scores1_Label);
     	rp.add(scores2_Label);
@@ -139,12 +169,15 @@ public class HighscoreState extends BasicTWLGameState {
     	rp.add(scores4_Label);
     	rp.add(scores5_Label);
     	rp.add(scores6_Label);
+    	// --->
     	
     	return rp;
 	}
 	
 	@Override
 	protected void layoutRootPane() {
+        // Literally layout-ing our rootpane!
+        // <---
 		scores_Label.setPosition(150, 150);
     	scores1_Label.setPosition(150, 270);
     	scores2_Label.setPosition(200, 270);
@@ -152,6 +185,7 @@ public class HighscoreState extends BasicTWLGameState {
     	scores4_Label.setPosition(410, 270);
     	scores5_Label.setPosition(435, 270);
     	scores6_Label.setPosition(560, 270);
+        // --->
 	}
 
 }

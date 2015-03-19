@@ -89,15 +89,16 @@ public class GamePlayState extends BasicTWLGameState {
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
-		
-		// (Rück-)setzen aller Daten
+		// Initializing stuff
+		// <---
 		Gorillas.data.setPaused(false);
 		wurfAnzahl = new AtomicInteger(1);
 		goCongratulate = false;
 		daneben = false;
-		
-		// Benötigte Entitäten
-        // <---
+        // --->
+
+        // Creating required Entities
+		// <---
 		Entity sun_astonished = new Entity("sun_astonished");
         Entity escListener = new Entity("ESC_Listener");
         Entity returnListener = new Entity("return_Listener");
@@ -107,9 +108,9 @@ public class GamePlayState extends BasicTWLGameState {
         Entity arrow_wind = new Entity("arrow_wind");
         // --->
         
-        // Füge Bilder hinzu
-        // <---
-    	if (!Gorillas.data.guiDisabled) { // really.... 
+        // Giving the Entities a picture.... If we aren't testing!
+     	// <---
+    	if (!Gorillas.data.guiDisabled) {
 			sun_astonished.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/sun/sun_astonished.png")));
             sun_smiling.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/sun/sun_smiling.png")));
             arrow_wind.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/pfeil.png")));
@@ -118,52 +119,46 @@ public class GamePlayState extends BasicTWLGameState {
     	}
         // --->
         
-		// Zeug, das wir brauchen bevor wir die Gorillas und die Häuser setzten!
+		// Doing stuff we have to do exactly here. Let's call it destiny.
         // <---
-        entityManager.addEntity(this.stateID, entityManager.getEntity(0, "background"));
-        int[] houseHeights = new int[8];
-        int houseWidth = 100, startPointHouses = 0, housesIndex = 0;
+    	  // has to be added BEFORE doing houses
+        entityManager.addEntity(this.stateID, entityManager.getEntity(0, "background")); 
+        int[] houseHeights = new int[8]; int houseWidth = 100, startPointHouses = 0, housesIndex = 0;
+          // creating houses has to be done AFTER adding background and BEFORE randomizing gorilla positions
         houseHeights = randomizeHouses(houseHeights, houseWidth, startPointHouses, housesIndex, game.getContainer().getHeight());
+          // gorilla positions have to be decided AFTER creating the houses and BEFORE setting their positions
         randomizeGorillaPositions(game.getContainer().getHeight(), game.getContainer().getWidth(), houseHeights, gorilla1, gorilla2);
         if (Gorillas.options != null && Gorillas.options.isWindEnabled())
-        	makeWind();
+        	makeWind(); // wind force has to be decided before setting the arrow.
         // --->
         
-        // Setzen der Positionen der Gorillas und der Soone
-        // <---
+        // Setting the Entities positions!
+     	// <---
         gorilla1.setPosition(gorilla1pos); 
         gorilla2.setPosition(gorilla2pos); 
         sun_smiling.setPosition(new Vector2f((game.getContainer().getWidth() / 2), 30));
         sun_astonished.setPosition(new Vector2f((game.getContainer().getWidth() / 2), 30));
         arrow_wind.setPosition(new Vector2f(550, 55));
-        //arrow_wind.setSize(new Vector2f(this.wind, 20));
-        arrow_wind.setScale(0.7F*wind/15);
+        arrow_wind.setScale(0.7F*wind/15); // (if it looks stupid but works it ain't stupid)
         // --->
         
-        // Events und Actions
-        // <--
+		// Creating the Events for all buttons and keylisteners!
+		// <---
         KeyPressedEvent escPressed = new KeyPressedEvent(Input.KEY_ESCAPE);
-        escPressed.addAction(new ChangeStateAction(Gorillas.MAINMENUSTATE));
-        escPressed.addAction(new Action(){
-			@Override
-			public void update(GameContainer gc, StateBasedGame sb, int delta,
-					Component event) {
-				Gorillas.data.setPaused(true);			
-			}
-        });
-        escListener.addComponent(escPressed);
         KeyPressedEvent returnPressed = new KeyPressedEvent(Input.KEY_RETURN);
-        returnPressed.addAction(new Action(){
-			@Override
-			public void update(GameContainer gc, StateBasedGame sb, int delta,
-					Component event) {
-				try {
-					inputFinished();
-				} catch (NumberFormatException e) {
-					System.out.println("Oy Vey! Please enter numbers!");
-				}		
-			}
-        });
+    	// --->
+
+		// Creating and adding the Actions!
+		// Care: One-line-actions are >literally< summarized as one-line-actions but given a comment on what they do.
+		// <--- Creating
+		// ---> 
+		// <--- Adding
+        escPressed.addAction(new ChangeStateAction(Gorillas.MAINMENUSTATE));
+          // Pausing
+        escPressed.addAction(new Action(){ @Override public void update(GameContainer gc, StateBasedGame sb, int delta, Component event) {Gorillas.data.setPaused(true);}});
+        escListener.addComponent(escPressed);
+          // Shooting (Try-catch if player hits return before having entered numbers into angle&speed field..)
+        returnPressed.addAction(new Action(){ @Override public void update(GameContainer gc, StateBasedGame sb, int delta, Component event) {try {inputFinished();} catch (NumberFormatException e) {}}});
         returnListener.addComponent(returnPressed);
         // --->
 
@@ -175,18 +170,36 @@ public class GamePlayState extends BasicTWLGameState {
         entityManager.addEntity(stateID, returnListener);
         entityManager.addEntity(this.stateID, sun_smiling);
         entityManager.addEntity(this.stateID, sun_astonished);
-        if (Gorillas.options != null && Gorillas.options.isWindEnabled())
+        if (Gorillas.options != null && Gorillas.options.isWindEnabled()) // only need the arrow if we have wind
         	entityManager.addEntity(this.stateID, arrow_wind);
         // --->
         
-        //Links fängt an
+        // left starts the game
         turn = true;
 	}
-	
+	/**
+	 * This method sets a random int from -15 to +15 as wind.
+	 */
 	private void makeWind() {
-        Random rand = new Random(); // such random
+        Random rand = new Random();
 		this.wind = 15-rand.nextInt(30);
 	}
+	
+	/**
+	 * Placing both gorillas on random houses.
+	 * Valid houses are the first three and the last three.
+	 * 
+	 * @param height
+	 * 					window height
+	 * @param width
+	 * 					window width
+	 * @param houseHeights
+	 * 					array of househeights example: from 0 to 7 for 8 houses
+	 * @param gorilla1
+	 * 					the entity of gorilla 1 in order to get gorilla size
+	 * @param gorilla2
+	 * 					the entity of gorilla 2 in order to get gorilla size
+	 */
 	private void randomizeGorillaPositions(int height, int width, int[] houseHeights, Entity gorilla1, Entity gorilla2) {
 		// positions for gorilla 1
         float gorilla1PosX = 0;
@@ -207,7 +220,7 @@ public class GamePlayState extends BasicTWLGameState {
                 break;
         }
         // who knows? BLACK MAGIC!
-        gorilla1pos = new Vector2f(gorilla1PosX, gorilla1PosY); // Startposition
+        gorilla1pos = new Vector2f(gorilla1PosX, gorilla1PosY); // set position
         // positions for gorilla 2
         float gorilla2PosX = 0;
         float gorilla2PosY = 0;
@@ -225,25 +238,38 @@ public class GamePlayState extends BasicTWLGameState {
                 gorilla2PosY = height - (houseHeights[5] + (gorilla2.getSize().y/2));
                 break;
         }
-        // still black magic BUT we have our gorilla positions!
-        gorilla2pos = new Vector2f(gorilla2PosX, gorilla2PosY); // Startposition
+        // still black magic (random = random) BUT we have our gorilla positions!
+        gorilla2pos = new Vector2f(gorilla2PosX, gorilla2PosY); // set position
 	}
+	
+	/**
+	 * Creating a (not-so-)random map of houses.
+	 * 
+	 * @param houseHeights
+	 * 						the array to be used. house heights will be stored here
+	 * @param houseWidth
+	 * 						house width
+	 * @param startPointHouses
+	 * 						need offset so we don't have 0 pixel houses
+	 * @param housesIndex
+	 * 						used to count through the houses
+	 * @param heigth
+	 * 						window heigth
+	 * @return
+	 * 						finished array containing the house heights
+	 */
 	private int[] randomizeHouses(int[] houseHeights, int houseWidth, int startPointHouses, int housesIndex, int heigth) {
         Random rand = new Random(); // such random
         for (int e = 0; e < 8; e++) {
 
                 houseHeights[housesIndex] = rand.nextInt(380)+60;
                
-                // Häuser
-                BufferedImage image = new BufferedImage(houseWidth,
-                                houseHeights[housesIndex], BufferedImage.TYPE_INT_ARGB);
+                BufferedImage image = new BufferedImage(houseWidth, houseHeights[housesIndex], BufferedImage.TYPE_INT_ARGB);
                 Graphics2D graphic = image.createGraphics();
                 graphic.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC));
-                graphic.setColor(new Color(rand.nextInt(255), rand.nextInt(255),
-                                rand.nextInt(255)));
+                graphic.setColor(new Color(rand.nextInt(255), rand.nextInt(255), rand.nextInt(255)));
                 graphic.fillRect(0, 0, houseWidth, houseHeights[housesIndex]);
 
-                // Fenster
                 graphic.setColor(new Color(0, 0, 0));
                 for (int i = 5; i < houseHeights[housesIndex]; i = i + 20) {
                         for (int j = 5; j < houseWidth; j = j + 20) {
@@ -256,13 +282,11 @@ public class GamePlayState extends BasicTWLGameState {
                 else
                         startPointHouses = startPointHouses + houseWidth;
 
-            	if (!Gorillas.data.guiDisabled) { // really.... 
-                DestructibleImageEntity house = new DestructibleImageEntity(
-                                "obstacle", image, "gorillas/destruction.png", false);
+            	if (!Gorillas.data.guiDisabled) { // NI NI NI NI NI OPENGL NI NI NI NI NI
+                DestructibleImageEntity house = new DestructibleImageEntity("obstacle", image, "gorillas/destruction.png", false);
             	
-                house.setPosition(new Vector2f(startPointHouses, heigth
-                                - (houseHeights[housesIndex] / 2)));
-                entityManager.addEntity(stateID, house);
+                house.setPosition(new Vector2f(startPointHouses, heigth - (houseHeights[housesIndex] / 2)));
+                entityManager.addEntity(stateID, house); // add & forget
             	}
                 housesIndex++;
         }
@@ -276,14 +300,13 @@ public class GamePlayState extends BasicTWLGameState {
 
             entityManager.renderEntities(container, game, g);
             
-            //Namen werden am oberen Rand angezeigt
+            // Displaying names on upper corners of the window
             g.drawString(Gorillas.data.getPlayer1(), 20, 10);
             g.drawString(Gorillas.data.getPlayer2(), 730, 10);
+            
+            // Mocking at player for throwing outside the window. HAH
             if (daneben && Gorillas.options.isSpottEnabled()) {
-    			if (clk > 100) {
-    				daneben = false;
-    				clk = 0;
-    			}
+    			if (clk > 100) { daneben = false; clk = 0; }
             	g.drawString(spott, 320, 150);
             	clk++;
             }
@@ -322,7 +345,12 @@ public class GamePlayState extends BasicTWLGameState {
 		}
 		entityManager.updateEntities(container, game, delta);
 	}
-	
+	/**
+	 * Method used to build the label above the input fields.
+	 * 
+	 * @return
+	 * 			String which contains stuff like score, rounds and which turn it is.
+	 */
 	private String buildTheLabel() {
 		String buildNameLabel = "";
 		if (Gorillas.data.getRemainingRounds() != 0 && Gorillas.data.getPlayTillScore() == 0) // display names so the players know whose turn it is!
@@ -346,6 +374,14 @@ public class GamePlayState extends BasicTWLGameState {
 		return buildNameLabel;
 	}
 	
+	/**
+	 * Method that gets called if someone won a round. 
+	 * Displays explosion, makes the winning gorilla celebrate and 
+	 * decides whether to change to congratulationstate (=game over) 
+	 * or continue into next round.
+	 * 
+	 * @throws SlickException
+	 */
 	private void someoneWon() throws SlickException {
 		if (!entityManager.hasEntity(stateID, "boomTimer")) {
 		entityManager.getEntity(stateID, "gorilla1").setVisible(false);
@@ -420,6 +456,12 @@ public class GamePlayState extends BasicTWLGameState {
 		}
 	}
 	
+	/**
+	 * Used to hide the input field and the text labels
+	 * 
+	 * @param visible
+	 * 					True/False, depending on banana flying or finished game
+	 */
 	private void switchInputLabel(boolean visible) {
 		if (visible)
 			Gorillas.data.sunAstonished = false;
@@ -443,12 +485,8 @@ public class GamePlayState extends BasicTWLGameState {
 		return stateID;
 	}
 
-	/**
-	 * In dieser Methode werden in einem BasicTWLGameSate alle GUI-Elemente dem
-	 * GameState mit Hilfe einer RootPane hinzugefï¿½gt
-	 */
 	@Override
-	protected RootPane createRootPane() {
+	protected RootPane createRootPane() { // TODO :: FORMAT THIS SHIT
 		// erstelle die RootPane
 		RootPane rp = super.createRootPane();
 		nameLabel = new Label("");
@@ -542,12 +580,8 @@ public class GamePlayState extends BasicTWLGameState {
 		return rp;
 	}
 
-	/**
-	 * in dieser Methode des BasicTWLGameState werden die erstellten
-	 * GUI-Elemente platziert
-	 */
 	@Override
-	protected void layoutRootPane() {
+	protected void layoutRootPane() { // TODO :: FORMAT THIS SHIT TOO
 
 		int xOffset = 5;
 		int yOffset = 80;
@@ -633,9 +667,9 @@ public class GamePlayState extends BasicTWLGameState {
 	}
 
 	/**
-	 * diese Methode wird bei Klick auf den Button ausgefï¿½hrt
+	 * 
 	 */
-	void inputFinished() {
+	void inputFinished() { //TODO :: FORMAT THIS SHIT ASWELL. ALSO ADD JAVADOC
 
 		// Banane wird erzeugt
 		Entity banana = new Entity("banana");
@@ -739,7 +773,11 @@ public class GamePlayState extends BasicTWLGameState {
 	}
 
 	String spott;
-	protected void daneben() {
+	/**
+	 * The method which decides with what sentence the player will get mocked at.
+	 * Care: At the moment only available in german.
+	 */
+	protected void daneben() { // TODO :: Translate?
     	Random rand = new Random();
     	String[] spott = {"Knapp daneben ist auch vorbei.", "Einfach nein.", "Versuchs doch einfach noch mal.", "Gestern Nacht war wohl lang.",
     				"Das hast du jetzt nicht wirklich getan.", "Zielen nicht vergessen.", "Ist das dein Ernst?", "Probiers gar nicht erst.",

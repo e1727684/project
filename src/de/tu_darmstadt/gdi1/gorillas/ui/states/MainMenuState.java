@@ -233,14 +233,15 @@ public class MainMenuState extends BasicTWLGameState {
 		}
 	}
 
+	boolean draw = true; // Actually needed non-local so they don't reset... o.O
+	int clk = 0; // Fun-fact: The game will give us some funny error as soon as Integer.MAX_VALUE is reached here. Will only take a few years in pause state.
+	
 	/**
 	 * A method to display a blinking pause message in the main menu.
 	 * 
 	 * @param g
 	 * 				the Graphics we draw on
 	 */
-	boolean draw = true; // Actually needed non-local so they don't reset... o.O
-	int clk = 0; // Fun-fact: The game will give us some funny error as soon as Integer.MAX_VALUE is reached here. Will only take a few years in pause state.
 	private void gamePausedMessage(Graphics g) {
 		if (clk % 75 == 0) { draw = !draw; } clk++; // "Clock"
 		if (draw)
