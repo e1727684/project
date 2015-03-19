@@ -26,7 +26,7 @@ public class Options {
 	ObjectInputStream inputStream = null;
 
 	/**
-	 * Constructor initializes options
+	 * Constructor initializes options.
 	 */
 	public Options() {
 		musicEnabled = true;
@@ -37,7 +37,7 @@ public class Options {
 	}
 	
 	/**
-	 * Save option-data
+	 * Save option-data.
 	 */
 	public void save() {
 		updateOptionsFile();
@@ -51,7 +51,7 @@ public class Options {
 	}
 	
 	/**
-	 * Tests if music is enabled/disabled
+	 * Returns if music is enabled/disabled.
 	 * 
 	 * @return
 	 * 			true if enabled/false if disabled
@@ -61,7 +61,7 @@ public class Options {
 	}
 
 	/**
-	 * Enable/Disable music in game
+	 * Enables/Disables music in game.
 	 * 
 	 * @param musicEnabled 
 	 * 			enable/disable music
@@ -74,7 +74,7 @@ public class Options {
 	}
 
 	/**
-	 * Tests if wind is enabled/disabled
+	 * Returns if wind is enabled/disabled.
 	 * 
 	 * @return
 	 * 			true if enabled/false if disabled
@@ -84,7 +84,7 @@ public class Options {
 	}
 
 	/**
-	 * Enable/Disable wind in game
+	 * Enables/Disables wind in game.
 	 * 
 	 * @param windEnabled 
 	 * 			enable/disable wind
@@ -95,7 +95,7 @@ public class Options {
 	}
 	
 	/**
-	 * Tests if mockery is enabled/disabled
+	 * Returns if mockery is enabled/disabled.
 	 * 
 	 * @return
 	 * 			true if enabled/false if disabled
@@ -105,7 +105,7 @@ public class Options {
 	}
 
 	/**
-	 * Enable/Disable mockery in game
+	 * Enables/Disables mockery in game.
 	 * 
 	 * @param spottEnabled 
 	 * 			enable/disable mockery
@@ -116,7 +116,7 @@ public class Options {
 	}
 	
 	/**
-	 * Load data from the <code>HIGHSCORE_FILE</code>
+	 * Loads data from the <code>HIGHSCORE_FILE</code>.
 	 */
 	public void loadOptionFile() {
 		try {
@@ -147,7 +147,7 @@ public class Options {
 	}
 	
 	/**
-	 * Updates data from the <code>HIGHSCORE_FILE</code>
+	 * Updates data from the <code>HIGHSCORE_FILE</code>.
 	 */
 	public void updateOptionsFile() {
 		try {
@@ -178,7 +178,7 @@ public class Options {
 	}
 	
 	/**
-	 * Tests if SFX is enabled or not
+	 * Returns if SFX is enabled or not.
 	 * 
 	 * @return
 	 * 			true if enabled/false if disabled
@@ -188,7 +188,7 @@ public class Options {
 	}
 
 	/**
-	 * Enable/Disable SFX in game
+	 * Enables/Disables SFX in game.
 	 * 
 	 * @param sfxEnabled 
 	 * 			enable/disable SFX
@@ -198,7 +198,7 @@ public class Options {
 	}
 
 	/**
-	 * Get value of gravity
+	 * Returns value of gravity.
 	 * 
 	 * @return
 	 * 			value of gravity
@@ -208,7 +208,7 @@ public class Options {
 	}
 
 	/**
-	 * Set value of gravity
+	 * Sets value of gravity.
 	 * 
 	 * @param g 
 	 * 			value of gravity
