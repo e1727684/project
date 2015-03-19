@@ -39,6 +39,7 @@ public class MusicPlayer {
 	}
 	
 	public static void playBG() {
+		if (!Gorillas.data.musicIsPlaying && Gorillas.options.isMusicEnabled()) {
 			try {
 			    bg = new Music("sounds/bg.xm");
 			    bg.loop();
@@ -47,6 +48,7 @@ public class MusicPlayer {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		}
 	}
 	
 	@Deprecated

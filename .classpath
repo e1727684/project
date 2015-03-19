@@ -14,5 +14,6 @@
 	<classpathentry kind="lib" path="lib/slick.jar"/>
 	<classpathentry kind="lib" path="lib/TWL.jar"/>
 	<classpathentry kind="lib" path="lib/xpp3-1.1.4c.jar"/>
+	<classpathentry kind="lib" path="lib/ibxm.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
