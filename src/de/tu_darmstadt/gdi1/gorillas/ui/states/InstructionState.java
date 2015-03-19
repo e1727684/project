@@ -144,9 +144,7 @@ public class InstructionState extends BasicTWLGameState {
 
         // Creating label ...
         // <---
-    	instruction_Label = new Label("Erinnerst Du Dich noch an das QBasic-Spiel Gorilla? \n\nEs war das klassische Spiel, in dem hoch oben auf Wolkenkratzern zwei Gorillas gegen den Tod kämpften. \n\nBeschieße Deinen Gegner mit hochexplosiven Bananen. \n\nDu musst jedoch den richtigen Schusswinkel sowie die Geschwindigkeit herausfinden, \num ihn zu treffen und zu verletzen. \nAuch Wind spielt eine Rolle und muss beachtet werden. \n\nDas Spiel kann nur zu zweit gespielt werden. \n\nWenn man im ''Neues Spiel Starten''-Fenster eine positive Zahl eingibt,\ndann spielt man bis einer die eingegebene Punktzahl erreicht. \nGibt man eine negative Zahl ein, spielt man eine feste Anzahl an Runden. \n\nDuelliere dich gegen Deinen Freund oder Kollegen und sei der bessere Gorilla.");
-        // --->
-        
+		instruction_Label = new Label("Do you remember the QBasic Game Gorilla? \n\nIt is the classic game, where two gorillas would fight to the death on top of skyscrapers. \n\nThrow explosive Bananas at your enemy! \n\nHowever, you have to find the right angle and the right speed to hit and kill him. \nPay extra attention to the wind! \n\nYou can play this game with two people only. \n\nIf you type in a positive number in the game-setup window,\nthe game ends once a gorilla reached that amount of points. \nIf you type in a negative number, you will play for that amount of rounds. \n\nChallenge your friends and become a master gorilla!");// --->
         // Finally: Adding the label to our rootpane ...
         // <---
     	rp.add(instruction_Label);

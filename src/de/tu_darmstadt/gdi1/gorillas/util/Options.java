@@ -195,6 +195,7 @@ public class Options {
 	 */
 	public void setSFXEnabled(boolean sfxEnabled) {
 		this.sfxEnabled = sfxEnabled;
+		save();
 	}
 
 	/**
@@ -215,5 +216,6 @@ public class Options {
 	 */
 	public void setG(float g) {
 		this.g = g;
+		save();
 	}
 }
