@@ -32,14 +32,14 @@ public class GameData {
 	public boolean sunAstonished;
 	
 	/**
-	 * Constructor. Creates a new instance of GameData
+	 * Constructor. Creates a new instance of GameData.
 	 */
 	public GameData() {// ONE call in Gorillas, then getter&setters!
 		init();
 	}
 	
 	/**
-	 * Initialize Gamedata with the necessary values
+	 * Initialize Gamedata with the necessary values.
 	 */
 	private void init() {
 		player1 = "";
@@ -58,7 +58,7 @@ public class GameData {
 	}
 
 	/**
-	 * Save data in highscores.hsc
+	 * Save data from class in the <code>HIGHSCORE_FILE</code>.
 	 */
 	public void save() {
 		deleteScoreFile();
@@ -66,7 +66,7 @@ public class GameData {
 	}
 
 	/**
-	 * Load data from highscores.hsc
+	 * Load data from the <code>HIGHSCORE_FILE</code> into class.
 	 */
 	public void load() {
 		loadScoreFile();
@@ -74,7 +74,7 @@ public class GameData {
 	}
 	
 	/**
-	 * Reset for highscore
+	 * Reset the highscore and delete the <code>HIGHSCORE_FILE</code>.
 	 */
 	public void resetScore() {
 		deleteScoreFile();
@@ -82,7 +82,7 @@ public class GameData {
 	}
 	
 	/**
-	 * Delete the highscore-file
+	 * Delete  the <code>HIGHSCORE_FILE</code>.
 	 */
 	public void deleteScoreFile() {
 		try {
@@ -94,7 +94,7 @@ public class GameData {
 	}
 	
 	/**
-	 * Reload data from highscore.hsc
+	 * Load data from the <code>HIGHSCORE_FILE</code>.
 	 */
 	public void loadScoreFile() {
 		try {
@@ -127,7 +127,7 @@ public class GameData {
 	}
 	
 	/**
-	 * Update data in highscore.hsc
+	 * Update data in the <code>HIGHSCORE_FILE</code>.
 	 */
 	public void updateScoreFile() {
 		try {
@@ -152,12 +152,18 @@ public class GameData {
 	}
 
 	/**
-	 * Adds new highscore-entry
-	 * @param name name of player
-	 * @param numberOfRounds amount of rounds
-	 * @param roundsWon amount of wins
-	 * @param bananasThrown thrown bananas
+	 * Adds new highscore-entry.
+	 * 
+	 * @param name 
+	 * 				name of player
+	 * @param numberOfRounds 
+	 * 				amount of rounds
+	 * @param roundsWon 
+	 * 				amount of wins
+	 * @param bananasThrown 
+	 * 				thrown bananas
 	 * @return
+	 * 			Returns true if no sort was made - False if highscore had to be re-sorted
 	 */
 	public boolean addHighscore(String name, int numberOfRounds, int roundsWon,
 			int bananasThrown) {
@@ -208,8 +214,12 @@ public class GameData {
 	}
 
 	/**
+	 * Sorting highscore with a simple sorting algorithm.
+	 * Basically empties our highscore matrix and re-adds 
+	 * every element single which then results in a sorted matrix. 
 	 * 
 	 * @return
+	 * 			False since highscore was sorted
 	 */
 	private boolean sortHighscore() {
 		String[][] temp = highscore;
@@ -225,8 +235,10 @@ public class GameData {
 	}
 
 	/**
-	 * Get length of highscore
-	 * @return length of highscore
+	 * Returns length of highscore.
+	 * 
+	 * @return 
+	 * 			length of highscore
 	 */
 	public int getHighscoreCount() {
 		int i = 0;
@@ -249,9 +261,13 @@ public class GameData {
 	}
 
 	/**
-	 * Returns highscore-data as String
-	 * @param c column in HighScoreState
-	 * @returnhighscore-data as String
+	 * Returns specified highscore-data-columns as string.
+	 * 
+	 * @param c 
+	 * 			column in highscore-matrix
+	 * 
+	 * @return 
+	 * 			highscore-data as String
 	 */
 	public String giveHighscoreAsString(int c) {
 		String hsc = "";
@@ -282,9 +298,13 @@ public class GameData {
 	}
 
 	/**
-	 * Get position of Name in HighScoreState
-	 * @param row were Name will be added
-	 * @return position of Name
+	 * Returns the name at the specified position in our highscore-matrix.
+	 * 
+	 * @param position
+	 * 			the row we want the name of
+	 * 
+	 * @return 
+	 * 			position of Name
 	 */
 	public String getNameAtHighscorePosition(int position) {
 		if (position >= 0 && highscore[position][0] != null)
@@ -294,9 +314,13 @@ public class GameData {
 	}
 
 	/**
-	 * Get position of RoundsPlayed in HighScoreState
-	 * @param row were RoundsPlayed will be added
-	 * @return position of RoundsPlayed
+	 * Returns the roundsPlayed at the specified position in our highscore-matrix.
+	 * 
+	 * @param row 
+	 * 			the row we want the roundsPlayed of
+	 * 
+	 * @return 
+	 * 			amount of roundsPlayed
 	 */
 	public int getRoundsPlayedAtHighscorePosition(int position) {
 		if (position >= 0 && highscore[position][0] != null)
@@ -306,9 +330,13 @@ public class GameData {
 	}
 
 	/**
-	 * Get position of RoundsWon in HighScoreState
-	 * @param row were RoundsWon will be added
-	 * @return position of RoundsWon
+	 * Returns the roundsWon at the specified position in our highscore-matrix.
+	 * 
+	 * @param row 
+	 * 			the row we want the roundsWon of
+	 * 
+	 * @return 
+	 * 			amount of roundsWon
 	 */
 	public int getRoundsWonAtHighscorePosition(int position) {
 		if (position >= 0 && highscore[position][0] != null)
@@ -318,9 +346,13 @@ public class GameData {
 	}
 
 	/**
-	 * Get position of Bananas in HighScoreState
-	 * @param row were Bananas will be added
-	 * @return position of Bananas
+	 * Returns the bananasThrown at the specified position in our highscore-matrix.
+	 * 
+	 * @param row 
+	 * 			the row we want the bananasThrown of
+	 * 
+	 * @return 
+	 * 			amount of bananasThrown
 	 */
 	public int getBananasAtHighscorePosition(int position) {
 		if (position >= 0 && highscore[position][0] != null)
@@ -330,9 +362,13 @@ public class GameData {
 	}
 
 	/**
-	 * Get position of PercentageWon in HighScoreState
-	 * @param row were PercentageWon will be added
-	 * @return position of PercentageWon
+	 * Returns the percentage of won games at the specified position in our highscore-matrix.
+	 * 
+	 * @param row 
+	 * 			the row we want the percentage won of
+	 * 
+	 * @return 
+	 * 			exact percentage of won games
 	 */
 	public int getPercentageWonAtHighscorePosition(int position) {
 		if (position >= 0 && highscore[position][0] != null)
@@ -344,9 +380,13 @@ public class GameData {
 	}
 
 	/**
-	 * Get position of MeanAccuracy in HighScoreState
-	 * @param row were MeanAccuracy will be added
-	 * @return position of MeanAccuracy
+	 * Returns the mean accuracy at the specified position in our highscore-matrix.
+	 * 
+	 * @param row 
+	 * 			the row we want the mean accuracy of
+	 * 
+	 * @return 
+	 * 			exact percentage of mean accuracy
 	 */
 	public double getMeanAccuracyAtHighscorePosition(int position) {
 		if (getRoundsWonAtHighscorePosition(position) == 0)
@@ -360,97 +400,122 @@ public class GameData {
 	}
 
 	/**
-	 * Get name of player 1
-	 * @return name of player 1
+	 * Returns name of player 1.
+	 * 
+	 * @return 
+	 * 			name of player 1
 	 */
 	public String getPlayer1() {// get playername :: player 1
 		return player1;
 	}
 	
 	/**
-	 * Set name of player 1
-	 * @param player1 name
+	 * Sets name of player 1.
+	 * 
+	 * @param player1 
+	 * 			name of the player
 	 */
 	public void setPlayer1(String player1) {// set playername :: player 1
 		this.player1 = player1;
 	}
 
 	/**
-	 * Get name of player 2
-	 * @return name of player 2
+	 * Returns name of player 2.
+	 * 
+	 * @return 
+	 * 			name of player 2
 	 */
 	public String getPlayer2() {// get playername :: player 2
 		return player2;
 	}
 
 	/**
-	 * Set name of player 2
-	 * @param player2 name
+	 * Sets name of player 2.
+	 * 
+	 * @param player2
+	 * 			name of the player
 	 */
 	public void setPlayer2(String player2) {// set playername :: player 2
 		this.player2 = player2;
 	}
 	
 	/**
-	 * True if game is in pause-mode
-	 * @return isPaused
+	 * Returns true if game is in pause-mode.
+	 * 
+	 * @return 
+	 * 			True is paused - False is not paused
 	 */
 	public boolean getPaused() {
 		return isPaused;
 	}
 
 	/**
-	 * Set if game is in pause-mode
-	 * @param paused true if game is in pause-mode
+	 * Sets variable <code>isPaused</code> true/false.
+	 * 
+	 * @param paused 
+	 * 			True to set the game into paused-mode
 	 */
 	public void setPaused(boolean paused) {
 		isPaused = paused;
 	}
 
 	/**
-	 * Get winning player
-	 * @return winning player
+	 * Returns the play that won.
+	 * 
+	 * @return 
+	 * 			winning player
 	 */
 	public String getPlayerWon() {
 		return playerWon;
 	}
 	
 	/**
-	 * Set winning player 
+	 * Sets variable <code>playerWon</code> to the specified input.
+	 * 
 	 * @param playerWon
+	 * 			input string for the player that won
 	 */
 	public void setPlayerWon(String playerWon) {
 		this.playerWon = playerWon;
 	}
 	
 	/**
-	 * Get amount of rounds
-	 * @return amount of rounds
+	 * Returns amount of remaining rounds.
+	 * 
+	 * @return 
+	 * 			amount of remaining rounds
 	 */
 	public int getRemainingRounds() {
 		return remainingRounds;
 	}
 	
 	/**
-	 * Set amount of rounds
-	 * @param remainingRounds amount of rounds
+	 * Sets amount of remaining rounds.
+	 * 
+	 * @param remainingRounds 
+	 * 			amount of remaining rounds
 	 */
 	public void setRemainingRounds(int remainingRounds) {
 		this.remainingRounds = remainingRounds;
 	}
 	
 	/**
-	 * Get actual score
-	 * @return actual score
+	 * Returns current score.
+	 * 
+	 * @return 
+ 	 * 			current score
 	 */
 	public int[] getCurrentScore() {
 		return currentScore;
 	}
 	
 	/**
-	 * Set current score
-	 * @param score player1
-	 * @param score player2
+	 * Sets current score.
+	 * 
+	 * @param score1 
+	 * 			score of player1
+	 * @param score2 
+	 * 			score of player2
 	 */
 	public void setCurrentScore(int score1, int score2) {
 		this.currentScore[0] = score1;
@@ -458,16 +523,20 @@ public class GameData {
 	}
 	
 	/**
-	 * Get score, which is needed to win the game
-	 * @return score which is needed to win the game
+	 * Returns score, which is needed to win the game.
+	 * 
+	 * @return 
+	 * 			score which is needed to win the game
 	 */
 	public int getPlayTillScore() {
 		return playTillScore;
 	}
 	
 	/**
-	 * Set score, which is needed to win the game
+	 * Sets score, which is needed to win the game.
+	 * 
 	 * @param playTillScore
+	 * 			score which is needed to win the game
 	 */
 	public void setPlayTillScore(int playTillScore) {
 		this.playTillScore = playTillScore;
