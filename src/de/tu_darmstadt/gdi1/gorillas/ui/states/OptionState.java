@@ -59,7 +59,7 @@ public class OptionState extends BasicTWLGameState {
 		float scale = 0.18f;
 		int offset = 90;
 		
-		// Required Entities
+		// Creating required Entities
 		// <---
 		Entity mbackground = new Entity("menubackground");// Entität für Hintergrund
     	Entity musicButton = new Entity("music");
@@ -73,12 +73,12 @@ public class OptionState extends BasicTWLGameState {
 		// Giving the Entities a picture.... If we aren't testing!
 		// <---
     	if (!Gorillas.data.guiDisabled) {
-    	mbackground.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/backgrounds/backgroundMain.png")));
-    	musicButton.addComponent(new ImageRenderComponent(new Image("assets/gorillas/button.png")));
-    	sfxButton.addComponent(new ImageRenderComponent(new Image("assets/gorillas/button.png")));
-    	windButton.addComponent(new ImageRenderComponent(new Image("assets/gorillas/button.png")));
-    	spottButton.addComponent(new ImageRenderComponent(new Image("assets/gorillas/button.png")));
-    	zurück_Entity.addComponent(new ImageRenderComponent(new Image("assets/gorillas/button.png")));
+    		mbackground.addComponent(new ImageRenderComponent(new Image("/assets/gorillas/backgrounds/backgroundMain.png")));
+    		musicButton.addComponent(new ImageRenderComponent(new Image("assets/gorillas/button.png")));
+    		sfxButton.addComponent(new ImageRenderComponent(new Image("assets/gorillas/button.png")));
+    		windButton.addComponent(new ImageRenderComponent(new Image("assets/gorillas/button.png")));
+    		spottButton.addComponent(new ImageRenderComponent(new Image("assets/gorillas/button.png")));
+    		zurück_Entity.addComponent(new ImageRenderComponent(new Image("assets/gorillas/button.png")));
     	}
     	// --->
 
@@ -113,9 +113,12 @@ public class OptionState extends BasicTWLGameState {
 
 		// Creating and adding the Actions!
 		// Care: One-line-actions are >literally< summarized as one-line-actions but given a comment on what they do.
-		// <---
-    	Action buttonPressed = new Action() {@Override public void update(GameContainer gc, StateBasedGame sb, int delta, Component event) {MusicPlayer.playButton();}};
+		// <--- Creating
     	Action zurück_Action = new ChangeStateInitAction(Gorillas.MAINMENUSTATE);
+			// Sound-action when a button is pressed :: SFX
+    	Action buttonPressed = new Action() {@Override public void update(GameContainer gc, StateBasedGame sb, int delta, Component event) {MusicPlayer.playButton();}};
+    	// --->
+    	// <--- Adding
     	mButton.addAction(buttonPressed);
     	// Switches music on/off
     	mButton.addAction(new Action() {@Override 
