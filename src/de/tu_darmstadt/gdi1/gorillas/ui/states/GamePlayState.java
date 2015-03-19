@@ -65,7 +65,7 @@ public class GamePlayState extends BasicTWLGameState {
 	public EditField speedInput2;
 	private Button dropButton;
 	private Label nameLabel;
-	private boolean turn;
+	public boolean turn;
 	private AtomicInteger wurfAnzahl;
 	private boolean goCongratulate;
 	private boolean reset;
@@ -622,7 +622,7 @@ public class GamePlayState extends BasicTWLGameState {
 	 * @param maxValue
 	 * 				biggest number that you may type into the <code>editField</code>
 	 */
-	void handleEditFieldInput(int key, EditField editField, Callback callback,
+	public void handleEditFieldInput(int key, EditField editField, Callback callback,
 			int maxValue) {
 
 		if (key == de.matthiasmann.twl.Event.KEY_NONE) {
@@ -644,11 +644,22 @@ public class GamePlayState extends BasicTWLGameState {
 			}
 		}
 	}
+	
+	public void handleEditFieldInputForTests(char charac, EditField editField, int maxValue) {
+		String inputText = editField.getText();
+		if (!Character.isDigit(charac)) {
+			return;
+		}
+		inputText += charac;
+		if (Integer.parseInt(inputText) < maxValue) {
+			editField.setText(inputText);
+		}
+	}
 
 	/**
 	 * 
 	 */
-	void inputFinished() { //TODO :: FORMAT THIS SHIT ASWELL. ALSO ADD JAVADOC
+	public void inputFinished() { //TODO :: FORMAT THIS SHIT ASWELL. ALSO ADD JAVADOC
 
 		// Banane wird erzeugt
 		Entity banana = new Entity("banana");
@@ -660,6 +671,7 @@ public class GamePlayState extends BasicTWLGameState {
 			banana.setPosition(new Vector2f(Gorillas.data.getGorilla2pos().getX()-30,Gorillas.data.getGorilla2pos().getY()+38));
 		try {
 			// Bild laden und zuweisen
+        	if (!Gorillas.data.guiDisabled)
 			banana.addComponent(new ImageRenderComponent(new Image("assets/gorillas/banana.png")));
 		} catch (SlickException e) {
 			System.err.println("Cannot find file assets/gorillas/banana.png!");
@@ -676,7 +688,10 @@ public class GamePlayState extends BasicTWLGameState {
 		wurf.startPos = turn?new Vector2f(Gorillas.data.getGorilla1pos().getX()+30,Gorillas.data.getGorilla1pos().getY()-38):new Vector2f(Gorillas.data.getGorilla2pos().getX()-30,Gorillas.data.getGorilla2pos().getY()-38);
 		// solange geworfen bis.... kollision // out of bounce
 		wurf.wind = this.wind;
-		wurf.gravity = Gorillas.options.getG();
+		if (Gorillas.options==null) 
+			wurf.gravity = 10;
+		else
+			wurf.gravity = Gorillas.options.getG();
 		loop.addAction(wurf);
 		// banana now rotate; infinite!
 		loop.addAction(turn?new RotateRightAction(0.5F):new RotateLeftAction(0.5F));
@@ -763,5 +778,12 @@ public class GamePlayState extends BasicTWLGameState {
     				"Triffst du überhaupt?"};
 		daneben = true;
 		this.spott = spott[rand.nextInt(spott.length)];
+	}
+
+	public void resetLabel() {
+		speedInput1.setText("");
+		speedInput2.setText("");
+		angleInput1.setText("");
+		angleInput2.setText("");
 	}
 }

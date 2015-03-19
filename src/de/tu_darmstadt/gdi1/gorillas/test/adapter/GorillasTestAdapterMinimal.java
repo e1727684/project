@@ -4,10 +4,10 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Vector2f;
 
-import de.matthiasmann.twl.EditField;
 import de.tu_darmstadt.gdi1.gorillas.test.setup.TWLTestAppGameContainer;
 import de.tu_darmstadt.gdi1.gorillas.test.setup.TWLTestStateBasedGame;
 import de.tu_darmstadt.gdi1.gorillas.test.setup.TestGorillas;
+import de.tu_darmstadt.gdi1.gorillas.ui.states.*;
 import de.tu_darmstadt.gdi1.gorillas.util.GameData;
 import de.tu_darmstadt.gdi1.gorillas.util.Options;
 import de.tu_darmstadt.gdi1.gorillas.util.Wurf;
@@ -29,8 +29,6 @@ public class GorillasTestAdapterMinimal {
 	public static final int INSTRUCTIONSTATE = 5;
 	public static final int ABOUTSTATE = 6;
 	public static final int CONGRATULATIONSTATE = 7;
-	public EditField angleInput;
-	public EditField speedInput;
 
 	// spezielle Variante des AppGameContainer, welche keine UI erzeugt (nur
 	// fuer Tests!)
@@ -90,9 +88,6 @@ public class GorillasTestAdapterMinimal {
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
-
-		speedInput = new EditField();
-		angleInput = new EditField();
 	}
 
 	/**
@@ -154,8 +149,8 @@ public class GorillasTestAdapterMinimal {
 	 *            the name of player 2
 	 */
 	public void setPlayerNames(String player1Name, String player2Name) {
-		TestGorillas.data.setPlayer1(player1Name);
-		TestGorillas.data.setPlayer2(player2Name);
+		((GameSetupState) gorillas.getCurrentState()).player1_Input.setText(player1Name);
+		((GameSetupState) gorillas.getCurrentState()).player2_Input.setText(player2Name);
 	}
 
 	/**
@@ -166,9 +161,7 @@ public class GorillasTestAdapterMinimal {
 	 */
 	public void startGameButtonPressed() {
 		if (getStateBasedGame().getCurrentStateID() == TestGorillas.GAMESETUPSTATE) {
-			if (getPlayer1Error().equals("") && getPlayer2Error().equals("")) {
-				getStateBasedGame().enterState(TestGorillas.GAMEPLAYSTATE);
-			}
+			((GameSetupState) gorillas.getCurrentState()).startGameButton();
 		}
 	}
 
@@ -182,11 +175,7 @@ public class GorillasTestAdapterMinimal {
 	 *            the input character
 	 */
 	public void fillVelocityInput(char charac) {
-		String inputText = speedInput.getText();
-		if (!Character.isDigit(charac) || Integer.parseInt(inputText+""+charac) > 200)
-			speedInput.setText(inputText);
-		else
-			speedInput.setText((inputText+""+charac).substring(0, (inputText+""+charac).length()));
+		((GamePlayState) gorillas.getCurrentState()).handleEditFieldInputForTests(charac, ((GamePlayState) gorillas.getCurrentState()).speedInput1, 200);
 	}
 
 	/**
@@ -194,7 +183,7 @@ public class GorillasTestAdapterMinimal {
 	 *         nothing was put in the method should return -1.
 	 */
 	public int getVelocityInput() {
-		return speedInput.getText().equals("")?(-1):Integer.parseInt(speedInput.getText());
+		return ((GamePlayState) gorillas.getCurrentState()).speedInput1.getText().equals("")?(-1):Integer.parseInt(((GamePlayState) gorillas.getCurrentState()).speedInput1.getText());
 	}
 
 	/**
@@ -207,11 +196,7 @@ public class GorillasTestAdapterMinimal {
 	 *            the input character
 	 */
 	public void fillAngleInput(char charac) {
-		String inputText = angleInput.getText();
-		if (!Character.isDigit(charac) || Integer.parseInt(inputText+""+charac) > 360)
-			angleInput.setText(inputText);
-		else
-			angleInput.setText((inputText+charac).substring(0, (inputText+charac).length()));
+		((GamePlayState) gorillas.getCurrentState()).handleEditFieldInputForTests(charac, ((GamePlayState) gorillas.getCurrentState()).angleInput1, 360);
 	}
 
 	/**
@@ -219,7 +204,7 @@ public class GorillasTestAdapterMinimal {
 	 *         was put in the method should return -1.
 	 */
 	public int getAngleInput() {
-		return angleInput.getText().equals("")?(-1):Integer.parseInt(angleInput.getText());
+		return ((GamePlayState) gorillas.getCurrentState()).angleInput1.getText().equals("")?(-1):Integer.parseInt(((GamePlayState) gorillas.getCurrentState()).angleInput1.getText());
 	}
 
 	/**
@@ -227,12 +212,11 @@ public class GorillasTestAdapterMinimal {
 	 * player. Both angle value and velocity value should then be -1.
 	 */
 	public void resetPlayerWidget() {
-		angleInput.setText("");
-		speedInput.setText("");
+		((GamePlayState) gorillas.getCurrentState()).resetLabel();
 	}
 
 	public void shootButtonPressed() {
-		// TODO: Implement
+		((GamePlayState) gorillas.getCurrentState()).inputFinished();
 	}
 
 	/**
@@ -314,13 +298,7 @@ public class GorillasTestAdapterMinimal {
 	 */
 	public String getPlayer1Error() {
 		if (getStateBasedGame().getCurrentStateID()==TestGorillas.GAMESETUPSTATE)
-			if (TestGorillas.data.getPlayer1() == "")
-				return getEmptyError();
-			else
-				if (TestGorillas.data.getPlayer1().equals(TestGorillas.data.getPlayer2()))
-						return getEqualError();
-				else
-					return "";
+			return ((GameSetupState) gorillas.getCurrentState()).getPlayer1Error();
 		else
 			return null;
 	}
@@ -334,13 +312,7 @@ public class GorillasTestAdapterMinimal {
 	 */
 	public String getPlayer2Error() {
 		if (getStateBasedGame().getCurrentStateID()==TestGorillas.GAMESETUPSTATE)
-			if (TestGorillas.data.getPlayer2() == "")
-				return getEmptyError();
-			else
-				if (TestGorillas.data.getPlayer2().equals(TestGorillas.data.getPlayer1()))
-						return getEqualError();
-				else
-					return "";
+			return ((GameSetupState) gorillas.getCurrentState()).getPlayer2Error();
 		else
 			return null;
 	}

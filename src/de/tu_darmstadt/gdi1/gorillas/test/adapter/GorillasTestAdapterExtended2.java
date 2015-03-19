@@ -80,7 +80,7 @@ public class GorillasTestAdapterExtended2 extends GorillasTestAdapterExtended1 {
 	 *         otherwise false
 	 */
 	public boolean isSunAstonished() {
-		return super.gorillas.data.sunAstonished;
+		return gorillas.data.sunAstonished;
 	}
 
 }

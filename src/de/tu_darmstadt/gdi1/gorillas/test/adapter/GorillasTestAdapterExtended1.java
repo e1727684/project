@@ -88,7 +88,7 @@ public class GorillasTestAdapterExtended1 extends GorillasTestAdapterMinimal {
 	public void createCustomMap(int paneWidth, int paneHeight, int yOffsetCity,
 			ArrayList<Vector2f> buildingCoordinates,
 			Vector2f leftGorillaCoordinate, Vector2f rightGorillaCoordinate) {
-		TestGorillas.data.makeMap(paneWidth, paneHeight, yOffsetCity, buildingCoordinates, leftGorillaCoordinate, rightGorillaCoordinate);
+		gorillas.data.makeMap(paneWidth, paneHeight, yOffsetCity, buildingCoordinates, leftGorillaCoordinate, rightGorillaCoordinate);
 	}
 
 	/**
@@ -107,7 +107,7 @@ public class GorillasTestAdapterExtended1 extends GorillasTestAdapterMinimal {
 	 *         current map, ordered from left to right
 	 */
 	public ArrayList<Vector2f> getBuildingCoordinates() {
-		return TestGorillas.data.getMap();
+		return gorillas.data.getMap();
 	}
 
 	/**
@@ -116,7 +116,7 @@ public class GorillasTestAdapterExtended1 extends GorillasTestAdapterMinimal {
 	 * @return the center coordinate of the left gorilla
 	 */
 	public Vector2f getLeftGorillaCoordinate() {
-		return TestGorillas.data.getGorilla1pos();
+		return gorillas.data.getGorilla1pos();
 	}
 
 	/**
@@ -125,7 +125,7 @@ public class GorillasTestAdapterExtended1 extends GorillasTestAdapterMinimal {
 	 * @return the center coordinate of the right gorilla
 	 */
 	public Vector2f getRightGorillaCoordinate() {
-		return TestGorillas.data.getGorilla2pos();
+		return gorillas.data.getGorilla2pos();
 	}
 
 	/**
@@ -155,8 +155,7 @@ public class GorillasTestAdapterExtended1 extends GorillasTestAdapterMinimal {
 	 * @return the gorillaHeight which was used to create the current map
 	 */
 	public float getGorillaHeight() {
-		// TODO: Implement
-		return -1;
+		return getStateBasedGame();
 	}
 
 	/**
@@ -312,8 +311,7 @@ public class GorillasTestAdapterExtended1 extends GorillasTestAdapterMinimal {
 	 *         turn of anyone
 	 */
 	public boolean isPlayer1Turn() {
-		// TODO: Implement
-		return false;
+		return ((GamePlayState) gorillas.getCurrentState()).turn;
 	}
 
 	/**
@@ -328,7 +326,6 @@ public class GorillasTestAdapterExtended1 extends GorillasTestAdapterMinimal {
 	 *         turn of anyone
 	 */
 	public boolean isPlayer2Turn() {
-		// TODO: Implement
-		return false;
+		return !((GamePlayState) gorillas.getCurrentState()).turn;
 	}
 }

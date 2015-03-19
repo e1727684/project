@@ -594,6 +594,8 @@ public class GameData {
 	public void makeMap(int paneWidth, int paneHeight, int yOffsetCity,
 			ArrayList<Vector2f> buildingCoordinates,
 			Vector2f leftGorillaCoordinate, Vector2f rightGorillaCoordinate) {
+		this.setGorilla1pos(leftGorillaCoordinate);
+		this.setGorilla2pos(rightGorillaCoordinate);
         Random rand = new Random(); // such random
 		for (int i = 0; i < getHouseAmount(); i++) {
 			map.add(new Vector2f(paneWidth*i/getHouseAmount(), rand.nextInt(yOffsetCity)+60));
@@ -605,7 +607,6 @@ public class GameData {
         Random rand = new Random(); // such random
 		for (int i = 0; i < getHouseAmount(); i++) {
 			map.add(new Vector2f(800*i/getHouseAmount(), rand.nextInt(380)+60));
-			System.out.println(map.get(i));
 		}
 	}
 	

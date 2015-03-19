@@ -14,6 +14,7 @@ import de.matthiasmann.twl.Label;
 import de.matthiasmann.twl.slick.BasicTWLGameState;
 import de.matthiasmann.twl.slick.RootPane;
 import de.tu_darmstadt.gdi1.gorillas.main.Gorillas;
+import de.tu_darmstadt.gdi1.gorillas.test.setup.TestGorillas;
 import eea.engine.component.render.ImageRenderComponent;
 import eea.engine.entity.Entity;
 import eea.engine.entity.StateBasedEntityManager;
@@ -33,8 +34,8 @@ public class GameSetupState extends BasicTWLGameState {
 
         private Label round_Label;
         EditField round_Input;
-        EditField player1_Input;
-        EditField player2_Input;
+        public EditField player1_Input;
+        public EditField player2_Input;
         Button startGameButton;
        
         boolean isEqual;                      
@@ -118,11 +119,11 @@ public class GameSetupState extends BasicTWLGameState {
         		// Draw our m- Actually we draw error messages but only when they occur... No menu here!
         		// <---
                 if(oneIsEmpty)
-                        g.drawString("Please enter your name!", player1_Input.getX(), 380);
+                        g.drawString(getEmptyError(), player1_Input.getX(), 380);
                 if(twoIsEmpty)
-                        g.drawString("Please enter your name!", player2_Input.getX(), 380);
+                        g.drawString(getEmptyError(), player2_Input.getX(), 380);
                 if(isEqual)
-                        g.drawString("Playernames must not be the same!", 230, 380);
+                        g.drawString(getEqualError(), 230, 380);
         		// --->
         }
        
@@ -179,47 +180,7 @@ public class GameSetupState extends BasicTWLGameState {
 			player2_Input.addCallback(new Callback() { public void callback(int key) {handleEditFieldInput(key, player2_Input, this, 15);}});
 		  // --->
 		  // <---
-			startGameButton.addCallback(new Runnable() {
-			  @Override
-			  public void run() {
-				// catches the names from input field and eliminates spaces
-				String playerName1 = player1_Input.getText().trim();
-				String playerName2 = player2_Input.getText().trim();
-
-				// check if the namefield 1 is empty
-				if (playerName1.isEmpty()) oneIsEmpty = true; else oneIsEmpty = false;
-				
-				// check if the namefield 2 is empty
-				if (playerName2.isEmpty()) twoIsEmpty = true; else twoIsEmpty = false;
-				
-				// check if both namefields are filled with same name (ignore case + start-/ending space)
-				if (playerName1.equalsIgnoreCase(playerName2) && !playerName1.isEmpty()) isEqual = true; else isEqual = false;
-
-				// if none of the above we can switch to the gameplaystate
-				if (!oneIsEmpty && !twoIsEmpty && !isEqual) {
-					if (!round_Input.getText().equals("")) // check if player wants to play rounds or score or just 1 quick game and adjust values accordingly
-						if (Integer.parseInt(round_Input.getText()) < 0) {
-							Gorillas.data.setPlayTillScore(0);
-							Gorillas.data.setRemainingRounds(-Integer.parseInt(round_Input.getText()));
-						} else {
-							Gorillas.data.setPlayTillScore(Integer.parseInt(round_Input.getText()));
-							Gorillas.data.setRemainingRounds(0);
-						}
-
-					// saving names
-					Gorillas.data.setPlayer1(playerName1);
-					Gorillas.data.setPlayer2(playerName2);
-					
-					// resetting score
-					Gorillas.data.setCurrentScore(0, 0);
-
-					// finally! state change into play mode
-					sb.enterState(Gorillas.GAMEPLAYSTATE);
-					
-					// shouldnt happen, could happen(?), whatever. handled. 
-					if (gc.isPaused())
-						gc.resume();
-				}}});
+			startGameButton.addCallback(new Runnable() { @Override public void run() {startGameButton();}});
 		  // --->
 		// --->
 
@@ -233,6 +194,106 @@ public class GameSetupState extends BasicTWLGameState {
 		// --->
 		return rp;
 	}
+
+	/**
+	 * This method should return the name input error message for player one.
+	 * 
+	 * @return the error message for the name input of player one (empty String
+	 *         if the name is ok) or null in case the game is not in the
+	 *         GameSetupState
+	 */
+	public String getPlayer1Error() {
+			if (player1_Input.getText().trim().equals(""))
+				return getEmptyError();
+			else
+				if (player1_Input.getText().equals(player2_Input.getText()))
+						return getEqualError();
+				else
+					return "";
+	}
+
+	/**
+	 * This method should return the name input error message for player two.
+	 * 
+	 * @return the error message for the name input of player two (empty String
+	 *         if the name is ok) or null in case the game is not in the
+	 *         GameSetupState
+	 */
+	public String getPlayer2Error() {
+			if (player2_Input.getText().trim().equals(""))
+				return getEmptyError();
+			else
+				if (player2_Input.getText().equals(player1_Input.getText()))
+						return getEqualError();
+				else
+					return "";
+	}
+
+	/**
+	 * This method should provide the tests with your custom error message for
+	 * the case that a name input field is left empty
+	 * 
+	 * @return the message your game shows if a player's name input field is
+	 *         left empty and the start game button is pressed
+	 */
+	public String getEmptyError() {
+		return "Bitte Name eingeben!";
+	}
+
+	/**
+	 * This method should provide the tests with your custom error message for
+	 * the case that player one and player two choose the same name
+	 * 
+	 * @return the message your game shows if both player names are equals and
+	 *         the start game button is pressed
+	 * 
+	 */
+	public String getEqualError() {
+		return "Spielernamen dürfen nicht gleich sein!";
+	}
+	
+    public void startGameButton() {
+
+		// catches the names from input field and eliminates spaces
+		String playerName1 = player1_Input.getText().trim();
+		String playerName2 = player2_Input.getText().trim();
+
+		
+		// check if the namefield 1 is empty
+		if (playerName1.isEmpty()) oneIsEmpty = true; else oneIsEmpty = false;
+		
+		// check if the namefield 2 is empty
+		if (playerName2.isEmpty()) twoIsEmpty = true; else twoIsEmpty = false;
+		
+		// check if both namefields are filled with same name (ignore case + start-/ending space)
+		if (playerName1.equalsIgnoreCase(playerName2) && !playerName1.isEmpty()) isEqual = true; else isEqual = false;
+
+		// if none of the above we can switch to the gameplaystate
+		if (!oneIsEmpty && !twoIsEmpty && !isEqual) {
+			if (!round_Input.getText().equals("")) // check if player wants to play rounds or score or just 1 quick game and adjust values accordingly
+				if (Integer.parseInt(round_Input.getText()) < 0) {
+					Gorillas.data.setPlayTillScore(0);
+					Gorillas.data.setRemainingRounds(-Integer.parseInt(round_Input.getText()));
+				} else {
+					Gorillas.data.setPlayTillScore(Integer.parseInt(round_Input.getText()));
+					Gorillas.data.setRemainingRounds(0);
+				}
+
+			// saving names
+			Gorillas.data.setPlayer1(playerName1);
+			Gorillas.data.setPlayer2(playerName2);
+			
+			// resetting score
+			Gorillas.data.setCurrentScore(0, 0);
+
+			// finally! state change into play mode
+			sb.enterState(Gorillas.GAMEPLAYSTATE);
+			
+			// shouldnt happen, could happen(?), whatever. handled. 
+			if (gc.isPaused())
+				gc.resume();
+		}
+    }
 
 	@Override
 	protected void layoutRootPane() {
@@ -280,9 +341,11 @@ public class GameSetupState extends BasicTWLGameState {
 			if (inputText.length() > maxLength) {
 				// a call of setText on an EditField triggers the callback, so
 				// remove callback before and add it again after the call
-				editField.removeCallback(callback);
+				if (callback != null)
+					editField.removeCallback(callback);
 				editField.setText(inputText.substring(0, inputText.length() - 1));
-				editField.addCallback(callback);
+				if (callback != null)
+					editField.addCallback(callback);
 			}
 		}
 	}
