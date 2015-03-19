@@ -122,15 +122,8 @@ public class GamePlayState extends BasicTWLGameState {
         // <---
     	  // has to be added BEFORE doing houses
         entityManager.addEntity(this.stateID, entityManager.getEntity(0, "background")); 
-        int[] houseHeights = new int[8]; int houseWidth = 100, startPointHouses = 0, housesIndex = 0;
-          // creating houses has to be done AFTER adding background and BEFORE randomizing gorilla positions
-        if (Gorillas.data.getMap() == null || Gorillas.data.getMap().isEmpty()) {
-            houseHeights = randomizeHouses(houseHeights, houseWidth, startPointHouses, housesIndex, game.getContainer().getHeight());
-        }else {
-        	for (int i = 0; i < houseHeights.length; i++) {
-        		houseHeights[i] = (int) Gorillas.data.getMap().get(i).x;
-        	}
-        }
+        Gorillas.data.makeRandomMap();
+        int[] houseHeights = drawHouses();
         // gorilla positions have to be decided AFTER creating the houses and BEFORE setting their positions
     	randomizeGorillaPositions(game.getContainer().getHeight(), game.getContainer().getWidth(), houseHeights, gorilla1, gorilla2);
         if (Gorillas.options != null && Gorillas.options.isWindEnabled())
@@ -192,58 +185,39 @@ public class GamePlayState extends BasicTWLGameState {
 	}
 	
 	/**
-	 * Creating a (not-so-)random map of houses.
+	 * Drawing a the house-map.
 	 * 
-	 * @param houseHeights
-	 * 						the array to be used. house heights will be stored here
-	 * @param houseWidth
-	 * 						house width
-	 * @param startPointHouses
-	 * 						need offset so we don't have 0 pixel houses
-	 * @param housesIndex
-	 * 						used to count through the houses
-	 * @param heigth
-	 * 						window heigth
 	 * @return
-	 * 						finished array containing the house heights
+	 * 						array containing the house heights
 	 */
-	public int[] randomizeHouses(int[] houseHeights, int houseWidth, int startPointHouses, int housesIndex, int heigth) {
+	public int[] drawHouses() {
+		int houseWidth = 100;
         Random rand = new Random(); // such random
-        for (int e = 0; e < 8; e++) {
-
-                houseHeights[housesIndex] = rand.nextInt(380)+60;
-               
-                BufferedImage image = new BufferedImage(houseWidth, houseHeights[housesIndex], BufferedImage.TYPE_INT_ARGB);
-                Graphics2D graphic = image.createGraphics();
-                graphic.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC));
-                graphic.setColor(new Color(rand.nextInt(255), rand.nextInt(255), rand.nextInt(255)));
-                graphic.fillRect(0, 0, houseWidth, houseHeights[housesIndex]);
-
-                graphic.setColor(new Color(0, 0, 0));
-                for (int i = 5; i < houseHeights[housesIndex]; i = i + 20) {
-                        for (int j = 5; j < houseWidth; j = j + 20) {
-                                graphic.fillRect(j, i, 7, 10);
-                        }
-                }
-
-                if (startPointHouses == 0)
-                        startPointHouses = houseWidth / 2;
-                else
-                        startPointHouses = startPointHouses + houseWidth;
-
-            	if (!Gorillas.data.guiDisabled) { // NI NI NI NI NI OPENGL NI NI NI NI NI
-                DestructibleImageEntity house = new DestructibleImageEntity("obstacle", image, "gorillas/destruction.png", false);
-            	
-                house.setPosition(new Vector2f(startPointHouses, heigth - (houseHeights[housesIndex] / 2)));
-                entityManager.addEntity(stateID, house); // add & forget
-            	}
-                housesIndex++;
-        }/*
-        ArrayList<Vector2f> map = new ArrayList<Vector2f>();
-        for (int i = 0; i < houseHeights.length; i++) {
-        	map.add(new Vector2f(50+100*i, houseHeights[i]));
+        for (int houseIndex = 0; houseIndex < Gorillas.data.getHouseAmount(); houseIndex++) {
+    		
+            BufferedImage image = new BufferedImage(houseWidth, (int) Gorillas.data.getMap().get(houseIndex).y, BufferedImage.TYPE_INT_ARGB);
+            Graphics2D graphic = image.createGraphics();
+            graphic.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC));
+            graphic.setColor(new Color(rand.nextInt(255), rand.nextInt(255), rand.nextInt(255)));
+            graphic.fillRect(0, 0, houseWidth, (int) Gorillas.data.getMap().get(houseIndex).y);
+            
+            graphic.setColor(new Color(0, 0, 0));
+            for (int i = 5; i < (int) Gorillas.data.getMap().get(houseIndex).y; i = i + 20) {
+                    for (int j = 5; j < houseWidth; j = j + 20) {
+                            graphic.fillRect(j, i, 7, 10);
+                    }
+            }
+        	if (!Gorillas.data.guiDisabled) { // NI NI NI NI NI OPENGL NI NI NI NI NI
+            DestructibleImageEntity house = new DestructibleImageEntity("obstacle", image, "gorillas/destruction.png", false);
+        	
+            house.setPosition(new Vector2f(Gorillas.data.getMap().get(houseIndex).x+50, 600-((int) Gorillas.data.getMap().get(houseIndex).y/2)));
+            entityManager.addEntity(stateID, house); // add & forget
+        	}
         }
-        Gorillas.data.setMap(map);*/
+        int[] houseHeights = new int[Gorillas.data.getHouseAmount()];
+        for (int i = 0; i < houseHeights.length; i++) {
+        	houseHeights[i] = (int) Gorillas.data.getMap().get(i).y;
+        }
         return houseHeights;
 	}
 	

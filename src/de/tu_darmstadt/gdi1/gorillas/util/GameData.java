@@ -9,6 +9,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Random;
 
 import org.newdawn.slick.geom.Vector2f;
 
@@ -37,7 +38,8 @@ public class GameData {
 	private Vector2f gorilla1pos;
 	private Vector2f gorilla2pos;
 	private ArrayList<Vector2f> map;
-	
+	private int houseAmount = 8;
+
 	/**
 	 * Constructor. Creates a new instance of GameData.
 	 */
@@ -60,6 +62,8 @@ public class GameData {
 		currentScore = new int[2];
 		musicIsPlaying = false;
 		sunAstonished = false;
+        this.map = new ArrayList<Vector2f>();
+        this.makeRandomMap();
 		load();
 		// more?
 	}
@@ -590,12 +594,30 @@ public class GameData {
 	public void makeMap(int paneWidth, int paneHeight, int yOffsetCity,
 			ArrayList<Vector2f> buildingCoordinates,
 			Vector2f leftGorillaCoordinate, Vector2f rightGorillaCoordinate) {
-		int houseAmount = 8;
-		ArrayList<Vector2f> temp = new ArrayList<Vector2f>();
-		for (int i = 0; i < houseAmount; i++) {
-			temp.add(new Vector2f(0, 0));
+        Random rand = new Random(); // such random
+		for (int i = 0; i < getHouseAmount(); i++) {
+			map.add(new Vector2f(paneWidth*i/getHouseAmount(), rand.nextInt(yOffsetCity)+60));
 		}
-		map = temp;
-		System.out.println(map.toString());
+	}
+
+	public void makeRandomMap() {
+		flushMap();
+        Random rand = new Random(); // such random
+		for (int i = 0; i < getHouseAmount(); i++) {
+			map.add(new Vector2f(800*i/getHouseAmount(), rand.nextInt(380)+60));
+			System.out.println(map.get(i));
+		}
+	}
+	
+	public void flushMap() {
+		this.map = new ArrayList<Vector2f>();
+	}
+	
+	public int getHouseAmount() {
+		return houseAmount;
+	}
+
+	public void setHouseAmount(int houseAmount) {
+		this.houseAmount = houseAmount;
 	}
 }
