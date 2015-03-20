@@ -137,9 +137,8 @@ public class Options {
 			System.out.println("[Laad] CNF Error: " + e.getMessage());
 		} finally {
 			try {
-				if (outputStream != null) {
-					outputStream.flush();
-					outputStream.close();
+				if (inputStream != null) {
+					inputStream.close();
 				}
 			} catch (IOException e) {
 				System.out.println("[Laad] IO Error: " + e.getMessage());

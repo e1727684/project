@@ -6,15 +6,11 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Random;
 
 import org.newdawn.slick.geom.Vector2f;
-
-import de.tu_darmstadt.gdi1.gorillas.main.Gorillas;
-import eea.engine.entity.Entity;
 
 /**
  * AboutState
@@ -649,7 +645,6 @@ public class GameData {
                 break;
         }
         // who knows? BLACK MAGIC!
-		System.out.println("ok "+getMap().get(0));
         setGorilla1pos(new Vector2f(gorilla1PosX, gorilla1PosY)); // set position
         // positions for gorilla 2
         float gorilla2PosX = 0;
