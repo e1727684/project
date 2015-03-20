@@ -1,10 +1,10 @@
 package de.tu_darmstadt.gdi1.gorillas.test.students.suites;
 
-import de.tu_darmstadt.gdi1.gorillas.test.students.testcases.SunAstonishedTest;
-import de.tu_darmstadt.gdi1.gorillas.test.students.testcases.ThrowTestWind;
 import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
 import junit.framework.TestSuite;
+import de.tu_darmstadt.gdi1.gorillas.test.students.testcases.SunAstonishedTest;
+import de.tu_darmstadt.gdi1.gorillas.test.students.testcases.ThrowTestWind;
 
 public class GorillasTestsuiteExtended2 {
 

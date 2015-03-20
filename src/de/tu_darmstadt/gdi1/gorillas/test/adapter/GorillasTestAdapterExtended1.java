@@ -5,13 +5,9 @@ import java.util.ArrayList;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Vector2f;
 
-import de.tu_darmstadt.gdi1.gorillas.main.Gorillas;
-import de.tu_darmstadt.gdi1.gorillas.test.setup.TestGorillas;
 import de.tu_darmstadt.gdi1.gorillas.ui.states.GamePlayState;
 import de.tu_darmstadt.gdi1.gorillas.util.GameData;
 import de.tu_darmstadt.gdi1.gorillas.util.Options;
-import eea.engine.entity.Entity;
-import eea.engine.entity.StateBasedEntityManager;
 
 public class GorillasTestAdapterExtended1 extends GorillasTestAdapterMinimal {
 

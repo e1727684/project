@@ -1,12 +1,12 @@
 package de.tu_darmstadt.gdi1.gorillas.test.students.suites;
 
+import junit.framework.JUnit4TestAdapter;
+import junit.framework.Test;
+import junit.framework.TestSuite;
 import de.tu_darmstadt.gdi1.gorillas.test.students.testcases.NameInputTest;
 import de.tu_darmstadt.gdi1.gorillas.test.students.testcases.NewGameTest;
 import de.tu_darmstadt.gdi1.gorillas.test.students.testcases.ParameterInputTest;
 import de.tu_darmstadt.gdi1.gorillas.test.students.testcases.ThrowTest;
-import junit.framework.JUnit4TestAdapter;
-import junit.framework.Test;
-import junit.framework.TestSuite;
 
 public class GorillasTestsuiteMinimal {
 
