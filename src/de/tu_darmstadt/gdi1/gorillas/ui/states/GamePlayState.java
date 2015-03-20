@@ -125,9 +125,10 @@ public class GamePlayState extends BasicTWLGameState {
         entityManager.addEntity(this.stateID, entityManager.getEntity(0, "background")); 
         if (Gorillas.data.getMap().size() == 0)
         	Gorillas.data.makeRandomMap(800, 600, (int)gorilla1.getShape().getWidth(), (int)gorilla1.getShape().getHeight());
-        int[] houseHeights = drawHouses();
+        drawHouses();
         // gorilla positions have to be decided AFTER creating the houses and BEFORE setting their positions
-    	randomizeGorillaPositions(game.getContainer().getHeight(), game.getContainer().getWidth(), houseHeights, gorilla1, gorilla2);
+        if (Gorillas.data.getGorilla1pos() == null || Gorillas.data.getGorilla2pos() == null)
+        	Gorillas.data.randomizeGorillaPositions(game.getContainer().getWidth(), game.getContainer().getHeight());
         if (Gorillas.options != null && Gorillas.options.isWindEnabled())
         	makeWind(); // wind force has to be decided before setting the arrow.
         // --->
@@ -222,63 +223,6 @@ public class GamePlayState extends BasicTWLGameState {
         }
         return houseHeights;
 	}
-	
-	/**
-	 * Placing both gorillas on random houses.
-	 * Valid houses are the first three and the last three.
-	 * 
-	 * @param height
-	 * 					window height
-	 * @param width
-	 * 					window width
-	 * @param houseHeights
-	 * 					array of househeights example: from 0 to 7 for 8 houses
-	 * @param gorilla1
-	 * 					the entity of gorilla 1 in order to get gorilla size
-	 * @param gorilla2
-	 * 					the entity of gorilla 2 in order to get gorilla size
-	 */
-	private void randomizeGorillaPositions(int height, int width, int[] houseHeights, Entity gorilla1, Entity gorilla2) {
-		// positions for gorilla 1
-        float gorilla1PosX = 0;
-        float gorilla1PosY = 0;
-        Random rand = new Random(); // such random
-        switch (rand.nextInt(3)) {  // very random
-        case 0: // either
-                gorilla1PosX = 50;
-                gorilla1PosY = height - (houseHeights[0] + (gorilla1.getSize().y/2));
-                break;
-        case 1: // or
-                gorilla1PosX = 150;
-                gorilla1PosY = height - (houseHeights[1] + (gorilla1.getSize().y/2));
-                break;
-        case 2: // or
-                gorilla1PosX = 250;
-                gorilla1PosY = height - (houseHeights[2] + (gorilla1.getSize().y/2));
-                break;
-        }
-        // who knows? BLACK MAGIC!
-        Gorillas.data.setGorilla1pos(new Vector2f(gorilla1PosX, gorilla1PosY)); // set position
-        // positions for gorilla 2
-        float gorilla2PosX = 0;
-        float gorilla2PosY = 0;
-        switch (rand.nextInt(3)) { // much random
-        case 0:
-                gorilla2PosX = width - 50;
-                gorilla2PosY = height - (houseHeights[7] + (gorilla2.getSize().y/2));
-                break;
-        case 1:
-                gorilla2PosX = width - 150;
-                gorilla2PosY = height - (houseHeights[6] + (gorilla2.getSize().y/2));
-                break;
-        case 2:
-                gorilla2PosX = width - 250;
-                gorilla2PosY = height - (houseHeights[5] + (gorilla2.getSize().y/2));
-                break;
-        }
-        // still black magic (random = random) BUT we have our gorilla positions!
-        Gorillas.data.setGorilla2pos(new Vector2f(gorilla2PosX, gorilla2PosY)); // set position
-	}
 
 	StateBasedGame sb;
 	GameContainer cont;
@@ -325,6 +269,7 @@ public class GamePlayState extends BasicTWLGameState {
 		if (reset) {
 			reset = false;
 			Gorillas.data.setPlayerWon("");
+			Gorillas.data.flushMap();
 			entityManager.clearEntitiesFromState(stateID);
 			game.enterState(Gorillas.GAMEPLAYSTATE);
 			init(container, game);
@@ -425,13 +370,6 @@ public class GamePlayState extends BasicTWLGameState {
 					goCongratulate = true;
 				} else {
 					Gorillas.data.setRemainingRounds(Gorillas.data.getRemainingRounds()-1);
-					int[] score = Gorillas.data.getCurrentScore();
-					if (Gorillas.data.getPlayerWon().equals("player1")) {
-						score[0] = score[0]+1;
-					} else {
-						score[1] = score[1]+1;
-					}
-					Gorillas.data.setCurrentScore(score[0], score[1]);
 					reset = true;
 				}
 			}
@@ -484,66 +422,46 @@ public class GamePlayState extends BasicTWLGameState {
 	}
 
 	@Override
-	protected RootPane createRootPane() { // TODO :: FORMAT THIS SHIT
-		// erstelle die RootPane
+	protected RootPane createRootPane() {
+    	// Custom rootpane
 		RootPane rp = super.createRootPane();
+		
+        // Creating labels ...
+        // <---
 		nameLabel = new Label("");
-		// erstelle ein Label mit der Aufschrift "x:"
 		angleLabel1 = new Label("Angle:");
 		angleLabel2 = new Label("Angle:");
-		// erstelle ein EditField. Es dient der Eingabe von Text
+		speedLabel1 = new Label("Speed:");
+		speedLabel2 = new Label("Speed:");
+        // --->
+
+        // Creating input fields ...
+        // <---
 		angleInput1 = new EditField();
 		angleInput2 = new EditField();
-		// mit der Methode addCallBack lï¿½sst sich dem EditField ein CallBack
-		// hinzufï¿½gen, in dessen Methode callback(int key) bestimmt wird, was
-		// geschehen soll, wenn ein Zeichen eingegeben wird
-		angleInput1.addCallback(new Callback() {
-			public void callback(int key) {
-				// in unserem Fall wird der Input in der Methode
-				// handleEditFieldInput verarbeitet (siehe weiter unten in
-				// dieser Klasse, was diese tut, und was es mit ihren Parametern
-				// auf sich hat)
-				handleEditFieldInput(key, angleInput1, this, 360);
-			}
-		});
-		angleInput2.addCallback(new Callback() {
-			public void callback(int key) {
-				// in unserem Fall wird der Input in der Methode
-				// handleEditFieldInput verarbeitet (siehe weiter unten in
-				// dieser Klasse, was diese tut, und was es mit ihren Parametern
-				// auf sich hat)
-				handleEditFieldInput(key, angleInput2, this, 360);
-			}
-		});
-
-		// analog zu einer Eingabemï¿½glichkeit fï¿½r x-Werte wird auch eine
-		// fï¿½r
-		// y-Werte kreiert
-		speedLabel1 = new Label("Speed:");
 		speedInput1 = new EditField();
-		speedInput1.addCallback(new Callback() {
-			public void callback(int key) {
-				handleEditFieldInput(key, speedInput1, this, 200);
-			}
-		});
-		speedLabel2 = new Label("Speed:");
 		speedInput2 = new EditField();
-		speedInput2.addCallback(new Callback() {
-			public void callback(int key) {
-				handleEditFieldInput(key, speedInput2, this, 200);
-			}
-		});
-		
-		// zuletzt wird noch ein Button hinzugefï¿½gt
+        // --->
+
+        // Creating a button...
+        // <---
 		dropButton = new Button("throw");
-		// ï¿½hnlich wie einem EditField kann auch einem Button ein CallBack
-		// hinzugefï¿½gt werden
-		// Hier ist es jedoch von Typ Runnable, da keine Parameter (z. B. welche
-		// Taste wurde gedrï¿½ckt) benï¿½tigt werden
-		// TODO
+        // --->
+		
+        // Creating and assigning callbacks ...
+		// Care: One-line-callbacks are >literally< summarized as one-line-callbacks but given a comment on what they do.
+        // <---
+		  // The callbacks handle the input into those fields. If you type something into it they get called back!
+		angleInput1.addCallback(new Callback() { public void callback(int key) { handleEditFieldInput(key, angleInput1, this, 360); }});
+		angleInput2.addCallback(new Callback() { public void callback(int key) { handleEditFieldInput(key, angleInput2, this, 360); }});
+		speedInput1.addCallback(new Callback() { public void callback(int key) { handleEditFieldInput(key, speedInput1, this, 200); }});
+		speedInput2.addCallback(new Callback() { public void callback(int key) { handleEditFieldInput(key, speedInput2, this, 200); }});
+		  // This callback gets called if you push the button
 		dropButton.addCallback(new Runnable() { @Override public void run() {try {inputFinished();} catch (NumberFormatException e) {}}});
-        // am Schluss der Methode mï¿½ssen alle GUI-Elemente der Rootpane
-		// hinzugefï¿½gt werden
+        // --->
+
+        // Adding wind label - if wind is activated!
+        // <---
 		if (Gorillas.options != null && Gorillas.options.isWindEnabled()) {
 			Label windLabel1 = new Label("wind");
 			Label windLabel2 = new Label("strength");
@@ -552,61 +470,77 @@ public class GamePlayState extends BasicTWLGameState {
 			rp.add(windLabel1);
 			rp.add(windLabel2);
 		}
+        // --->
+
+        // Finally: Adding the elements to our rootpane ...
+        // <---
 		rp.add(nameLabel);
 		rp.add(angleLabel1);
 		rp.add(angleLabel2);
 		rp.add(angleInput1);
 		rp.add(angleInput2);
-
 		rp.add(speedLabel1);
 		rp.add(speedLabel2);
 		rp.add(speedInput1);
 		rp.add(speedInput2);
-
 		rp.add(dropButton);
-		// ... und die fertige Rootpane zurï¿½ckgegeben werden
+        // --->
+		
 		return rp;
 	}
 
 	@Override
-	protected void layoutRootPane() { // TODO :: FORMAT THIS SHIT TOO
-
+	protected void layoutRootPane() { 
+        // Literally layout-ing our rootpane!
+		// Initializing stuff which we need
+        // <--- 
 		int xOffset = 5;
 		int yOffset = 80;
 		int gap = 5;
+        // --->
 
-		// alle GUI-Elemente mï¿½ssen eine Grï¿½ï¿½e zugewiesen bekommen. Soll
-		// die
-		// Grï¿½ï¿½e automatisch ï¿½ber die Beschriftung des GUI-Elements
-		// bestimmt
-		// werden, so muss adjustSize() aufgerufen werden.
+		// Auto-adjust size of labels
+        // <--- 
 		nameLabel.adjustSize();
 		angleLabel1.adjustSize();
 		angleLabel2.adjustSize();
 		speedLabel1.adjustSize();
 		speedLabel2.adjustSize();
+        // --->
 
-		// Ansonsten wird die Grï¿½ï¿½e manuell mit setSize() gesetzt
+		// Manually set size of input boxes
+        // <--- 
 		angleInput1.setSize(50, 25);
 		angleInput2.setSize(50, 25);
 		speedInput1.setSize(50, 25);
 		speedInput2.setSize(50, 25);
-		dropButton.setSize(50, 25);
+        // --->
 
-		// Nachdem alle Grï¿½ï¿½en adjustiert wurden, muss allen GUI-Elementen
-		// eine
-		// Position (linke obere Ecke) zugewiesen werden
+		// Manually set size of button
+        // <--- 
+		dropButton.setSize(50, 25);
+        // --->
+
+		// Setting positions...
+        // <--- Labels
 		nameLabel.setPosition(xOffset, yOffset/2);
 		angleLabel1.setPosition(xOffset, yOffset + angleLabel1.getHeight() + gap);
 		angleLabel2.setPosition(xOffset, yOffset + angleLabel2.getHeight() + gap);
-		angleInput1.setPosition(xOffset + angleLabel1.getWidth() + gap, yOffset + angleLabel1.getHeight() + gap);
-		angleInput2.setPosition(xOffset + angleLabel2.getWidth() + gap, yOffset + angleLabel2.getHeight() + gap);
-
 		speedLabel1.setPosition(xOffset, yOffset + angleLabel1.getHeight() + gap + angleLabel1.getHeight() + gap);
 		speedLabel2.setPosition(xOffset, yOffset + angleLabel2.getHeight() + gap + angleLabel2.getHeight() + gap);
+        // --->
+        // <--- Input boxes
+		angleInput1.setPosition(xOffset + angleLabel1.getWidth() + gap, yOffset + angleLabel1.getHeight() + gap);
+		angleInput2.setPosition(xOffset + angleLabel2.getWidth() + gap, yOffset + angleLabel2.getHeight() + gap);
 		speedInput1.setPosition(xOffset + speedLabel1.getWidth() + gap, yOffset + 2*angleLabel1.getHeight() + 2*gap);
 		speedInput2.setPosition(xOffset + speedLabel2.getWidth() + gap, yOffset + 2*angleLabel2.getHeight() + 2*gap);
+        // --->
+        // <--- Button
+		dropButton.setPosition(xOffset + speedLabel1.getWidth() + gap, yOffset + 2*angleLabel1.getHeight() + 3*gap + speedLabel1.getHeight());
+        // --->
 
+		// Setting all to invisible... gets swapped around for each turn!
+        // <--- 
 		angleLabel1.setVisible(false);
 		angleInput1.setVisible(false);
 		speedLabel1.setVisible(false);
@@ -615,8 +549,7 @@ public class GamePlayState extends BasicTWLGameState {
 		angleInput2.setVisible(false);
 		speedLabel2.setVisible(false);
 		speedInput2.setVisible(false);
-		
-		dropButton.setPosition(xOffset + speedLabel1.getWidth() + gap, yOffset + 2*angleLabel1.getHeight() + 3*gap + speedLabel1.getHeight());
+        // --->
 	}
 
 	/**
@@ -667,58 +600,53 @@ public class GamePlayState extends BasicTWLGameState {
 	}
 
 	/**
+	 * Method which gets called as soon as player presses the throw button.
+	 * Creates and throws the banana.
 	 * 
 	 */
-	public void inputFinished() { //TODO :: FORMAT THIS SHIT ASWELL. ALSO ADD JAVADOC
-
-		// Banane wird erzeugt
+	public void inputFinished() {
+		// New banana entity
 		Entity banana = new Entity("banana");
-		//Entity gorilla1 = entityManager.getEntity(stateID, "gorilla1");
-		//System.out.println(gorilla1.getID() + "  " + gorilla1.getPosition());
+		
+		// if turn-true: left gorilla, otherwise right
 		if (turn)
-			banana.setPosition(new Vector2f(Gorillas.data.getGorilla1pos().getX()+30,Gorillas.data.getGorilla1pos().getY()+38));
+			banana.setPosition(new Vector2f(entityManager.getEntity(stateID, "gorilla1").getPosition().x+30,entityManager.getEntity(stateID, "gorilla1").getPosition().y+38));
 		else 
-			banana.setPosition(new Vector2f(Gorillas.data.getGorilla2pos().getX()-30,Gorillas.data.getGorilla2pos().getY()+38));
+			banana.setPosition(new Vector2f(entityManager.getEntity(stateID, "gorilla2").getPosition().x-30,entityManager.getEntity(stateID, "gorilla2").getPosition().y+38));
+		
+		// give the banana a picture
 		try {
-			// Bild laden und zuweisen
         	if (!Gorillas.data.guiDisabled)
-			banana.addComponent(new ImageRenderComponent(new Image("assets/gorillas/banana.png")));
-		} catch (SlickException e) {
-			System.err.println("Cannot find file assets/gorillas/banana.png!");
-			e.printStackTrace();
-		}
+        		banana.addComponent(new ImageRenderComponent(new Image("assets/gorillas/banana.png")));
+		} catch (SlickException e) {}
 
-		// Banane will geworfen werden
-		LoopEvent loop = new LoopEvent();
-		// neuer wurf
-		Wurf wurf = new Wurf(Integer.parseInt(turn?speedInput1.getText():speedInput2.getText()));
-		// winkel wird gesetzt
-		wurf.angle = turn?Integer.parseInt(angleInput1.getText()):(180-Integer.parseInt(angleInput2.getText()));
-		// x0 und y0 für newtonsche gleichung..
-		wurf.startPos = turn?new Vector2f(Gorillas.data.getGorilla1pos().getX()+30,Gorillas.data.getGorilla1pos().getY()-38):new Vector2f(Gorillas.data.getGorilla2pos().getX()-30,Gorillas.data.getGorilla2pos().getY()-38);
-		// solange geworfen bis.... kollision // out of bounce
-		wurf.wind = this.wind;
-		if (Gorillas.options==null) 
-			wurf.gravity = 10;
-		else
-			wurf.gravity = Gorillas.options.getG();
-		loop.addAction(wurf);
-		// banana now rotate; infinite!
-		loop.addAction(turn?new RotateRightAction(0.5F):new RotateLeftAction(0.5F));
-		// adde loopzeugs zu banana
-		banana.addComponent(loop);
-
-		// out of bounce event (banane fliegt aus dem fenster)
+		// move banana until leavingevent or collisionevent
 		// <---
-		Event leavingEvent = new MyLeavingScreenEvent();
+		  LoopEvent loop = new LoopEvent();
+		  	// custom made movementaction
+		    // <---
+		  	  Wurf wurf = new Wurf(Integer.parseInt(turn?speedInput1.getText():speedInput2.getText()));
+		  	  wurf.angle = turn?Integer.parseInt(angleInput1.getText()):(180-Integer.parseInt(angleInput2.getText()));
+		  	  wurf.startPos = turn?new Vector2f(entityManager.getEntity(stateID, "gorilla1").getPosition().x+30,entityManager.getEntity(stateID, "gorilla1").getPosition().y-38):new Vector2f(entityManager.getEntity(stateID, "gorilla2").getPosition().x-30,entityManager.getEntity(stateID, "gorilla2").getPosition().y-38);
+		  	  wurf.wind = this.wind;
+		  	  if (Gorillas.options==null) 
+		  		  wurf.gravity = 10;
+		  	  else
+		  		  wurf.gravity = Gorillas.options.getG();
+		  	// --->
+		  loop.addAction(wurf);
+		  loop.addAction(turn?new RotateRightAction(0.5F):new RotateLeftAction(0.5F));
+		banana.addComponent(loop);
+		// -->
+
+		// out of bounce event (banana leaves screen)
+		// <---
+		Event leavingEvent = new MyLeavingScreenEvent(); // <- custom because we have no roof
 		leavingEvent.addAction(new DestroyEntityAction());
-		leavingEvent.addAction(new Action() {
-			@Override
-			public void update(GameContainer gc, StateBasedGame sb, int delta,
-					Component event) {
-				daneben();
-			}
-		});
+		leavingEvent.addAction(new Action() { @Override
+			public void update(GameContainer gc, StateBasedGame sb, int delta, Component event) {
+				daneben(); // mockery!
+			}});
 		banana.addComponent(leavingEvent);
 		// --->
 		
@@ -747,18 +675,19 @@ public class GamePlayState extends BasicTWLGameState {
 						Gorillas.data.setPlayerWon("player2");
 						Gorillas.data.addHighscore(Gorillas.data.getPlayer1(), 1, 0, wurfAnzahl.get());
 						Gorillas.data.addHighscore(Gorillas.data.getPlayer2(), 1, 1, wurfAnzahl.get());
+						Gorillas.data.setCurrentScore(Gorillas.data.getCurrentScore()[0], Gorillas.data.getCurrentScore()[1]+1);
 						Gorillas.data.save();
 					} else if (entity.getID() == "gorilla2") {
 						Gorillas.data.setPlayerWon("player1");
 						Gorillas.data.addHighscore(Gorillas.data.getPlayer1(), 1, 1, wurfAnzahl.get());
 						Gorillas.data.addHighscore(Gorillas.data.getPlayer2(), 1, 0, wurfAnzahl.get()-1);
+						Gorillas.data.setCurrentScore(Gorillas.data.getCurrentScore()[0]+1, Gorillas.data.getCurrentScore()[1]);
 						Gorillas.data.save();
 					}
 					return;
 				}
 
-				// zerstï¿½re die Entitï¿½t (dabei wird das der Entitï¿½t
-				// zugewiese Zerstï¿½rungs-Pattern benutzt)
+				// destroy the hit entity
 				destructible.impactAt(event.getOwnerEntity().getPosition());
 			}
 		});

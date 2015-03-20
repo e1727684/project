@@ -205,7 +205,6 @@ public class MainMenuState extends BasicTWLGameState {
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta)
 			throws SlickException {
-		if (!Gorillas.data.musicIsPlaying) MusicPlayer.playBG();
 		entityManager.updateEntities(container, game, delta);
 	}
 

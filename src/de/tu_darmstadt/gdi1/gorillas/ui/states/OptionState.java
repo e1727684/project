@@ -221,7 +221,7 @@ public class OptionState extends BasicTWLGameState {
         });
         // --->
         
-        // Finally: Adding the buttons to our rootpane ...
+        // Finally: Adding the elements to our rootpane ...
         // <---
         rp.add(gButton);
         rp.add(g_Input);

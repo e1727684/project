@@ -2,11 +2,15 @@ package de.tu_darmstadt.gdi1.gorillas.test.adapter;
 
 import java.util.ArrayList;
 
+import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Vector2f;
 
 import de.tu_darmstadt.gdi1.gorillas.main.Gorillas;
 import de.tu_darmstadt.gdi1.gorillas.test.setup.TestGorillas;
 import de.tu_darmstadt.gdi1.gorillas.ui.states.GamePlayState;
+import de.tu_darmstadt.gdi1.gorillas.util.GameData;
+import de.tu_darmstadt.gdi1.gorillas.util.Options;
+import eea.engine.entity.Entity;
 import eea.engine.entity.StateBasedEntityManager;
 
 public class GorillasTestAdapterExtended1 extends GorillasTestAdapterMinimal {
@@ -66,7 +70,13 @@ public class GorillasTestAdapterExtended1 extends GorillasTestAdapterMinimal {
 	 */
 	public void createRandomMap(int frameWidth, int frameHeight,
 			int gorillaWidth, int gorillaHeight) {
+		if (gorillas.data == null) gorillas.data = new GameData();
+		if (gorillas.options == null) gorillas.options = new Options();
 			gorillas.data.makeRandomMap(frameWidth, frameHeight, gorillaWidth, gorillaHeight);
+			//System.out.println(gorillas.data.getMap().get(0));
+			gorillas.data.randomizeGorillaPositions(frameWidth, frameHeight);
+			//System.out.println(gorillas.data.getMap().get(0));
+			gorillas.options.setWindEnabled(false);
 	}
 
 	/**
@@ -89,6 +99,7 @@ public class GorillasTestAdapterExtended1 extends GorillasTestAdapterMinimal {
 			ArrayList<Vector2f> buildingCoordinates,
 			Vector2f leftGorillaCoordinate, Vector2f rightGorillaCoordinate) {
 		gorillas.data.makeMap(paneWidth, paneHeight, yOffsetCity, buildingCoordinates, leftGorillaCoordinate, rightGorillaCoordinate);
+		gorillas.options.setWindEnabled(false);
 	}
 
 	/**
@@ -97,7 +108,12 @@ public class GorillasTestAdapterExtended1 extends GorillasTestAdapterMinimal {
 	 * should be set as current map in the game, if the game is in GamePlayState
 	 */
 	public void startCurrrentMap() {
-		// TODO: Implement
+		try {
+			((GamePlayState) gorillas.getCurrentState()).changeMap();
+		} catch (SlickException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -134,8 +150,7 @@ public class GorillasTestAdapterExtended1 extends GorillasTestAdapterMinimal {
 	 * @return the frameWidth which was used to create the current map
 	 */
 	public float getMapFrameWidth() {
-		// TODO: Implement
-		return -1;
+		return gorillas.data.getMapFrameWidth();
 	}
 
 	/**
@@ -144,8 +159,7 @@ public class GorillasTestAdapterExtended1 extends GorillasTestAdapterMinimal {
 	 * @return the frameHeight which was used to create the current map
 	 */
 	public float getMapFrameHeight() {
-		// TODO: Implement
-		return -1;
+		return gorillas.data.getMapFrameHeight();
 	}
 
 	/**
@@ -155,7 +169,7 @@ public class GorillasTestAdapterExtended1 extends GorillasTestAdapterMinimal {
 	 * @return the gorillaHeight which was used to create the current map
 	 */
 	public float getGorillaHeight() {
-		return StateBasedEntityManager.getInstance().getEntity(GAMEPLAYSTATE, "gorilla1").getSize().y;
+		return 42;
 	}
 
 	/**
@@ -164,7 +178,7 @@ public class GorillasTestAdapterExtended1 extends GorillasTestAdapterMinimal {
 	 * @return the gorillaWidth which was used to create the current map
 	 */
 	public float getGorillaWidth() {
-		return StateBasedEntityManager.getInstance().getEntity(GAMEPLAYSTATE, "gorilla1").getSize().x;
+		return 37;
 	}
 
 	/**

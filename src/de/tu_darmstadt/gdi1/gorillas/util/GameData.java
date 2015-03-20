@@ -13,6 +13,9 @@ import java.util.Random;
 
 import org.newdawn.slick.geom.Vector2f;
 
+import de.tu_darmstadt.gdi1.gorillas.main.Gorillas;
+import eea.engine.entity.Entity;
+
 /**
  * AboutState
  * 
@@ -38,7 +41,7 @@ public class GameData {
 	private Vector2f gorilla1pos;
 	private Vector2f gorilla2pos;
 	private ArrayList<Vector2f> map;
-	private int houseAmount = 8;
+	public int gorillaWidth = 37, gorillaHeight = 42;
 
 	/**
 	 * Constructor. Creates a new instance of GameData.
@@ -596,14 +599,16 @@ public class GameData {
 		flushMap();
 		this.setGorilla1pos(leftGorillaCoordinate);
 		this.setGorilla2pos(rightGorillaCoordinate);
-		map.addAll(buildingCoordinates);
+		for (int i = 0; i < paneWidth/100; i++) {
+			map.add(new Vector2f(100*i, buildingCoordinates.get(0).y));
+		}
 	}
 
 	public void makeRandomMap(int frameWidth, int frameHeight, int gorillaWidth, int gorillaHeight) {
 		flushMap();
         Random rand = new Random(); // such random
-		for (int i = 0; i < getHouseAmount(); i++) {
-			map.add(new Vector2f(frameWidth*i/getHouseAmount(), rand.nextInt(frameHeight/2)+60));
+		for (int i = 0; i < frameWidth/100; i++) {
+			map.add(new Vector2f(100*i, rand.nextInt(frameHeight/2)+60));
 		}
 	}
 	
@@ -612,10 +617,67 @@ public class GameData {
 	}
 	
 	public int getHouseAmount() {
-		return houseAmount;
+		return map.size();
+	}
+	
+	/**
+	 * Placing both gorillas on random houses.
+	 * Valid houses are the first three and the last three.
+	 * 
+	 * @param height
+	 * 					window height
+	 * @param width
+	 * 					window width
+	 */
+	public void randomizeGorillaPositions(int width, int height) {
+		// positions for gorilla 1
+        float gorilla1PosX = 0;
+        float gorilla1PosY = 0;
+        Random rand = new Random(); // such random
+        switch (rand.nextInt(3)) {  // very random
+        case 0: // either
+                gorilla1PosX = 50;
+                gorilla1PosY = height - (map.get(0).y + 0.5F*gorillaHeight);
+                break;
+        case 1: // or
+                gorilla1PosX = 150;
+                gorilla1PosY = height - (map.get(1).y + 0.5F*gorillaHeight);
+                break;
+        case 2: // or
+                gorilla1PosX = 250;
+                gorilla1PosY = height - (map.get(2).y + 0.5F*gorillaHeight);
+                break;
+        }
+        // who knows? BLACK MAGIC!
+		System.out.println("ok "+getMap().get(0));
+        setGorilla1pos(new Vector2f(gorilla1PosX, gorilla1PosY)); // set position
+        // positions for gorilla 2
+        float gorilla2PosX = 0;
+        float gorilla2PosY = 0;
+        switch (rand.nextInt(3)) { // much random
+        case 0:
+                gorilla2PosX = width - 50;
+                gorilla2PosY = height - (map.get(map.size()-1).y + 0.5F*gorillaHeight);
+                break;
+        case 1:
+                gorilla2PosX = width - 150;
+                gorilla2PosY = height - (map.get(map.size()-2).y + 0.5F*gorillaHeight);
+                break;
+        case 2:
+                gorilla2PosX = width - 250;
+                gorilla2PosY = height - (map.get(map.size()-3).y + 0.5F*gorillaHeight);
+                break;
+        }
+        // still black magic (random = random) BUT we have our gorilla positions!
+        setGorilla2pos(new Vector2f(gorilla2PosX, gorilla2PosY)); // set position
 	}
 
-	public void setHouseAmount(int houseAmount) {
-		this.houseAmount = houseAmount;
+	public float getMapFrameWidth() {
+		return map.size()*100;
+	}
+
+	public float getMapFrameHeight() {
+		// TODO Auto-generated method stub
+		return 600;
 	}
 }

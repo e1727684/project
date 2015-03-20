@@ -135,8 +135,8 @@ public class GorillasTestAdapterMinimal {
 	 * should make sure that
 	 */
 	public void restoreGameData() {
-		gorillas.data.load();
-		gorillas.options.load();
+		//gorillas.data.load();
+		//gorillas.options.load();
 	}
 
 	/**

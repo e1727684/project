@@ -44,7 +44,7 @@
   <class id="5" language="java" name="de.tu_darmstadt.gdi1.gorillas.ui.states.GameSetupState" project="GorillasTemplate" 
     file="/GorillasTemplate/src/de/tu_darmstadt/gdi1/gorillas/ui/states/GameSetupState.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1212" y="1676"/>    
+    <position height="-1" width="-1" x="1256" y="1676"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -94,33 +94,24 @@
   </class>  
   <class id="10" language="java" name="de.tu_darmstadt.gdi1.gorillas.util.GameData" project="GorillasTemplate" 
     file="/GorillasTemplate/src/de/tu_darmstadt/gdi1/gorillas/util/GameData.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="927" width="266" x="199" y="989"/>    
+    <position height="-1" width="-1" x="298" y="1442"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="11" language="java" name="de.tu_darmstadt.gdi1.gorillas.util.Jubel" project="GorillasTemplate" 
-    file="/GorillasTemplate/src/de/tu_darmstadt/gdi1/gorillas/util/Jubel.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="852" y="702"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <class id="12" language="java" name="de.tu_darmstadt.gdi1.gorillas.util.MusicPlayer" project="GorillasTemplate" 
+  <class id="11" language="java" name="de.tu_darmstadt.gdi1.gorillas.util.MusicPlayer" project="GorillasTemplate" 
     file="/GorillasTemplate/src/de/tu_darmstadt/gdi1/gorillas/util/MusicPlayer.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="958" y="1500"/>    
+    <position height="-1" width="-1" x="958" y="1548"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="13" language="java" name="de.tu_darmstadt.gdi1.gorillas.util.MyCollisionEvent" project="GorillasTemplate" 
+  <class id="12" language="java" name="de.tu_darmstadt.gdi1.gorillas.util.MyCollisionEvent" project="GorillasTemplate" 
     file="/GorillasTemplate/src/de/tu_darmstadt/gdi1/gorillas/util/MyCollisionEvent.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="886" y="992"/>    
@@ -130,7 +121,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="14" language="java" name="de.tu_darmstadt.gdi1.gorillas.util.MyLeavingScreenEvent" 
+  <class id="13" language="java" name="de.tu_darmstadt.gdi1.gorillas.util.MyLeavingScreenEvent" 
     project="GorillasTemplate" file="/GorillasTemplate/src/de/tu_darmstadt/gdi1/gorillas/util/MyLeavingScreenEvent.java" 
     binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="884" y="826"/>    
@@ -140,7 +131,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="15" language="java" name="de.tu_darmstadt.gdi1.gorillas.util.Options" project="GorillasTemplate" 
+  <class id="14" language="java" name="de.tu_darmstadt.gdi1.gorillas.util.Options" project="GorillasTemplate" 
     file="/GorillasTemplate/src/de/tu_darmstadt/gdi1/gorillas/util/Options.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="760" y="1354"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -149,16 +140,16 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="16" language="java" name="de.tu_darmstadt.gdi1.gorillas.util.Wurf" project="GorillasTemplate" 
+  <class id="15" language="java" name="de.tu_darmstadt.gdi1.gorillas.util.Wurf" project="GorillasTemplate" 
     file="/GorillasTemplate/src/de/tu_darmstadt/gdi1/gorillas/util/Wurf.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="904" y="1768"/>    
+    <position height="-1" width="-1" x="920" y="1852"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="17" language="java" name="de.matthiasmann.twl.slick.TWLInputForwarder" project="GorillasTemplate" 
+  <class id="16" language="java" name="de.matthiasmann.twl.slick.TWLInputForwarder" project="GorillasTemplate" 
     file="/GorillasTemplate/src/de/matthiasmann/twl/slick/TWLInputForwarder.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="975" y="1258"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -167,7 +158,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="18" language="java" name="de.matthiasmann.twl.slick.BasicTWLGameState" project="GorillasTemplate" 
+  <class id="17" language="java" name="de.matthiasmann.twl.slick.BasicTWLGameState" project="GorillasTemplate" 
     file="/GorillasTemplate/src/de/matthiasmann/twl/slick/BasicTWLGameState.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="1068" y="232"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -176,7 +167,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="19" language="java" name="de.matthiasmann.twl.slick.TWLStateBasedGame" project="GorillasTemplate" 
+  <class id="18" language="java" name="de.matthiasmann.twl.slick.TWLStateBasedGame" project="GorillasTemplate" 
     file="/GorillasTemplate/src/de/matthiasmann/twl/slick/TWLStateBasedGame.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="608" y="1766"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -185,59 +176,67 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
+  <generalization id="19">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="17"/>  
+  </generalization>  
   <generalization id="20">    
-    <end type="SOURCE" refId="2"/>    
-    <end type="TARGET" refId="18"/>  
-  </generalization>  
-  <generalization id="21">    
-    <end type="SOURCE" refId="1"/>    
-    <end type="TARGET" refId="19"/>  
-  </generalization>  
-  <generalization id="22">    
     <bendpoint x="1266" y="874"/>    
     <end type="SOURCE" refId="9"/>    
-    <end type="TARGET" refId="18"/>  
+    <end type="TARGET" refId="17"/>  
+  </generalization>  
+  <generalization id="21">    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="17"/>  
+  </generalization>  
+  <generalization id="22">    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="17"/>  
   </generalization>  
   <generalization id="23">    
-    <end type="SOURCE" refId="4"/>    
-    <end type="TARGET" refId="18"/>  
+    <end type="SOURCE" refId="6"/>    
+    <end type="TARGET" refId="17"/>  
   </generalization>  
   <generalization id="24">    
-    <end type="SOURCE" refId="6"/>    
-    <end type="TARGET" refId="18"/>  
+    <bendpoint x="1218" y="526"/>    
+    <end type="SOURCE" refId="8"/>    
+    <end type="TARGET" refId="17"/>  
   </generalization>  
   <generalization id="25">    
-    <end type="SOURCE" refId="5"/>    
+    <end type="SOURCE" refId="1"/>    
     <end type="TARGET" refId="18"/>  
   </generalization>  
-  <generalization id="26">    
-    <end type="SOURCE" refId="7"/>    
-    <end type="TARGET" refId="18"/>  
-  </generalization>  
-  <association id="27">    
+  <association id="26">    
     <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="28" name="options"/>      
-      <multiplicity id="29" minimum="0" maximum="1"/>    
+      <attribute id="27" name="options">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="28" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
     </end>    
-    <end type="TARGET" refId="15" navigable="true"/>    
+    <end type="TARGET" refId="14" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
+  <generalization id="29">    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="17"/>  
+  </generalization>  
   <association id="30">    
     <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="31" name="data"/>      
-      <multiplicity id="32" minimum="0" maximum="1"/>    
+      <attribute id="31" name="data">        
+        <position height="0" width="0" x="-34" y="-10"/>      
+      </attribute>      
+      <multiplicity id="32" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-34" y="-10"/>      
+      </multiplicity>    
     </end>    
     <end type="TARGET" refId="10" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <generalization id="33">    
-    <end type="SOURCE" refId="3"/>    
-    <end type="TARGET" refId="18"/>  
-  </generalization>  
-  <generalization id="34">    
-    <bendpoint x="1218" y="526"/>    
-    <end type="SOURCE" refId="8"/>    
-    <end type="TARGET" refId="18"/>  
+    <end type="SOURCE" refId="5"/>    
+    <end type="TARGET" refId="17"/>  
   </generalization>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
     sort-features="false" accessors="true" visibility="true">    

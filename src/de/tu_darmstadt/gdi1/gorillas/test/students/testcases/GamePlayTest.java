@@ -116,7 +116,7 @@ public class GamePlayTest {
 		for (int i = 0; i < 500; i += 1) {
 			adapter.runGame(2);
 		}
-
+		
 		assertEquals(
 				"The left gorilla was hit, so the score of player two should be 1.",
 				1, adapter.getPlayer2Score());

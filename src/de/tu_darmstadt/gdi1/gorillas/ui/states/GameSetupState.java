@@ -284,7 +284,14 @@ public class GameSetupState extends BasicTWLGameState {
 			
 			// resetting score
 			Gorillas.data.setCurrentScore(0, 0);
-
+			
+			// resetting gorillas
+			Gorillas.data.setGorilla1pos(null);
+			Gorillas.data.setGorilla2pos(null);
+			
+			//	resetting map
+			Gorillas.data.flushMap();
+			
 			// finally! state change into play mode
 			sb.enterState(Gorillas.GAMEPLAYSTATE);
 			

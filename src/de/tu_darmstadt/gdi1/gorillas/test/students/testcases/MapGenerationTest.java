@@ -74,6 +74,7 @@ public class MapGenerationTest {
 		assertTrue(
 				"The left gorilla should be placed on either the first, second or third building.",
 				leftGorillaCoordinate.x < forthBuildingX);
+
 		assertTrue(
 				"The right gorilla should be placed on either the first, second or third building from the right.",
 				rightGorillaCoordinate.x > thirdLastBuildingX);
@@ -100,7 +101,7 @@ public class MapGenerationTest {
 				rightGorillaBuilding = i - 1;
 			}
 		}
-
+		System.out.println("BENIS  " + leftGorillaCoordinate.y + "  " + (buildingCoordinates.get(leftGorillaBuilding).y - adapter.getGorillaHeight() / 2));
 		// this tests whether the gorillas really stand on their buildings;
 		// there must'nt be a gap between the gorilla and the building.
 		assertTrue(
