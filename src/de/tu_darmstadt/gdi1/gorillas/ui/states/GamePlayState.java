@@ -371,7 +371,7 @@ public class GamePlayState extends BasicTWLGameState {
 				} else {
 					Gorillas.data.setRemainingRounds(Gorillas.data.getRemainingRounds()-1);
 					if (Gorillas.data.getPlayerWon().equals("player1"))
-						Gorillas.data.setCurrentScore(Gorillas.data.getCurrentScore()[0], Gorillas.data.getCurrentScore()[1]+1);
+						Gorillas.data.setCurrentScore(Gorillas.data.getCurrentScore()[0], Gorillas.data.getCurrentScore()[1]+1); // TODO
 					else
 						Gorillas.data.setCurrentScore(Gorillas.data.getCurrentScore()[0]+1, Gorillas.data.getCurrentScore()[1]);
 					reset = true;

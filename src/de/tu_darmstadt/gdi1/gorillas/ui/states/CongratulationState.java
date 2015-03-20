@@ -118,8 +118,8 @@ public class CongratulationState extends BasicTWLGameState {
 
 		// Draw our menu and draw our menu and draw our menu and draw our menu and ...
 		// <---
-		g.drawString("Congratulations Player " + (Gorillas.data.getPlayerWon().equals("player1")?Gorillas.data.getPlayer1():Gorillas.data.getPlayer2()) + "!",
-				250, 80);
+		g.drawString("Congratulations Player " + (Gorillas.data.getCurrentScore()[0]>Gorillas.data.getCurrentScore()[1]?Gorillas.data.getPlayer1():Gorillas.data.getPlayer2()) + "!",
+				250, 80);//TODO
 		g.drawString("Back", 370, 445);
 		// --->
 	}
