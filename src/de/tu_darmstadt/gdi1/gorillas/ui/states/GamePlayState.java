@@ -370,6 +370,10 @@ public class GamePlayState extends BasicTWLGameState {
 					goCongratulate = true;
 				} else {
 					Gorillas.data.setRemainingRounds(Gorillas.data.getRemainingRounds()-1);
+					if (Gorillas.data.getPlayerWon().equals("player1"))
+						Gorillas.data.setCurrentScore(Gorillas.data.getCurrentScore()[0], Gorillas.data.getCurrentScore()[1]+1);
+					else
+						Gorillas.data.setCurrentScore(Gorillas.data.getCurrentScore()[0]+1, Gorillas.data.getCurrentScore()[1]);
 					reset = true;
 				}
 			}
@@ -675,13 +679,11 @@ public class GamePlayState extends BasicTWLGameState {
 						Gorillas.data.setPlayerWon("player2");
 						Gorillas.data.addHighscore(Gorillas.data.getPlayer1(), 1, 0, wurfAnzahl.get());
 						Gorillas.data.addHighscore(Gorillas.data.getPlayer2(), 1, 1, wurfAnzahl.get());
-						Gorillas.data.setCurrentScore(Gorillas.data.getCurrentScore()[0], Gorillas.data.getCurrentScore()[1]+1);
 						Gorillas.data.save();
 					} else if (entity.getID() == "gorilla2") {
 						Gorillas.data.setPlayerWon("player1");
 						Gorillas.data.addHighscore(Gorillas.data.getPlayer1(), 1, 1, wurfAnzahl.get());
 						Gorillas.data.addHighscore(Gorillas.data.getPlayer2(), 1, 0, wurfAnzahl.get()-1);
-						Gorillas.data.setCurrentScore(Gorillas.data.getCurrentScore()[0]+1, Gorillas.data.getCurrentScore()[1]);
 						Gorillas.data.save();
 					}
 					return;

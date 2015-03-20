@@ -606,6 +606,7 @@ public class GameData {
 		for (int i = 0; i < frameWidth/100; i++) {
 			map.add(new Vector2f(100*i, rand.nextInt(frameHeight/2)+60));
 		}
+		randomizeGorillaPositions(frameWidth, frameHeight); // TODO
 	}
 	
 	public void flushMap() {
@@ -672,7 +673,6 @@ public class GameData {
 	}
 
 	public float getMapFrameHeight() {
-		// TODO Auto-generated method stub
 		return 600;
 	}
 }
